@@ -1,4 +1,4 @@
-package sample;
+package shoppingcart;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -12,12 +12,10 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception{
         //Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
         BorderPane root = new BorderPane();
-        Test test = new Test();
-        Button test2 = new Button("Test 2");
-        root.setCenter(test);
-        root.setRight(test2);
-        primaryStage.setTitle("Hello World");
-        primaryStage.setScene(new Scene(root, 300, 275));
+        root.setCenter(new Store());
+        root.setTop(new Header());
+        primaryStage.setTitle("Shopping Cart");
+        primaryStage.setScene(new Scene(root, 1280, 720));
         primaryStage.show();
     }
 

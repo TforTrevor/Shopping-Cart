@@ -1,4 +1,4 @@
-package sample;
+package shoppingcart;
 
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
@@ -12,8 +12,8 @@ public class Test extends AnchorPane {
         this.setPadding(new Insets(5));
         AnchorPane.setLeftAnchor(test, 0.0);
         AnchorPane.setRightAnchor(test, 0.0);
-        AnchorPane.setTopAnchor(test, 0.0);
-        AnchorPane.setBottomAnchor(test, 0.0);
+        //AnchorPane.setTopAnchor(test, 0.0);
+        //AnchorPane.setBottomAnchor(test, 0.0);
         this.getChildren().add(test);
     }
 }

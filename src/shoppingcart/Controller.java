@@ -1,4 +1,4 @@
-package sample;
+package shoppingcart;
 
 public class Controller {
 }
