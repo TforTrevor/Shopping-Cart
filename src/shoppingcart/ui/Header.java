@@ -1,4 +1,4 @@
-package shoppingcart;
+package shoppingcart.ui;
 
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
@@ -7,6 +7,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import shoppingcart.Utilities;
 
 public class Header extends BorderPane {
 

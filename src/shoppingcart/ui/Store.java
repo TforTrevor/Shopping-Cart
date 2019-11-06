@@ -1,6 +1,5 @@
-package shoppingcart;
+package shoppingcart.ui;
 
-import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
@@ -12,7 +11,7 @@ public class Store extends BorderPane {
 
     public Store() {
         for (int i = 0; i < 100; i++) {
-            Button item = new Button("Item " + i);
+            Item item = new Item("Item " + i);
             item.setPrefSize(100, 100);
             flowPane.getChildren().add(item);
         }
