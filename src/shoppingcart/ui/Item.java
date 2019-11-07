@@ -17,6 +17,9 @@ public class Item extends BorderPane {
     public Item(String string) {
         name = new Label(string);
         tempImage = new Button("Image");
+        tempImage.setOnAction((event) -> {
+            PageManager.getInstance().setPage(new ItemPage(this));
+        });
         Utilities.makeNodeFill(tempImage);
         this.setCenter(new AnchorPane(tempImage));
         this.setBottom(name);

@@ -1,23 +1,18 @@
 package shoppingcart;
 
 import javafx.application.Application;
-import javafx.scene.Scene;
-import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
-import shoppingcart.ui.Header;
-import shoppingcart.ui.Store;
+import shoppingcart.ui.PageManager;
+import shoppingcart.ui.StorePage;
 
 public class Main extends Application {
 
     @Override
-    public void start(Stage primaryStage) throws Exception{
+    public void start(Stage primaryStage) throws Exception {
         //Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
-        BorderPane root = new BorderPane();
-        root.setCenter(new Store());
-        root.setTop(new Header());
-        primaryStage.setTitle("Shopping Cart");
-        primaryStage.setScene(new Scene(root, 1280, 720));
-        primaryStage.show();
+
+        PageManager.getInstance().initialize(primaryStage);
+        PageManager.getInstance().setPage(new StorePage());
     }
 
     public static void main(String[] args) {

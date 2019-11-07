@@ -4,12 +4,12 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
 
-public class Store extends BorderPane {
+public class StorePage extends BorderPane {
 
     ScrollPane scrollPane = new ScrollPane();
     FlowPane flowPane = new FlowPane();
 
-    public Store() {
+    public StorePage() {
         for (int i = 0; i < 100; i++) {
             Item item = new Item("Item " + i);
             item.setPrefSize(100, 100);
