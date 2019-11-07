@@ -25,4 +25,12 @@ public class Item extends BorderPane {
         this.setBottom(name);
         BorderPane.setAlignment(name, Pos.CENTER);
     }
+
+    public String getName() {
+        return name.getText();
+    }
+
+    public Button getImage() {
+        return tempImage;
+    }
 }
