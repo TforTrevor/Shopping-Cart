@@ -14,6 +14,7 @@ public class Header extends BorderPane {
     private AnchorPane searchBarPane;
     private TextField searchBar;
     private HBox options;
+    private Button vendorButton;
     private Button homeButton;
 
     public Header() {
@@ -24,13 +25,18 @@ public class Header extends BorderPane {
 
         options = new HBox(new Label("Username"), new Button("Options"));
         options.setSpacing(5);
+        vendorButton = new Button("For Vendors");
+        vendorButton.setOnAction((event -> {
+            PageManager.getInstance().setPage(new VendorPage());
+        }));
         homeButton = new Button("Home");
         homeButton.setOnAction((event) -> {
             PageManager.getInstance().setPage(new StorePage());
         });
         this.setLeft(homeButton);
         this.setCenter(searchBarPane);
-        this.setRight(options);
+        this.setRight(vendorButton);
+        //this.setRight(options);
         this.setPadding(new Insets(5));
     }
 }

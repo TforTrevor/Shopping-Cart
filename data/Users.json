@@ -1,0 +1,12 @@
+[
+    {
+        "username": "test",
+        "password": "test",
+        "vendor": null
+    },
+    {
+        "username": "test",
+        "password": "test",
+        "vendor": "Amazon Inc."
+    }
+]
