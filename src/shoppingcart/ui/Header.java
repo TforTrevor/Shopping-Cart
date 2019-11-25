@@ -7,6 +7,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import shoppingcart.User;
 import shoppingcart.Utilities;
 
 public class Header extends BorderPane {
@@ -16,6 +17,8 @@ public class Header extends BorderPane {
     private HBox options;
     private Button vendorButton;
     private Button homeButton;
+
+    private User user = User.getInstance();
 
     public Header() {
         searchBar = new TextField();
@@ -35,7 +38,8 @@ public class Header extends BorderPane {
         });
         this.setLeft(homeButton);
         this.setCenter(searchBarPane);
-        this.setRight(vendorButton);
+        if(user.isVendor())
+            this.setRight(vendorButton);
         //this.setRight(options);
         this.setPadding(new Insets(5));
     }
