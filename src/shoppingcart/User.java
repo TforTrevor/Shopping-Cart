@@ -17,6 +17,9 @@ public class User {
     private User() {
 
     }
+    public String getUsername(){
+        return user.getUsername();
+    }
 
     public static User getInstance() {
         if (instance == null) {

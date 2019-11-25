@@ -17,30 +17,40 @@ public class Header extends BorderPane {
     private HBox options;
     private Button vendorButton;
     private Button homeButton;
-
+    private Button cartButton;
+    private HBox buttonHolder;
     private User user = User.getInstance();
 
     public Header() {
         searchBar = new TextField();
         Utilities.makeNodeFill(searchBar);
         searchBarPane = new AnchorPane(searchBar);
-        searchBarPane.setPadding(new Insets(0, 5, 0, 0));
+        searchBarPane.setPadding(new Insets(0, 5, 0, 5));
 
         options = new HBox(new Label("Username"), new Button("Options"));
         options.setSpacing(5);
+
+        buttonHolder = new HBox();
+        buttonHolder.setSpacing(5);
+
+        cartButton = new Button("Your Cart");
+
         vendorButton = new Button("For Vendors");
         vendorButton.setOnAction((event -> {
             PageManager.getInstance().setPage(new VendorPage());
         }));
+
+        buttonHolder.getChildren().add(cartButton);
         homeButton = new Button("Home");
         homeButton.setOnAction((event) -> {
             PageManager.getInstance().setPage(new StorePage());
         });
+
         this.setLeft(homeButton);
         this.setCenter(searchBarPane);
         if(user.isVendor())
-            this.setRight(vendorButton);
-        //this.setRight(options);
+            buttonHolder.getChildren().add(vendorButton);
+        this.setRight(buttonHolder);
         this.setPadding(new Insets(5));
     }
 }

@@ -42,7 +42,7 @@ public class UserPage extends BorderPane {
         grid.add(makeAcc,1,3);
         grid.add(error,0,4,2,1);
         this.setCenter(grid);
-
+        logIn.setDefaultButton(true);
         logIn.setOnAction(event -> {
             error.setText("");
             if (usernameField.getText().length() != 0){
@@ -73,14 +73,17 @@ public class UserPage extends BorderPane {
         });
         makeAcc.setOnAction(event -> {
             error.setText("");
+            logIn.setDefaultButton(false);
+            confirm.setDefaultButton(true);
             grid.getChildren().remove(logIn);
             grid.getChildren().remove(makeAcc);
             grid.getChildren().remove(error);
             grid.add(vendor,0,3);
             grid.add(vendorName,1,3);
-            grid.add(error,0,4);
+            grid.add(error,0,5);
             grid.add(confirm,1,4);
             vendorName.setDisable(true);
+
         });
         vendor.setOnAction(event -> {
             if (!(vendor.isSelected())) {
@@ -97,7 +100,7 @@ public class UserPage extends BorderPane {
                         if(userManager.makeNewUser(usernameField.getText(), passwordField.getText(), vendorProcess))
                             PageManager.getInstance().setPage(new StorePage());
                         else
-                            error.setText("Error! Username/vendor name is already taken, please choose another.");
+                            error.setText("Error! Username/vendor name is already taken.");
 
                     } catch (IOException e) {
                         System.out.println("Error inserting user to file.");
