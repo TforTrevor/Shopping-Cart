@@ -5,6 +5,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
+import shoppingcart.Item;
 import shoppingcart.Utilities;
 
 public class ItemPage extends VBox {

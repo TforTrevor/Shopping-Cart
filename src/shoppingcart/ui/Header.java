@@ -7,6 +7,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import shoppingcart.User;
 import shoppingcart.Utilities;
 
 public class Header extends BorderPane {
@@ -14,23 +15,42 @@ public class Header extends BorderPane {
     private AnchorPane searchBarPane;
     private TextField searchBar;
     private HBox options;
+    private Button vendorButton;
     private Button homeButton;
+    private Button cartButton;
+    private HBox buttonHolder;
+    private User user = User.getInstance();
 
     public Header() {
         searchBar = new TextField();
         Utilities.makeNodeFill(searchBar);
         searchBarPane = new AnchorPane(searchBar);
-        searchBarPane.setPadding(new Insets(0, 5, 0, 0));
+        searchBarPane.setPadding(new Insets(0, 5, 0, 5));
 
         options = new HBox(new Label("Username"), new Button("Options"));
         options.setSpacing(5);
+
+        buttonHolder = new HBox();
+        buttonHolder.setSpacing(5);
+
+        cartButton = new Button("Your Cart");
+
+        vendorButton = new Button("For Vendors");
+        vendorButton.setOnAction((event -> {
+            PageManager.getInstance().setPage(new VendorPage());
+        }));
+
+        buttonHolder.getChildren().add(cartButton);
         homeButton = new Button("Home");
         homeButton.setOnAction((event) -> {
             PageManager.getInstance().setPage(new StorePage());
         });
+
         this.setLeft(homeButton);
         this.setCenter(searchBarPane);
-        this.setRight(options);
+        if(user.isVendor())
+            buttonHolder.getChildren().add(vendorButton);
+        this.setRight(buttonHolder);
         this.setPadding(new Insets(5));
     }
 }

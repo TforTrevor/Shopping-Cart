@@ -3,6 +3,7 @@ package shoppingcart.ui;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
+import shoppingcart.Item;
 
 public class StorePage extends BorderPane {
 

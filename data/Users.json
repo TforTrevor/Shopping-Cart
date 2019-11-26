@@ -1,0 +1,27 @@
+[
+  {
+    "username": "test",
+    "password": "teagfds",
+    "vendor": null
+  },
+  {
+    "username": "gfds",
+    "password": "gfd",
+    "vendor": null
+  },
+  {
+    "username": "null",
+    "password": "tesr",
+    "vendor": null
+  },
+  {
+    "username": "asdf",
+    "password": "asdf",
+    "vendor": "adsf"
+  },
+  {
+    "username": "testing",
+    "password": "testing",
+    "vendor": "Walgreens"
+  }
+]

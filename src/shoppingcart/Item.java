@@ -1,4 +1,4 @@
-package shoppingcart.ui;
+package shoppingcart;
 
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -7,6 +7,8 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import shoppingcart.Utilities;
+import shoppingcart.ui.ItemPage;
+import shoppingcart.ui.PageManager;
 
 public class Item extends BorderPane {
 
