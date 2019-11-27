@@ -10,6 +10,8 @@ import javafx.scene.layout.HBox;
 import shoppingcart.User;
 import shoppingcart.Utilities;
 
+import java.io.IOException;
+
 public class Header extends BorderPane {
 
     private AnchorPane searchBarPane;
@@ -43,7 +45,11 @@ public class Header extends BorderPane {
         buttonHolder.getChildren().add(cartButton);
         homeButton = new Button("Home");
         homeButton.setOnAction((event) -> {
-            PageManager.getInstance().setPage(new StorePage());
+            try {
+                PageManager.getInstance().setPage(new StorePage());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         });
 
         this.setLeft(homeButton);

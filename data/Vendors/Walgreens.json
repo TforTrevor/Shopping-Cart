@@ -1,0 +1,10 @@
+[
+  {
+    "ID": 0,
+    "name": "Bandage",
+    "description": "Used for covering small cuts and bruises.",
+    "price": 1.23,
+    "quantity": 15,
+    "availableQuantity": 15
+  }
+]

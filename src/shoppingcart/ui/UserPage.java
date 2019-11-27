@@ -65,6 +65,8 @@ public class UserPage extends BorderPane {
                     } catch (FileNotFoundException e) {
                         System.out.println("File location not found.");
                         error.setText("Error processing log in, please try again");
+                    } catch (IOException e) {
+                        e.printStackTrace();
                     }
                 }
                 else error.setText("Error! Please enter your password.");
