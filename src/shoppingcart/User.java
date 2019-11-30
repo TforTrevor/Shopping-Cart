@@ -6,6 +6,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 
 import java.io.*;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -57,15 +58,15 @@ public class User {
     }
     public boolean makeNewUser(String username, String password, String vendor) throws IOException {
         UserType newUser = new UserType(username,password,vendor);
-        LinkedList<UserType> test = null;
-        LinkedList<UserType> buffer;
+        ArrayList<UserType> test = null;
+        ArrayList<UserType> buffer;
 
         if (new File(userPath).length() != 0)
-            test = gson.fromJson(new FileReader(userPath), new TypeToken<LinkedList<UserType>>(){}.getType());
+            test = gson.fromJson(new FileReader(userPath), new TypeToken<ArrayList<UserType>>(){}.getType());
         if(test != null)
-            buffer = new LinkedList<>(test);
+            buffer = new ArrayList<>(test);
         else
-            buffer = new LinkedList<>();
+            buffer = new ArrayList<>();
 
         for (UserType n: buffer) {
             if(n.getUsername().equals(newUser.getUsername()) || (n.getVendor() != null && n.getVendor().equals(newUser.getVendor())))

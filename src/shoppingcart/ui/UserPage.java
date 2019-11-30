@@ -65,6 +65,8 @@ public class UserPage extends BorderPane {
                     } catch (FileNotFoundException e) {
                         System.out.println("File location not found.");
                         error.setText("Error processing log in, please try again");
+                    } catch (IOException | CloneNotSupportedException e) {
+                        e.printStackTrace();
                     }
                 }
                 else error.setText("Error! Please enter your password.");
@@ -102,7 +104,7 @@ public class UserPage extends BorderPane {
                         else
                             error.setText("Error! Username/vendor name is already taken.");
 
-                    } catch (IOException e) {
+                    } catch (IOException | CloneNotSupportedException e) {
                         System.out.println("Error inserting user to file.");
                         error.setText("Error making a new account, please try again");
                     }
