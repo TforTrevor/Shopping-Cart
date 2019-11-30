@@ -36,6 +36,7 @@ public class Store {
         for (String vendorItems : fileNames) {
             ArrayList<ItemType> items = gson.fromJson(new FileReader(vendorItems), new TypeToken<ArrayList<ItemType>>() {}.getType());
             for (ItemType item : items) {
+                item.setVendorName(vendorItems);
                 itemList.add(new Item(item));
             }
         }
