@@ -10,11 +10,12 @@ import shoppingcart.Utilities;
 import shoppingcart.ui.ItemPage;
 import shoppingcart.ui.PageManager;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+
 public class Item extends BorderPane {
 
     private Image image;
-    private Button tempImage;
-    private Label name;
     private ItemType item;
 
     public Item(ItemType item) {
@@ -30,15 +31,15 @@ public class Item extends BorderPane {
 //        BorderPane.setAlignment(name, Pos.CENTER);
     }
 
-    public String getName() {
-        return name.getText();
+    public String getName() throws CloneNotSupportedException {
+        return getItem().getName();
     }
 
-    public Button getImage() {
-        return tempImage;
+    public Image getImage() throws FileNotFoundException {
+        FileInputStream inputStream = new FileInputStream(item.getPhoto());
+        image = new Image(inputStream);
+        return image;
     }
 
-    public ItemType getItem() {
-        return item;
-    }
+    public ItemType getItem() throws CloneNotSupportedException { return (ItemType) item.clone(); }
 }

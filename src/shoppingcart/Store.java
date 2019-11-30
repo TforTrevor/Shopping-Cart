@@ -28,7 +28,7 @@ public class Store {
                 .map(Path::toFile)
                 .collect(Collectors.toList());
         for (File n : fileList) {
-            fileNames.add(n.getName());
+            fileNames.add(String.format("data/Vendors/%s",n.getName()));
         }
     }
     public ArrayList<Item> getItems() throws FileNotFoundException {

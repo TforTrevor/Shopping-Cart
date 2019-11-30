@@ -47,7 +47,7 @@ public class Header extends BorderPane {
         homeButton.setOnAction((event) -> {
             try {
                 PageManager.getInstance().setPage(new StorePage());
-            } catch (IOException e) {
+            } catch (IOException | CloneNotSupportedException e) {
                 e.printStackTrace();
             }
         });

@@ -12,19 +12,14 @@ import java.util.ArrayList;
 
 public class StorePage extends BorderPane {
 
-    ScrollPane scrollPane = new ScrollPane();
-    FlowPane flowPane = new FlowPane();
-    Store itemSetup;
-    public StorePage() throws IOException {
-        itemSetup = new Store();
+    private ScrollPane scrollPane = new ScrollPane();
+    private FlowPane flowPane = new FlowPane();
+    private Store itemSetup = new Store();
+    public StorePage() throws IOException, CloneNotSupportedException {
         ArrayList<Item> buffer = itemSetup.getItems();
         for (Item item: buffer) {
-
-        }
-        for (int i = 0; i < 100; i++) {
-            Item item = new Item("Item " + i);
             item.setPrefSize(100, 100);
-            flowPane.getChildren().add(item);
+            flowPane.getChildren().add(new ItemNode(item));
         }
         flowPane.setHgap(5);
         flowPane.setVgap(5);
