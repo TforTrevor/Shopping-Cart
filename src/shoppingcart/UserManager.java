@@ -13,10 +13,12 @@ public class UserManager {
     private static final String userPath = "data/Users.json";
     private static Gson gson = new GsonBuilder().serializeNulls().setPrettyPrinting().create();
 
+    private static User loggedInUser = null;
+
     public static User checkUser(String username, String password) throws FileNotFoundException {
         List<User> usersInfo =  gson.fromJson(new FileReader(userPath), new TypeToken<List<User>>(){}.getType());
         for (User user : usersInfo) {
-            if(user.getUsername().equals(username) && user.getPassword().equals(password)) {
+            if (user.getUsername().equals(username) && user.getPassword().equals(password)) {
                 return user;
             }
         }
@@ -35,8 +37,8 @@ public class UserManager {
         else
             buffer = new ArrayList<>();
 
-        for (User n: buffer) {
-            if(n.getUsername().equals(newUser.getUsername()) || (n.getVendor() != null && n.getVendor().equals(newUser.getVendor())))
+        for (User user : buffer) {
+            if(user.getUsername().equals(newUser.getUsername()) || (user.getVendor() != null && user.getVendor().equals(newUser.getVendor())))
                 return null;
         }
 
@@ -50,5 +52,13 @@ public class UserManager {
         writer.flush();
         writer.close();
         return newUser;
+    }
+
+    public static void setLoggedInUser(User user) {
+        loggedInUser = user;
+    }
+
+    public static User getLoggedInUser() {
+        return loggedInUser;
     }
 }
