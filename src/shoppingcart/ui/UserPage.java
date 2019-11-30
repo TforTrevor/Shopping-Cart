@@ -1,22 +1,21 @@
 package shoppingcart.ui;
 
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
 import shoppingcart.User;
+import shoppingcart.UserManager;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
 public class UserPage extends BorderPane {
-    GridPane grid = new GridPane();
-    User userManager = User.getInstance();
-    public UserPage(){
 
+    private GridPane grid = new GridPane();
+
+    public UserPage() {
         Text title = new Text("Shopping Cart");
         Label username = new Label("Username:");
         Label password = new Label("Password:");
@@ -48,19 +47,12 @@ public class UserPage extends BorderPane {
             if (usernameField.getText().length() != 0){
                 if(passwordField.getText().length() != 0){
                     try {
-                        switch (userManager.checkUser(usernameField.getText(),passwordField.getText())) {
-                            case 2:
-                                error.setText("Error! User doesn't exist.");
-                                break;
-                            case 1:
-                                PageManager.getInstance().setPage(new StorePage());
-                                break;
-                            case 0:
-                                error.setText("Error! Incorrect username/password.");
-                                break;
-                            case -1:
-                                error.setText("Error! There are no existing entries. Please create a new account.");
-                                break;
+                        User user = UserManager.checkUser(usernameField.getText(), passwordField.getText());
+                        if (user != null) {
+                            PageManager.getInstance().setPage(new StorePage());
+                            PageManager.getInstance().setHeader(new Header());
+                        } else {
+                            error.setText("Error! Incorrect username/password.");
                         }
                     } catch (FileNotFoundException e) {
                         System.out.println("File location not found.");
@@ -99,7 +91,7 @@ public class UserPage extends BorderPane {
                 if(passwordField.getText().length() != 0){
                     try {
                         String vendorProcess = (vendor.isSelected())? vendorName.getText() : null;
-                        if(userManager.makeNewUser(usernameField.getText(), passwordField.getText(), vendorProcess))
+                        if(UserManager.makeNewUser(usernameField.getText(), passwordField.getText(), vendorProcess) != null)
                             PageManager.getInstance().setPage(new StorePage());
                         else
                             error.setText("Error! Username/vendor name is already taken.");

@@ -3,9 +3,7 @@ package shoppingcart.ui;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-import shoppingcart.User;
 
 public class PageManager {
 
@@ -14,9 +12,6 @@ public class PageManager {
     private Scene scene;
 
     private BorderPane content = new BorderPane();
-    private Header header;
-
-    private User isInitialized = User.getInstance();
 
     private PageManager() {
 
@@ -38,12 +33,11 @@ public class PageManager {
         stage.show();
     }
 
+    public void setHeader(Parent parent) {
+        content.setTop(parent);
+    }
+
     public void setPage(Parent parent) {
-        if(isInitialized.isInitialized()) {
-            if(header == null)
-                header = new Header();
-            content.setTop(header);
-        }
         content.setCenter(parent);
     }
 }

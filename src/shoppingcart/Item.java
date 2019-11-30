@@ -1,14 +1,7 @@
 package shoppingcart;
 
-import javafx.geometry.Pos;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.image.Image;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
-import shoppingcart.Utilities;
-import shoppingcart.ui.ItemPage;
-import shoppingcart.ui.PageManager;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -35,9 +28,9 @@ public class Item extends BorderPane {
         return getItem().getName();
     }
 
-    public Image getImage() throws FileNotFoundException {
+    public Image getImage(int width, int height) throws FileNotFoundException {
         FileInputStream inputStream = new FileInputStream(item.getPhoto());
-        image = new Image(inputStream);
+        image = new Image(inputStream, width, height, true, true);
         return image;
     }
 

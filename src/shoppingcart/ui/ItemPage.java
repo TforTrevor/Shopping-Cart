@@ -2,7 +2,6 @@ package shoppingcart.ui;
 
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
@@ -26,9 +25,9 @@ public class ItemPage extends VBox {
         for (int i = 0; i < 5; i++) {
             demoImages.getChildren().add(new Button("Demo Image " + i));
         }
-        ImageView mainImage = new ImageView(item.getImage());
-        mainImage.setFitHeight(400);
-        mainImage.setFitWidth(400);
+        ImageView mainImage = new ImageView(item.getImage(400, 400));
+        //mainImage.setFitHeight(400);
+        //mainImage.setFitWidth(400);
         Utilities.makeNodeFill(mainImage);
         String urgent = (item.getItem().getAvailableQuantity() < 10)? "Hurry! less than " + item.getItem().getAvailableQuantity() + " left": "" ;
         Button purchase = new Button("Purchase \n" + urgent);
