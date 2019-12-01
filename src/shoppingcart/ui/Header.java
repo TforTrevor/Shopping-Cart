@@ -7,6 +7,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import shoppingcart.UserManager;
 import shoppingcart.Utilities;
 
 import java.io.IOException;
@@ -49,6 +50,11 @@ public class Header extends BorderPane {
                 e.printStackTrace();
             }
         });
+        Button profileButton = new Button("Profile");
+        profileButton.setOnAction((event) -> {
+            PageManager.getInstance().setPage(new UserProfile(UserManager.getLoggedInUser()));
+        });
+        buttonHolder.getChildren().add(profileButton);
 
         this.setLeft(homeButton);
         this.setCenter(searchBarPane);
