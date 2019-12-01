@@ -3,19 +3,25 @@ package shoppingcart.ui;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.Spinner;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
+import shoppingcart.CartManager;
 import shoppingcart.Item;
 import shoppingcart.Utilities;
+
+import javax.swing.*;
 
 public class ItemPage extends BorderPane {
 
     private BorderPane content;
 
+
     public ItemPage(Item item) {
+
         Label title = new Label(item.getName());
         title.setFont(Font.font(Font.getDefault().getFamily(), FontWeight.MEDIUM, 32));
         title.setTextFill(Color.WHITE);
@@ -40,8 +46,14 @@ public class ItemPage extends BorderPane {
         vendor.setFont(Font.font(16));
         Button addToCart = new Button("Add to Cart");
         addToCart.setFont(Font.font(16));
+        Spinner spinner = new Spinner(1, item.getAvailableQuantity(), 1);
+        addToCart.setOnAction(event -> {
+            addToCart(item, (Integer)spinner.getValue());
+        });
+
         Utilities.makeNodeFill(addToCart);
         AnchorPane addToCartContainer = new AnchorPane(addToCart);
+        AnchorPane spinnerContainer = new AnchorPane(spinner);
         addToCartContainer.setPadding(new Insets(20, 10, 20, 10));
         addToCartContainer.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
         VBox temp = new VBox(price, quantity, vendor);
@@ -49,8 +61,11 @@ public class ItemPage extends BorderPane {
         temp.setPadding(new Insets(10));
         temp.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
         BorderPane rightContainer = new BorderPane();
+        BorderPane itemPurchaser = new BorderPane();
+        itemPurchaser.setLeft(addToCartContainer);
+        itemPurchaser.setRight(spinnerContainer);
         rightContainer.setCenter(temp);
-        rightContainer.setBottom(addToCartContainer);
+        rightContainer.setBottom(itemPurchaser);
         rightContainer.setPadding(new Insets(20));
 
         StackPane gap = new StackPane();
@@ -61,5 +76,10 @@ public class ItemPage extends BorderPane {
         this.setCenter(mainImage);
         this.setBottom(bottomContainer);
         this.setRight(rightContainer);
+    }
+
+    private void addToCart(Item item, int q) {
+        CartManager.changeQuantity(item.getAvailableQuantity() - q,item);
+        CartManager.addItem(item);
     }
 }

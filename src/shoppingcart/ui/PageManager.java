@@ -4,7 +4,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
-import org.scenicview.ScenicView;
+//import org.scenicview.ScenicView;
 
 public class PageManager {
 
@@ -33,7 +33,7 @@ public class PageManager {
         stage.setScene(scene);
         stage.show();
 
-        ScenicView.show(scene);
+        //ScenicView.show(scene);
     }
 
     public void setHeader(Parent parent) {

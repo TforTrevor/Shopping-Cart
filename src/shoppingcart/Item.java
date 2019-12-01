@@ -47,6 +47,7 @@ public class Item implements Cloneable {
     public int getAvailableQuantity() {
         return availableQuantity;
     }
+    public void setAvailableQuantity(int q){this.availableQuantity = q;}
 
     public String getVendorName() {
         return vendorName;

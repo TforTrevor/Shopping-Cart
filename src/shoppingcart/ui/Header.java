@@ -6,6 +6,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import shoppingcart.CartManager;
 import shoppingcart.UserManager;
 import shoppingcart.Utilities;
 
@@ -33,7 +34,10 @@ public class Header extends BorderPane {
         buttonHolder = new HBox();
         buttonHolder.setSpacing(5);
 
-        cartButton = new Button("Your Cart");
+        cartButton = new Button("Your Cart: " + CartManager.getCounter());
+        cartButton.setOnAction((event -> {
+            PageManager.getInstance().setPage(new CartPage());
+        }));
 
         vendorButton = new Button("For Vendors");
         vendorButton.setOnAction((event -> {
