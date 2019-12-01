@@ -4,9 +4,8 @@ import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 import shoppingcart.UserManager;
 import shoppingcart.Utilities;
 
@@ -61,6 +60,7 @@ public class Header extends BorderPane {
         //if(user.isVendor())
         //    buttonHolder.getChildren().add(vendorButton);
         this.setRight(buttonHolder);
-        this.setPadding(new Insets(5));
+        this.setPadding(new Insets(15));
+        this.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
     }
 }

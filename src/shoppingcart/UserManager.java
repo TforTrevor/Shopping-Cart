@@ -16,7 +16,8 @@ public class UserManager {
     private static User loggedInUser = null;
 
     public static User checkUser(String username, String password) throws FileNotFoundException {
-        List<User> usersInfo =  gson.fromJson(new FileReader(userPath), new TypeToken<List<User>>(){}.getType());
+        List<User> usersInfo = gson.fromJson(new FileReader(userPath), new TypeToken<List<User>>() {
+        }.getType());
         for (User user : usersInfo) {
             if (user.getUsername().equals(username) && user.getPassword().equals(password)) {
                 return user;
@@ -31,14 +32,15 @@ public class UserManager {
         ArrayList<User> buffer;
 
         if (new File(userPath).length() != 0)
-            test = gson.fromJson(new FileReader(userPath), new TypeToken<ArrayList<User>>(){}.getType());
-        if(test != null)
+            test = gson.fromJson(new FileReader(userPath), new TypeToken<ArrayList<User>>() {
+            }.getType());
+        if (test != null)
             buffer = new ArrayList<>(test);
         else
             buffer = new ArrayList<>();
 
         for (User user : buffer) {
-            if(user.getUsername().equals(newUser.getUsername()) || (user.getVendor() != null && user.getVendor().equals(newUser.getVendor())))
+            if (user.getUsername().equals(newUser.getUsername()) || (user.getVendor() != null && user.getVendor().equals(newUser.getVendor())))
                 return null;
         }
 
@@ -47,7 +49,7 @@ public class UserManager {
         File file = new File(userPath);
         FileWriter writer = new FileWriter(file);
 
-        gson.toJson(buffer,writer);
+        gson.toJson(buffer, writer);
 
         writer.flush();
         writer.close();

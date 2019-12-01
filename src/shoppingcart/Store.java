@@ -28,16 +28,18 @@ public class Store {
                 .map(Path::toFile)
                 .collect(Collectors.toList());
         for (File n : fileList) {
-            fileNames.add(String.format("data/Vendors/%s",n.getName()));
+            fileNames.add(String.format("data/Vendors/%s", n.getName()));
         }
     }
+
     public ArrayList<Item> getItems() throws FileNotFoundException {
         ArrayList<Item> itemList = new ArrayList<>();
         for (String vendorItems : fileNames) {
-            ArrayList<ItemType> items = gson.fromJson(new FileReader(vendorItems), new TypeToken<ArrayList<ItemType>>() {}.getType());
-            for (ItemType item : items) {
+            ArrayList<Item> items = gson.fromJson(new FileReader(vendorItems), new TypeToken<ArrayList<Item>>() {
+            }.getType());
+            for (Item item : items) {
                 item.setVendorName(vendorItems);
-                itemList.add(new Item(item));
+                itemList.add(item);
             }
         }
         return itemList;
