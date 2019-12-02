@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class CartManager{
     //private static final String cartPath = "data/Cart.json";
@@ -17,12 +18,23 @@ public class CartManager{
     public static Cart getYourCart(){
         return yourCart;
     }
-    public static double checkout(){ //function to calculate prices, and possibly tax
+    public static double totalPrices(){ //function to calculate prices, and possibly tax
         int totalPrice = 0;
         for(Item i : yourCart.getCartItems())
             totalPrice += (i.getPrice() * i.getCartQuantity());
         return totalPrice;
     };
+    public static void checkout(){
+        Iterator<Item> iter = yourCart.getCartItems().iterator();
+
+        while (iter.hasNext()) {
+            Item i = iter.next();
+
+            iter.remove();
+        }
+        yourCart.updateCartSize();
+    }
+
     public static void addToCart(Item item, int quantity){ //add an item into the cart list
         if(yourCart.getCartItems().contains(item)){
             item.setCartQuantity(quantity + item.getCartQuantity());

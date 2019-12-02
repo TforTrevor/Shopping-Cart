@@ -7,6 +7,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import shoppingcart.CartManager;
+import shoppingcart.Item;
 import shoppingcart.UserManager;
 import shoppingcart.Utilities;
 

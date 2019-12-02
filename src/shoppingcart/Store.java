@@ -44,13 +44,13 @@ public class Store {
     public void setAvailableQuantities(Item item, int newQuantity) throws IOException {
         for (String vendorItems : fileNames) {
             //File file = new File(vendorItems);
-            System.out.println(vendorItems);
+            //System.out.println(vendorItems);
             //FileWriter writer = new FileWriter(file);
 
             for(Item i: getItems()){
                 if(i.getID() == item.getID()){
                     i.setAvailableQuantity(newQuantity);
-                    System.out.println("Available quantity of: " + i.getName() + " is: " + newQuantity);
+                    //System.out.println("Available quantity of: " + i.getName() + " is: " + newQuantity);
 
                 }
             }

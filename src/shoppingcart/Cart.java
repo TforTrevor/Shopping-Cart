@@ -24,6 +24,7 @@ public class Cart {
     }
     public void removeItem(Item item){ //remove specific item from cart list
         cartItems.remove(item);
+        item.setCartQuantity(0);
     };
     public void changeQuantity(int newQuantity, Item item){ //change the quantity of items inside the cart, based on availability
         for(Item i : cartItems){

@@ -12,6 +12,7 @@ import javafx.scene.text.Text;
 import shoppingcart.*;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class CheckoutPage extends BorderPane {
@@ -28,7 +29,7 @@ public class CheckoutPage extends BorderPane {
 
         Integer counter = CartManager.getCounter();
         Label counterView = new Label(counter.toString() + " items");
-        Label totalPrice = new Label("Total Price of the Cart: $" + CartManager.checkout());
+        Label totalPrice = new Label("Total Price of the Cart: $" + CartManager.totalPrices());
 
 
         ArrayList<Item> buffer = CartManager.getCart();
@@ -77,6 +78,19 @@ public class CheckoutPage extends BorderPane {
         TextField creditCardNumber = new TextField();
         payment.add(creditCardNumber, 1, 2);
         Button paymentButton = new Button("Place your Order!");
+        paymentButton.setOnAction(event -> {
+            try {
+                PageManager.getInstance().setPage(new StorePage());
+                CartManager.checkout();
+                Header.updateCartButton();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (CloneNotSupportedException e) {
+                e.printStackTrace();
+            }
+        });
+
+
         payment.add(paymentButton, 1, 3);
         payment.setPadding(new Insets(5));
         payment.setHgap(10);
