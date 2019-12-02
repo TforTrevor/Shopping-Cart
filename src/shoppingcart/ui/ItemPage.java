@@ -4,6 +4,7 @@ import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Spinner;
+import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
@@ -18,7 +19,9 @@ import javax.swing.*;
 public class ItemPage extends BorderPane {
 
     private BorderPane content;
-
+    private Label price;
+    private Label quantity;
+    private Spinner<Integer> spinner;
 
     public ItemPage(Item item) {
 
@@ -38,33 +41,43 @@ public class ItemPage extends BorderPane {
         VBox bottomContainer = new VBox(details, description);
         bottomContainer.setPadding(new Insets(20));
 
-        Label price = new Label("$" + item.getPrice());
+        price = new Label("$" + item.getPrice());
         price.setFont(Font.font(20));
-        Label quantity = new Label("Stock: " + item.getAvailableQuantity());
+        quantity = new Label("Available: " + item.getAvailableQuantity());
         quantity.setFont(Font.font(16));
         Label vendor = new Label("Vendor: " + item.getVendorName());
         vendor.setFont(Font.font(16));
         Button addToCart = new Button("Add to Cart");
         addToCart.setFont(Font.font(16));
-        Spinner spinner = new Spinner(1, item.getAvailableQuantity(), 1);
+        spinner = new Spinner<>(1, item.getAvailableQuantity(), 1);
+        spinner.getEditor().textProperty().addListener((obs, oldValue, newValue) -> {
+            price.setText("$" + (item.getPrice() * ((Integer)spinner.getValue())));
+        });
         addToCart.setOnAction(event -> {
-            addToCart(item, (Integer)spinner.getValue());
+            add(item, (Integer)spinner.getValue());
+            Header.updateCartButton();
         });
 
         Utilities.makeNodeFill(addToCart);
         AnchorPane addToCartContainer = new AnchorPane(addToCart);
-        AnchorPane spinnerContainer = new AnchorPane(spinner);
-        addToCartContainer.setPadding(new Insets(20, 10, 20, 10));
+        Label spinnerQuantity = new Label("How many would you like to add?");
+        AnchorPane spinnerPane = new AnchorPane(spinner);
+        BorderPane spinnerContainer = new BorderPane();
+        spinnerContainer.setTop(spinnerQuantity);
+        spinnerContainer.setBottom(spinnerPane);
+        addToCartContainer.setPadding(new Insets(0, 10, 20, 10));
         addToCartContainer.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
-        VBox temp = new VBox(price, quantity, vendor);
-        temp.setSpacing(5);
-        temp.setPadding(new Insets(10));
-        temp.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
+        spinnerContainer.setPadding(new Insets(20, 10, 20, 10));
+        spinnerContainer.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
+        VBox infoBox = new VBox(price, quantity, vendor);
+        infoBox.setSpacing(5);
+        infoBox.setPadding(new Insets(10));
+        infoBox.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
         BorderPane rightContainer = new BorderPane();
         BorderPane itemPurchaser = new BorderPane();
         itemPurchaser.setLeft(addToCartContainer);
         itemPurchaser.setRight(spinnerContainer);
-        rightContainer.setCenter(temp);
+        rightContainer.setCenter(infoBox);
         rightContainer.setBottom(itemPurchaser);
         rightContainer.setPadding(new Insets(20));
 
@@ -78,8 +91,16 @@ public class ItemPage extends BorderPane {
         this.setRight(rightContainer);
     }
 
-    private void addToCart(Item item, int q) {
-        CartManager.changeQuantity(item.getAvailableQuantity() - q,item);
-        CartManager.addItem(item);
+
+    private void add(Item item, int q) {
+        item.setAvailableQuantity(item.getAvailableQuantity() - q);
+        CartManager.addToCart(item, q);
+        quantity.setText("Available: " + (item.getAvailableQuantity()));
+        if(item.getAvailableQuantity() != 0){
+            spinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, item.getAvailableQuantity()));
+        }
+        else{
+            spinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0,0));
+        }
     }
 }

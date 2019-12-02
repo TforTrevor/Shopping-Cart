@@ -5,10 +5,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -43,5 +40,22 @@ public class Store {
             }
         }
         return itemList;
+    }
+    public void setAvailableQuantities(Item item, int newQuantity) throws IOException {
+        for (String vendorItems : fileNames) {
+            //File file = new File(vendorItems);
+            System.out.println(vendorItems);
+            //FileWriter writer = new FileWriter(file);
+
+            for(Item i: getItems()){
+                if(i.getID() == item.getID()){
+                    i.setAvailableQuantity(newQuantity);
+                    System.out.println("Available quantity of: " + i.getName() + " is: " + newQuantity);
+
+                }
+            }
+           // writer.flush();
+            //writer.close();
+        }
     }
 }

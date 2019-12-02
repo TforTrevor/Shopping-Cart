@@ -11,6 +11,7 @@ public class Item implements Cloneable {
     private double price;
     private int quantity;
     private int availableQuantity;
+    private int cartQuantity;
     private String vendorName;
     private String photo;
 
@@ -71,6 +72,8 @@ public class Item implements Cloneable {
         this.vendorName = vendorName;
     }
 
+    public void setCartQuantity(int x){this.cartQuantity = x;}
+    public int getCartQuantity(){return this.cartQuantity;}
     public Object clone() throws CloneNotSupportedException {
         return super.clone();
     }

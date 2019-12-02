@@ -10,6 +10,9 @@ import shoppingcart.CartManager;
 import shoppingcart.UserManager;
 import shoppingcart.Utilities;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
 public class Header extends BorderPane {
@@ -19,7 +22,7 @@ public class Header extends BorderPane {
     private HBox options;
     private Button vendorButton;
     private Button homeButton;
-    private Button cartButton;
+    private static Button cartButton;
     private HBox buttonHolder;
 
     public Header() {
@@ -36,7 +39,13 @@ public class Header extends BorderPane {
 
         cartButton = new Button("Your Cart: " + CartManager.getCounter());
         cartButton.setOnAction((event -> {
-            PageManager.getInstance().setPage(new CartPage());
+            try {
+                PageManager.getInstance().setPage(new CartPage());
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (CloneNotSupportedException e) {
+                e.printStackTrace();
+            }
         }));
 
         vendorButton = new Button("For Vendors");
@@ -44,7 +53,6 @@ public class Header extends BorderPane {
             PageManager.getInstance().setPage(new VendorPage());
         }));
 
-        buttonHolder.getChildren().add(cartButton);
         homeButton = new Button("Home");
         homeButton.setOnAction((event) -> {
             try {
@@ -63,8 +71,13 @@ public class Header extends BorderPane {
         this.setCenter(searchBarPane);
         //if(user.isVendor())
         //    buttonHolder.getChildren().add(vendorButton);
+        buttonHolder.getChildren().add(cartButton);
         this.setRight(buttonHolder);
         this.setPadding(new Insets(15));
         this.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
+    }
+
+    public static void updateCartButton(){
+        cartButton.setText("Your Cart: " + CartManager.getCounter());
     }
 }

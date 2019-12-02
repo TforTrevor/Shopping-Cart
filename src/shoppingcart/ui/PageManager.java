@@ -43,4 +43,5 @@ public class PageManager {
     public void setPage(Parent parent) {
         content.setCenter(parent);
     }
+
 }

@@ -15,6 +15,13 @@ public class Cart {
     public void addItem(Item item){
         cartItems.add(item);
     }
+    public void updateCartSize(){
+        int size = 0;
+        for(Item i : cartItems){
+            size += i.getCartQuantity();
+        }
+        cartSize = size;
+    }
     public void removeItem(Item item){ //remove specific item from cart list
         cartItems.remove(item);
     };
@@ -26,5 +33,9 @@ public class Cart {
         }
 
     };
+    public ArrayList<Item> getCartItems(){
+        return cartItems;
+    }
 
 }
+

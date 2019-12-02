@@ -20,6 +20,7 @@ public class StorePage extends BorderPane {
         ArrayList<Item> buffer = itemSetup.getItems();
         for (Item item : buffer) {
             //item.setPrefSize(100, 100);
+            itemSetup.setAvailableQuantities(item, item.getAvailableQuantity());
             flowPane.getChildren().add(new ItemNode(item));
         }
         flowPane.setHgap(5);
