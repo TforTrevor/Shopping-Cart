@@ -17,8 +17,11 @@ public class CartManager{
     public static Cart getYourCart(){
         return yourCart;
     }
-    public static void checkout(){ //function to calculate prices, and possibly tax
-
+    public static double checkout(){ //function to calculate prices, and possibly tax
+        int totalPrice = 0;
+        for(Item i : yourCart.getCartItems())
+            totalPrice += (i.getPrice() * i.getCartQuantity());
+        return totalPrice;
     };
     public static void addToCart(Item item, int quantity){ //add an item into the cart list
         if(yourCart.getCartItems().contains(item)){
