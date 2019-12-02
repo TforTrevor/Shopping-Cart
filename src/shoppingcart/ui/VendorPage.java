@@ -4,7 +4,7 @@ import javafx.scene.layout.BorderPane;
 
 public class VendorPage extends BorderPane {
 
-    public VendorPage(){
+    public VendorPage() {
 
     }
 }

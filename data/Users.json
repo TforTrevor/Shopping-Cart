@@ -1,7 +1,7 @@
 [
   {
     "username": "test",
-    "password": "teagfds",
+    "password": "test",
     "vendor": null
   },
   {
@@ -23,5 +23,10 @@
     "username": "testing",
     "password": "testing",
     "vendor": "Walgreens"
+  },
+  {
+    "username": "a",
+    "password": "a",
+    "vendor": null
   }
 ]

@@ -4,12 +4,16 @@ import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
-import shoppingcart.User;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
+import shoppingcart.CartManager;
+import shoppingcart.Item;
+import shoppingcart.UserManager;
 import shoppingcart.Utilities;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
 public class Header extends BorderPane {
@@ -19,9 +23,8 @@ public class Header extends BorderPane {
     private HBox options;
     private Button vendorButton;
     private Button homeButton;
-    private Button cartButton;
+    private static Button cartButton;
     private HBox buttonHolder;
-    private User user = User.getInstance();
 
     public Header() {
         searchBar = new TextField();
@@ -35,14 +38,22 @@ public class Header extends BorderPane {
         buttonHolder = new HBox();
         buttonHolder.setSpacing(5);
 
-        cartButton = new Button("Your Cart");
+        cartButton = new Button("Your Cart: " + CartManager.getCounter());
+        cartButton.setOnAction((event -> {
+            try {
+                PageManager.getInstance().setPage(new CartPage());
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (CloneNotSupportedException e) {
+                e.printStackTrace();
+            }
+        }));
 
         vendorButton = new Button("For Vendors");
         vendorButton.setOnAction((event -> {
             PageManager.getInstance().setPage(new VendorPage());
         }));
 
-        buttonHolder.getChildren().add(cartButton);
         homeButton = new Button("Home");
         homeButton.setOnAction((event) -> {
             try {
@@ -51,12 +62,23 @@ public class Header extends BorderPane {
                 e.printStackTrace();
             }
         });
+        Button profileButton = new Button("Profile");
+        profileButton.setOnAction((event) -> {
+            PageManager.getInstance().setPage(new UserProfile(UserManager.getLoggedInUser()));
+        });
+        buttonHolder.getChildren().add(profileButton);
 
         this.setLeft(homeButton);
         this.setCenter(searchBarPane);
-        if(user.isVendor())
-            buttonHolder.getChildren().add(vendorButton);
+        //if(user.isVendor())
+        //    buttonHolder.getChildren().add(vendorButton);
+        buttonHolder.getChildren().add(cartButton);
         this.setRight(buttonHolder);
-        this.setPadding(new Insets(5));
+        this.setPadding(new Insets(15));
+        this.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
+    }
+
+    public static void updateCartButton(){
+        cartButton.setText("Your Cart: " + CartManager.getCounter());
     }
 }

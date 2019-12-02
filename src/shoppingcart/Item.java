@@ -1,45 +1,80 @@
 package shoppingcart;
 
-import javafx.geometry.Pos;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.image.Image;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.BorderPane;
-import shoppingcart.Utilities;
-import shoppingcart.ui.ItemPage;
-import shoppingcart.ui.PageManager;
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 
-public class Item extends BorderPane {
+public class Item implements Cloneable {
+    private int ID;
+    private String name;
+    private String description;
+    private double price;
+    private int quantity;
+    private int availableQuantity;
+    private int cartQuantity;
+    private String vendorName;
+    private String photo;
 
-    private Image image;
-    private ItemType item;
-
-    public Item(ItemType item) {
-        this.item = item;
-//        name = new Label(string);
-//        tempImage = new Button("Image");
-//        tempImage.setOnAction((event) -> {
-//            PageManager.getInstance().setPage(new ItemPage(this));
-//        });
-//        Utilities.makeNodeFill(tempImage);
-//        this.setCenter(new AnchorPane(tempImage));
-//        this.setBottom(name);
-//        BorderPane.setAlignment(name, Pos.CENTER);
+    public Item(int ID, String name, String description, double price, int quantity, int availableQuantity, String photo) {
+        this.ID = ID;
+        this.name = name;
+        this.description = description;
+        this.price = price;
+        this.quantity = quantity;
+        this.availableQuantity = availableQuantity;
+        this.photo = photo;
     }
 
-    public String getName() throws CloneNotSupportedException {
-        return getItem().getName();
+    public int getID() {
+        return ID;
     }
 
-    public Image getImage() throws FileNotFoundException {
-        FileInputStream inputStream = new FileInputStream(item.getPhoto());
-        image = new Image(inputStream);
-        return image;
+    public String getName() {
+        return name;
     }
 
-    public ItemType getItem() throws CloneNotSupportedException { return (ItemType) item.clone(); }
+    public String getDescription() {
+        return description;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public int getAvailableQuantity() {
+        return availableQuantity;
+    }
+    public void setAvailableQuantity(int q){this.availableQuantity = q;}
+
+    public String getVendorName() {
+        return vendorName;
+    }
+
+    public String getImageURL() {
+        return photo;
+    }
+
+    public Image getImage(int width, int height) {
+        try {
+            FileInputStream inputStream = new FileInputStream(photo);
+            return new Image(inputStream, width, height, true, true);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public void setVendorName(String vendorName) {
+        this.vendorName = vendorName;
+    }
+
+    public void setCartQuantity(int x){this.cartQuantity = x;}
+    public int getCartQuantity(){return this.cartQuantity;}
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();
+    }
 }

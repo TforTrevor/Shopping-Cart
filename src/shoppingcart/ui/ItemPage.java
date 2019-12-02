@@ -1,46 +1,106 @@
 package shoppingcart.ui;
 
+import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.image.Image;
+import javafx.scene.control.Spinner;
+import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
+import shoppingcart.CartManager;
 import shoppingcart.Item;
 import shoppingcart.Utilities;
 
-import java.io.FileNotFoundException;
+import javax.swing.*;
 
-public class ItemPage extends VBox {
+public class ItemPage extends BorderPane {
 
-    private Label title;
     private BorderPane content;
+    private Label price;
+    private Label quantity;
+    private Spinner<Integer> spinner;
 
-    public ItemPage(Item item) throws FileNotFoundException, CloneNotSupportedException {
+    public ItemPage(Item item) {
 
-        title = new Label(item.getName());
-        this.getChildren().add(title);
-        content = new BorderPane();
-        VBox demoImages = new VBox();
-        for (int i = 0; i < 5; i++) {
-            demoImages.getChildren().add(new Button("Demo Image " + i));
+        Label title = new Label(item.getName());
+        title.setFont(Font.font(Font.getDefault().getFamily(), FontWeight.MEDIUM, 32));
+        title.setTextFill(Color.WHITE);
+        HBox topContainer = new HBox(title);
+        topContainer.setPadding(new Insets(10, 20, 10, 20));
+        topContainer.setBackground(new Background(new BackgroundFill(Color.valueOf("333"), CornerRadii.EMPTY, Insets.EMPTY)));
+
+        ImageView mainImage = new ImageView(item.getImage(500, 500));
+
+        Label details = new Label("Details:");
+        details.setFont(Font.font(20));
+        Label description = new Label(item.getDescription());
+        description.setWrapText(true);
+        VBox bottomContainer = new VBox(details, description);
+        bottomContainer.setPadding(new Insets(20));
+
+        price = new Label("$" + item.getPrice());
+        price.setFont(Font.font(20));
+        quantity = new Label("Available: " + item.getAvailableQuantity());
+        quantity.setFont(Font.font(16));
+        Label vendor = new Label("Vendor: " + item.getVendorName());
+        vendor.setFont(Font.font(16));
+        Button addToCart = new Button("Add to Cart");
+        addToCart.setFont(Font.font(16));
+        spinner = new Spinner<>(1, item.getAvailableQuantity(), 1);
+        spinner.getEditor().textProperty().addListener((obs, oldValue, newValue) -> {
+            price.setText("$" + (item.getPrice() * ((Integer)spinner.getValue())));
+        });
+        addToCart.setOnAction(event -> {
+            add(item, (Integer)spinner.getValue());
+            Header.updateCartButton();
+        });
+
+        Utilities.makeNodeFill(addToCart);
+        AnchorPane addToCartContainer = new AnchorPane(addToCart);
+        Label spinnerQuantity = new Label("How many would you like to add?");
+        AnchorPane spinnerPane = new AnchorPane(spinner);
+        BorderPane spinnerContainer = new BorderPane();
+        spinnerContainer.setTop(spinnerQuantity);
+        spinnerContainer.setBottom(spinnerPane);
+        addToCartContainer.setPadding(new Insets(0, 10, 20, 10));
+        addToCartContainer.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
+        spinnerContainer.setPadding(new Insets(20, 10, 20, 10));
+        spinnerContainer.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
+        VBox infoBox = new VBox(price, quantity, vendor);
+        infoBox.setSpacing(5);
+        infoBox.setPadding(new Insets(10));
+        infoBox.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
+        BorderPane rightContainer = new BorderPane();
+        BorderPane itemPurchaser = new BorderPane();
+        itemPurchaser.setLeft(addToCartContainer);
+        itemPurchaser.setRight(spinnerContainer);
+        rightContainer.setCenter(infoBox);
+        rightContainer.setBottom(itemPurchaser);
+        rightContainer.setPadding(new Insets(20));
+
+        StackPane gap = new StackPane();
+        gap.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
+        gap.setMinHeight(10);
+
+        this.setTop(topContainer);
+        this.setCenter(mainImage);
+        this.setBottom(bottomContainer);
+        this.setRight(rightContainer);
+    }
+
+
+    private void add(Item item, int q) {
+        item.setAvailableQuantity(item.getAvailableQuantity() - q);
+        CartManager.addToCart(item, q);
+        quantity.setText("Available: " + (item.getAvailableQuantity()));
+        if(item.getAvailableQuantity() != 0){
+            spinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, item.getAvailableQuantity()));
         }
-        ImageView mainImage = new ImageView(item.getImage());
-        mainImage.setFitHeight(400);
-        mainImage.setFitWidth(400);
-        Utilities.makeNodeFill(mainImage);
-        String urgent = (item.getItem().getAvailableQuantity() < 10)? "Hurry! less than " + item.getItem().getAvailableQuantity() + " left": "" ;
-        Button purchase = new Button("Purchase \n" + urgent);
-        purchase.setWrapText(true);
-        Utilities.makeNodeFill(purchase);
-        VBox description = new VBox(new Label(item.getItem().getDescription()), new Label("Price: $" + item.getItem().getPrice()));
-        BorderPane centerContent = new BorderPane();
-        centerContent.setCenter(mainImage);
-        centerContent.setBottom(description);
-        content.setLeft(demoImages);
-        content.setCenter(centerContent);
-        content.setRight(new AnchorPane(purchase));
-        this.getChildren().add(content);
+        else{
+            spinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0,0));
+        }
     }
 }
