@@ -42,9 +42,7 @@ public class Header extends BorderPane {
         cartButton.setOnAction((event -> {
             try {
                 PageManager.getInstance().setPage(new CartPage());
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            } catch (CloneNotSupportedException e) {
+            } catch (FileNotFoundException | CloneNotSupportedException e) {
                 e.printStackTrace();
             }
         }));

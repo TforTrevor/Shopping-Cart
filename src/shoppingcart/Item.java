@@ -77,4 +77,12 @@ public class Item implements Cloneable {
     public Object clone() throws CloneNotSupportedException {
         return super.clone();
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof Item)) return false;
+        Item itemObj = (Item) obj;
+
+        return (itemObj.getID() == ID && itemObj.getName().equals(name) && itemObj.getDescription().equals(description) && itemObj.getPrice() == price && itemObj.getQuantity() == quantity  && itemObj.getImageURL().equals(photo));
+    }
 }

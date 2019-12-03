@@ -15,6 +15,7 @@ public class UserManager {
 
     private static User loggedInUser = null;
 
+
     public static User checkUser(String username, String password) throws FileNotFoundException {
         List<User> usersInfo = gson.fromJson(new FileReader(userPath), new TypeToken<List<User>>() {
         }.getType());
@@ -62,5 +63,25 @@ public class UserManager {
 
     public static User getLoggedInUser() {
         return loggedInUser;
+    }
+
+    public static void changePassword(String newPassword) throws IOException {
+        User updated = new User(loggedInUser.getUsername(),newPassword,loggedInUser.getVendor());
+        ArrayList<User> userList = gson.fromJson(new FileReader(userPath), new TypeToken<ArrayList<User>>() {}.getType());
+        for (User user : userList) {
+            if (user.equals(loggedInUser)){
+                userList.remove(user);
+                userList.add(updated);
+
+                File file = new File(userPath);
+                FileWriter writer = new FileWriter(file);
+                gson.toJson(userList, writer);
+                writer.flush();
+                writer.close();
+
+                setLoggedInUser(updated);
+                return;
+            }
+        }
     }
 }
