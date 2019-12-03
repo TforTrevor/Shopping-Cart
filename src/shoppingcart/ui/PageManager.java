@@ -1,9 +1,15 @@
 package shoppingcart.ui;
 
+import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import javafx.util.Pair;
+import org.scenicview.ScenicView;
+
+import java.util.ArrayList;
 //import org.scenicview.ScenicView;
 
 public class PageManager {
@@ -12,7 +18,9 @@ public class PageManager {
     private Stage stage;
     private Scene scene;
 
+    private StackPane stackPane = new StackPane();
     private BorderPane content = new BorderPane();
+    private ArrayList<Pair<AnchorPane, Modal>> modals = new ArrayList<>();
 
     private PageManager() {
 
@@ -27,13 +35,14 @@ public class PageManager {
 
     public void initialize(Stage stage) {
         this.stage = stage;
-        scene = new Scene(content, 1280, 720);
+        stackPane.getChildren().add(content);
+        scene = new Scene(stackPane, 1280, 720);
         //content.setTop(header);
         stage.setTitle("Shopping Cart");
         stage.setScene(scene);
         stage.show();
 
-        //ScenicView.show(scene);
+        ScenicView.show(scene);
     }
 
     public void setHeader(Parent parent) {
@@ -44,4 +53,30 @@ public class PageManager {
         content.setCenter(parent);
     }
 
+    public void showPopUp(Modal modal) {
+        showPopUp(modal, 0, 0, 0, 0);
+    }
+
+    public void showPopUp(Modal modal, double top, double bottom, double left, double right) {
+        AnchorPane.setTopAnchor(modal, top);
+        AnchorPane.setBottomAnchor(modal, bottom);
+        AnchorPane.setLeftAnchor(modal, left);
+        AnchorPane.setRightAnchor(modal, right);
+
+        AnchorPane anchorPane = new AnchorPane(modal);
+        anchorPane.setBackground(new Background(new BackgroundFill(Color.color(0, 0, 0, 0.5f), CornerRadii.EMPTY, Insets.EMPTY)));
+
+        modals.add(new Pair<>(anchorPane, modal));
+        stackPane.getChildren().add(anchorPane);
+    }
+
+    public void closePopUp(Modal modal) {
+        for (Pair<AnchorPane, Modal> modalPair : modals) {
+            if (modalPair.getValue() == modal) {
+                modals.remove(modalPair);
+                stackPane.getChildren().remove(modalPair.getKey());
+                break;
+            }
+        }
+    }
 }

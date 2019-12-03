@@ -7,12 +7,9 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import shoppingcart.CartManager;
-import shoppingcart.Item;
 import shoppingcart.UserManager;
 import shoppingcart.Utilities;
 
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
@@ -51,7 +48,7 @@ public class Header extends BorderPane {
 
         vendorButton = new Button("For Vendors");
         vendorButton.setOnAction((event -> {
-            PageManager.getInstance().setPage(new VendorPage());
+            //PageManager.getInstance().setPage(new VendorPage());
         }));
 
         homeButton = new Button("Home");
