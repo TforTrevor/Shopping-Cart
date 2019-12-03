@@ -26,6 +26,10 @@ public class PageManager {
 
     }
 
+    public Stage getStage() {
+        return stage;
+    }
+
     public static PageManager getInstance() {
         if (instance == null) {
             instance = new PageManager();

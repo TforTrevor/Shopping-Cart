@@ -6,7 +6,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
 import shoppingcart.CartManager;
 import shoppingcart.Item;
-import shoppingcart.Store;
+import shoppingcart.StoreManager;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -15,7 +15,7 @@ public class StorePage extends BorderPane {
 
     private ScrollPane scrollPane = new ScrollPane();
     private FlowPane flowPane = new FlowPane();
-    private Store itemSetup = new Store();
+    private StoreManager itemSetup = new StoreManager();
 
 
     public StorePage() throws IOException, CloneNotSupportedException {
