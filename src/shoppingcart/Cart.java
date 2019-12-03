@@ -14,6 +14,7 @@ public class Cart { //cart model
     }
     public void addItem(Item item){
         cartItems.add(item);
+        updateCartSize();
     }
     public void updateCartSize(){ //updates the cart size variable based on item quantity and items themselves
         int size = 0;
@@ -24,15 +25,16 @@ public class Cart { //cart model
     }
     public void removeItem(Item item){ //remove specific item from cart list
         cartItems.remove(item);
-    };
+        updateCartSize();
+    }
     public void changeQuantity(int newQuantity, Item item){ //change the quantity of items inside the cart, based on availability
         for(Item i : cartItems){//for each item
-            if (i.getID() == (item.getID())) {//if it is equal
+            if (i.equals(item)) {//if it is equal
                 i.setAvailableQuantity(newQuantity); //set the quantity
             }
         }
 
-    };
+    }
     public ArrayList<Item> getCartItems(){
         return cartItems;
     }//return the cart itself

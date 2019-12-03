@@ -50,8 +50,9 @@ public class Login extends BorderPane {
                 if (passwordField.getText().length() != 0) {
                     try {
                         User user = UserManager.checkUser(usernameField.getText(), passwordField.getText());
-                        Cart cart = new Cart(); //when a person logs in, instantiate the cart to their account
+
                         if (user != null) {
+                            Cart cart = new Cart(); //when a person logs in, instantiate the cart to their account
                             UserManager.setLoggedInUser(user);
                             CartManager.setYourCart(cart);//set their cart to the instance
                             PageManager.getInstance().setPage(new StorePage());

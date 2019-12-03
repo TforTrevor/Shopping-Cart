@@ -50,11 +50,17 @@ public class ItemPage extends BorderPane {
         Button addToCart = new Button("Add to Cart");
         addToCart.setFont(Font.font(16));
         spinner = new Spinner<>(1, item.getAvailableQuantity(), 1);
-        spinner.getEditor().textProperty().addListener((obs, oldValue, newValue) -> {
-            price.setText("$" + (item.getPrice() * ((Integer)spinner.getValue())));
-        });
+        spinner.getEditor().textProperty().addListener((obs, oldValue, newValue) -> price.setText("$" + (item.getPrice() * (spinner.getValue()))));
         addToCart.setOnAction(event -> {
-            add(item, (Integer)spinner.getValue());//add the item with the quantity determined by the spinner
+            item.setAvailableQuantity(item.getAvailableQuantity() - spinner.getValue()); //set the quantity to new quantity
+            CartManager.addToCart(item, spinner.getValue()); //add to the cart
+            quantity.setText("Available: " + (item.getAvailableQuantity())); //update the quantity
+            if(item.getAvailableQuantity() > 0){ //if you can still by more, set the spinners range
+                spinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, item.getAvailableQuantity()));
+            }
+            else{//if not, do not let them by more, range is 0 to 0
+                spinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0,0));
+            }
             Header.updateCartButton(); //whenever someone adds to cart, update the cart itself
         });
 
@@ -92,15 +98,5 @@ public class ItemPage extends BorderPane {
     }
 
 
-    private void add(Item item, int q) { //function to add item to the cart
-        item.setAvailableQuantity(item.getAvailableQuantity() - q); //set the quantity to new quantity
-        CartManager.addToCart(item, q); //add to the cart
-        quantity.setText("Available: " + (item.getAvailableQuantity())); //update the quantity
-        if(item.getAvailableQuantity() > 0){ //if you can still by more, set the spinners range
-            spinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, item.getAvailableQuantity()));
-        }
-        else{//if not, do not let them by more, range is 0 to 0
-            spinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0,0));
-        }
-    }
+
 }

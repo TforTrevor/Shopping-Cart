@@ -54,8 +54,13 @@ public class Store {
             for (Item n : items) {
                 if(n.equals(item)){
                     n.setAvailableQuantity(newQuantity);
-                    item.setAvailableQuantity(newQuantity);
-                    gson.toJson(items,new FileWriter(vendorItems));
+                    File file = new File(vendorItems);
+                    FileWriter writer = new FileWriter(file);
+
+                    gson.toJson(items, writer);
+
+                    writer.flush();
+                    writer.close();
                     return;
                 }
             }

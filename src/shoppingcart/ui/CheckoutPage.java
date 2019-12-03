@@ -82,9 +82,7 @@ public class CheckoutPage extends BorderPane {
                 PageManager.getInstance().setPage(new StorePage());
                 CartManager.checkout(); //checks out the whole cart, (empties the cart and sends you to the store again)
                 Header.updateCartButton();//update the cart counter so that it says 0 items in cart again
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (CloneNotSupportedException e) {
+            } catch (IOException | CloneNotSupportedException e) {
                 e.printStackTrace();
             }
         });

@@ -24,8 +24,8 @@ public class CartPage extends BorderPane {
         BorderPane labels = new BorderPane(); //quantity and price of items
 
         Text title = new Text("Your Shopping Cart"); //title of page
-        Integer counter = CartManager.getCounter(); //the counter at the top
-        Label counterView = new Label(counter.toString() + " items"); //displays how many items are in the cart
+        int counter = CartManager.getCounter(); //the counter at the top
+        Label counterView = new Label(counter + " items"); //displays how many items are in the cart
 
         ArrayList<Item> buffer = CartManager.getCart(); //retrieving the full cart list from the model
        // int i = 0;
@@ -63,9 +63,7 @@ public class CartPage extends BorderPane {
         checkoutButton.setOnAction((event) -> {
             try {
                 PageManager.getInstance().setPage(new CheckoutPage());
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            } catch (CloneNotSupportedException e) {
+            } catch (FileNotFoundException | CloneNotSupportedException e) {
                 e.printStackTrace();
             }
 

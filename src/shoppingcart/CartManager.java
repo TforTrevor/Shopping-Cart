@@ -7,8 +7,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 public class CartManager{ //cart controller
-    //private static final String cartPath = "data/Cart.json";
-    //private static Gson gson = new GsonBuilder().serializeNulls().setPrettyPrinting().create();
+    private static final String cartPath = "data/Cart.json";
+    private static Gson gson = new GsonBuilder().serializeNulls().setPrettyPrinting().create();
 
     private static Cart yourCart = null;//initialize on login
 
