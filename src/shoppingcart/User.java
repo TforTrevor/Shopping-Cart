@@ -4,11 +4,13 @@ public class User {
     private String username;
     private String password;
     private String vendor;
+    private boolean isVendor;
 
-    public User(String username, String password, String vendor) {
+    public User(String username, String password, String vendor, boolean isVendor) {
         this.username = username;
         this.password = password;
         this.vendor = vendor;
+        this.isVendor = isVendor;
     }
 
     public String getUsername() {
@@ -22,6 +24,8 @@ public class User {
     public String getVendor() {
         return vendor;
     }
+
+    public boolean checkVendor(){return isVendor;}
 
     @Override
     public boolean equals(Object obj) {

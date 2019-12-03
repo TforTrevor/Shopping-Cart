@@ -12,7 +12,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import shoppingcart.CartManager;
 import shoppingcart.Item;
-import shoppingcart.Store;
+import shoppingcart.StoreManager;
 import shoppingcart.Utilities;
 
 import javax.swing.*;
@@ -75,7 +75,7 @@ public class ItemPage extends BorderPane {
             }
             item.setAvailableQuantity(item.getAvailableQuantity() - spinner.getValue()); //set the quantity to new quantity
             try {
-                Store store = new Store();
+                StoreManager store = new StoreManager();
                 store.setAvailableQuantities(item, item.getAvailableQuantity());//update the available quantity in json
                 store.setCartQuantities(item, item.getCartQuantity());
             } catch (IOException e) {

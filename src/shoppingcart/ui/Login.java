@@ -50,7 +50,6 @@ public class Login extends BorderPane {
                 if (passwordField.getText().length() != 0) {
                     try {
                         User user = UserManager.checkUser(usernameField.getText(), passwordField.getText());
-
                         if (user != null) {
                             Cart cart = new Cart(); //when a person logs in, instantiate the cart to their account
                             UserManager.setLoggedInUser(user);
@@ -95,12 +94,14 @@ public class Login extends BorderPane {
                 if (passwordField.getText().length() != 0) {
                     try {
                         String vendorProcess = (vendor.isSelected()) ? vendorName.getText() : null;
-                        User user = UserManager.makeNewUser(usernameField.getText(), passwordField.getText(), vendorProcess);
+                        User user = UserManager.makeNewUser(usernameField.getText(), passwordField.getText(), vendorProcess, (vendor.isSelected()));
+
                         Cart cart = new Cart();//same thing
                         if (user != null) {
                             UserManager.setLoggedInUser(user);
                             CartManager.setYourCart(cart);
                             PageManager.getInstance().setPage(new StorePage());
+                            PageManager.getInstance().setHeader(new Header());
                         } else {
                             error.setText("Error! Username/vendor name is already taken.");
                         }

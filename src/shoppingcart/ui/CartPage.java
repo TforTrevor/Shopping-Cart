@@ -31,6 +31,8 @@ public class CartPage extends BorderPane {
         ArrayList<Item> buffer = CartManager.getCart(); //retrieving the full cart list from the model
 
         FlowPane flowPane = new FlowPane(Orientation.VERTICAL);
+        flowPane.setHgap(10);
+        flowPane.setVgap(10);
         for (Item item: buffer) { //for every item in the list
             borderPane.setTop(new ItemNode(item));
             Label quantity = new Label("Quantity: " + item.getCartQuantity());

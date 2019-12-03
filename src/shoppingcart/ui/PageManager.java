@@ -7,10 +7,10 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.util.Pair;
-import org.scenicview.ScenicView;
+//import org.scenicview.ScenicView;
 
 import java.util.ArrayList;
-//import org.scenicview.ScenicView;
+
 
 public class PageManager {
 
@@ -46,7 +46,7 @@ public class PageManager {
         stage.setScene(scene);
         stage.show();
 
-        ScenicView.show(scene);
+        //ScenicView.show(scene);
     }
 
     public void setHeader(Parent parent) {

@@ -56,7 +56,7 @@ public class CartManager{ //cart controller
     public static ArrayList<Item> getCart(){return yourCart.getCartItems();}//receive the cart items
 
     public static void updateCartSize() throws IOException {
-        Store store = new Store();
+        StoreManager store = new StoreManager();
         ArrayList<Integer>quantities = store.getCartQuantities();
         int sum = 0;
         for (Integer x : quantities) {
@@ -65,7 +65,7 @@ public class CartManager{ //cart controller
         yourCart.setCartSize(sum);
     }
     public static void emptyCart() throws IOException {
-        Store store = new Store();
+        StoreManager store = new StoreManager();
         store.removeCartQuantities();
         yourCart.setCartSize(0);
     }

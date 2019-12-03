@@ -2,36 +2,13 @@
   {
     "username": "test",
     "password": "test",
-    "vendor": null
+    "vendor": null,
+    "isVendor": false
   },
   {
     "username": "gfds",
     "password": "gfd",
-    "vendor": null
-  },
-  {
-    "username": "null",
-    "password": "tesr",
-    "vendor": null
-  },
-  {
-    "username": "asdf",
-    "password": "asdf",
-    "vendor": "adsf"
-  },
-  {
-    "username": "a",
-    "password": "a",
-    "vendor": null
-  },
-  {
-    "username": "testing",
-    "password": "test",
-    "vendor": "Walgreens"
-  },
-  {
-    "username": "b",
-    "password": "b",
-    "vendor": null
+    "vendor": null,
+    "isVendor": false
   }
 ]

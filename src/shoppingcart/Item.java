@@ -5,7 +5,6 @@ import javafx.scene.image.Image;
 import java.io.FileInputStream;
 
 public class Item implements Cloneable {
-    private int ID;
     private String name;
     private String description;
     private double price;
@@ -15,8 +14,7 @@ public class Item implements Cloneable {
     private String vendorName;
     private String photo;
 
-    public Item(int ID, String name, String description, double price, int quantity, int availableQuantity, String photo) {
-        this.ID = ID;
+    public Item(String name, String description, double price, int quantity, int availableQuantity, String photo) {
         this.name = name;
         this.description = description;
         this.price = price;
@@ -25,9 +23,6 @@ public class Item implements Cloneable {
         this.photo = photo;
     }
 
-    public int getID() {
-        return ID;
-    }
 
     public String getName() {
         return name;
@@ -83,6 +78,6 @@ public class Item implements Cloneable {
         if (!(obj instanceof Item)) return false;
         Item itemObj = (Item) obj;
 
-        return (itemObj.getID() == ID && itemObj.getName().equals(name) && itemObj.getDescription().equals(description) && itemObj.getPrice() == price && itemObj.getQuantity() == quantity  && itemObj.getImageURL().equals(photo));
+        return (itemObj.getName().equals(name) && itemObj.getDescription().equals(description) && itemObj.getPrice() == price && itemObj.getQuantity() == quantity  && itemObj.getImageURL().equals(photo));
     }
 }
