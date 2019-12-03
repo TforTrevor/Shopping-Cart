@@ -7,10 +7,12 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
+import shoppingcart.Store;
 import shoppingcart.User;
 import shoppingcart.UserManager;
-
 import java.io.IOException;
+import java.util.ArrayList;
+
 
 public class UserProfile extends BorderPane {
 
@@ -51,6 +53,23 @@ public class UserProfile extends BorderPane {
         temp.setAlignment(Pos.CENTER);
         temp.setFillWidth(false);
         temp.setSpacing(5);
+
+        try {
+            ArrayList<ItemNode> itemNodes = new ArrayList<>();
+            for (int i = 0; i < 50; i++) {
+                itemNodes.add(new ItemNode(new Store().getItems().get(0)));
+            }
+            temp.getChildren().add(new Carousel<>("Bandages", itemNodes));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        Button test = new Button("Create Item");
+        test.setOnAction((event) -> {
+            Modal modal = new Modal("Create Item", new CreateItem("Test Vendor"));
+            modal.show(100, 100, 100, 100);
+        });
+        temp.getChildren().add(test);
 
         this.setCenter(temp);
     }
