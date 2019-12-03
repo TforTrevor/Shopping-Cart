@@ -28,5 +28,10 @@
     "username": "testing",
     "password": "test",
     "vendor": "Walgreens"
+  },
+  {
+    "username": "b",
+    "password": "b",
+    "vendor": null
   }
 ]

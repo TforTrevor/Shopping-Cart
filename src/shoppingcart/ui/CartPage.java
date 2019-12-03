@@ -1,7 +1,9 @@
 package shoppingcart.ui;
 
 import javafx.beans.property.ObjectProperty;
+import javafx.geometry.HPos;
 import javafx.geometry.Insets;
+import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -21,31 +23,29 @@ public class CartPage extends BorderPane {
     public CartPage() throws FileNotFoundException, CloneNotSupportedException {
 
         BorderPane borderPane = new BorderPane(); //general pane
-        BorderPane labels = new BorderPane(); //quantity and price of items
 
         Text title = new Text("Your Shopping Cart"); //title of page
         int counter = CartManager.getCounter(); //the counter at the top
         Label counterView = new Label(counter + " items"); //displays how many items are in the cart
 
         ArrayList<Item> buffer = CartManager.getCart(); //retrieving the full cart list from the model
-       // int i = 0;
-        FlowPane flowPane = new FlowPane();
-        for (Item item : buffer) { //for every item in the list
-            //if(item.getCartQuantity() > 1 && i > 0) this is to try and only make the item display once, but display its quantity
-              //  continue;
+
+        FlowPane flowPane = new FlowPane(Orientation.VERTICAL);
+        for (Item item: buffer) { //for every item in the list
             borderPane.setTop(new ItemNode(item));
             Label quantity = new Label("Quantity: " + item.getCartQuantity());
             Label price = new Label("Total Price: " + item.getPrice() * item.getCartQuantity());
+            BorderPane labels = new BorderPane();
 
             labels.setTop(quantity);//contain quantity and price
             labels.setBottom(price);
             borderPane.setBottom(labels); // hold the item above the labels
             BorderPane.setAlignment(quantity, Pos.CENTER);
-            flowPane.getChildren().add(borderPane);//add it to the flowpane
-           // i++;
+
+            flowPane.getChildren().addAll(new ItemNode(item), labels);
         }
-        flowPane.setHgap(5);//general design
-        flowPane.setVgap(5);
+        flowPane.setColumnHalignment(HPos.CENTER); // align labels on left
+        flowPane.setPrefWrapLength(200); // preferred height = 200
         ScrollPane scrollPane = new ScrollPane();
         scrollPane.setContent(flowPane);
         scrollPane.setFitToWidth(true);

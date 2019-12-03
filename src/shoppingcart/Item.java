@@ -82,6 +82,7 @@ public class Item implements Cloneable {
     public boolean equals(Object obj) {
         if (!(obj instanceof Item)) return false;
         Item itemObj = (Item) obj;
-        return (itemObj.getID() == ID && itemObj.getName().equals(name) && itemObj.getDescription().equals(description) && itemObj.getPrice() == price && itemObj.getQuantity() == quantity && itemObj.getVendorName().equals(vendorName) && itemObj.getImageURL().equals(photo));
+
+        return (itemObj.getID() == ID && itemObj.getName().equals(name) && itemObj.getDescription().equals(description) && itemObj.getPrice() == price && itemObj.getQuantity() == quantity  && itemObj.getImageURL().equals(photo));
     }
 }

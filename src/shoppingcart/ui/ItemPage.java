@@ -12,9 +12,11 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import shoppingcart.CartManager;
 import shoppingcart.Item;
+import shoppingcart.Store;
 import shoppingcart.Utilities;
 
 import javax.swing.*;
+import java.io.IOException;
 
 public class ItemPage extends BorderPane {
 
@@ -45,15 +47,41 @@ public class ItemPage extends BorderPane {
         price.setFont(Font.font(20));
         quantity = new Label("Available: " + item.getAvailableQuantity());
         quantity.setFont(Font.font(16));
+        Label warning = new Label();
+
         Label vendor = new Label("Vendor: " + item.getVendorName());
         vendor.setFont(Font.font(16));
         Button addToCart = new Button("Add to Cart");
         addToCart.setFont(Font.font(16));
-        spinner = new Spinner<>(1, item.getAvailableQuantity(), 1);
-        spinner.getEditor().textProperty().addListener((obs, oldValue, newValue) -> price.setText("$" + (item.getPrice() * (spinner.getValue()))));
+        if(item.getAvailableQuantity() > 0){
+            spinner = new Spinner<>(1, item.getAvailableQuantity(), 1);
+        }
+        else{
+            spinner = new Spinner<>(0, 0, 0);
+            addToCart.setDisable(true);
+            warning.setText("Out of stock!");
+            warning.setFont(Font.font(16));
+            warning.setTextFill(Color.RED);
+        }
+        spinner.getEditor().textProperty().addListener((obs, oldValue, newValue) ->
+                price.setText("$" + (item.getPrice() * (spinner.getValue()))));
+
         addToCart.setOnAction(event -> {
+
+            try {
+                CartManager.addToCart(item, spinner.getValue()); //add to the cart
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             item.setAvailableQuantity(item.getAvailableQuantity() - spinner.getValue()); //set the quantity to new quantity
-            CartManager.addToCart(item, spinner.getValue()); //add to the cart
+            try {
+                Store store = new Store();
+                store.setAvailableQuantities(item, item.getAvailableQuantity());//update the available quantity in json
+                store.setCartQuantities(item, item.getCartQuantity());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
             quantity.setText("Available: " + (item.getAvailableQuantity())); //update the quantity
             if(item.getAvailableQuantity() > 0){ //if you can still by more, set the spinners range
                 spinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, item.getAvailableQuantity()));
@@ -61,7 +89,9 @@ public class ItemPage extends BorderPane {
             else{//if not, do not let them by more, range is 0 to 0
                 spinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0,0));
             }
+
             Header.updateCartButton(); //whenever someone adds to cart, update the cart itself
+
         });
 
         Utilities.makeNodeFill(addToCart);
@@ -75,7 +105,7 @@ public class ItemPage extends BorderPane {
         addToCartContainer.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
         spinnerContainer.setPadding(new Insets(20, 10, 20, 10));
         spinnerContainer.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
-        VBox infoBox = new VBox(price, quantity, vendor);
+        VBox infoBox = new VBox(price, quantity, vendor, warning);
         infoBox.setSpacing(5);
         infoBox.setPadding(new Insets(10));
         infoBox.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));

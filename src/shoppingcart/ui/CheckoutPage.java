@@ -1,6 +1,8 @@
 package shoppingcart.ui;
 
+import javafx.geometry.HPos;
 import javafx.geometry.Insets;
+import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
@@ -17,7 +19,7 @@ import java.util.ArrayList;
 public class CheckoutPage extends BorderPane {
     GridPane grid = new GridPane();
     private ScrollPane scrollPane = new ScrollPane();
-    private FlowPane flowPane = new FlowPane();
+    private FlowPane flowPane = new FlowPane(Orientation.VERTICAL);
     private BorderPane borderPane = new BorderPane();
 
     public CheckoutPage() throws FileNotFoundException, CloneNotSupportedException {
@@ -37,14 +39,15 @@ public class CheckoutPage extends BorderPane {
             Label quantity = new Label("Quantity: " + item.getCartQuantity());
             Label price = new Label("Total Price: " + item.getPrice() * item.getCartQuantity());
             BorderPane labels = new BorderPane();
-            labels.setTop(quantity);
+            labels.setTop(quantity);//contain quantity and price
             labels.setBottom(price);
-            borderPane.setBottom(labels);
+            borderPane.setBottom(labels); // hold the item above the labels
             BorderPane.setAlignment(quantity, Pos.CENTER);
-            flowPane.getChildren().add(borderPane);
+
+            flowPane.getChildren().addAll(new ItemNode(item), labels);
         }
-        flowPane.setHgap(5);
-        flowPane.setVgap(5);
+        flowPane.setColumnHalignment(HPos.CENTER); // align labels on left
+        flowPane.setPrefWrapLength(200); // preferred height = 200
         scrollPane.setContent(flowPane);
         scrollPane.setFitToWidth(true);
         scrollPane.setPadding(new Insets(10));

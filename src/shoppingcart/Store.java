@@ -36,7 +36,8 @@ public class Store {
             }.getType());
             for (Item item : items) {
                 item.setVendorName(vendorItems);
-                item.setCartQuantity(item.getAvailableQuantity());
+                item.setAvailableQuantity(item.getAvailableQuantity());
+                item.setCartQuantity(item.getCartQuantity());
                 itemList.add(item);
             }
         }
@@ -48,12 +49,14 @@ public class Store {
         //it reads from the file). so i need it to decrease the available quantities whenever something is added to the cart in the
         //json file, so that it stays persistent. (My idea is to read the item from the file, update its quantity with
         //item.setAvailableQuantity(newQuantity) and then save it back to json.)
+
         for (String vendorItems : fileNames) {
             ArrayList<Item> items = gson.fromJson(new FileReader(vendorItems), new TypeToken<ArrayList<Item>>() {
             }.getType());
             for (Item n : items) {
                 if(n.equals(item)){
                     n.setAvailableQuantity(newQuantity);
+
                     File file = new File(vendorItems);
                     FileWriter writer = new FileWriter(file);
 
@@ -67,5 +70,56 @@ public class Store {
 
         }
 
+
     }
-}
+    public void setCartQuantities(Item item, int newQuantity) throws IOException {
+
+        for (String vendorItems : fileNames) {
+            ArrayList<Item> items = gson.fromJson(new FileReader(vendorItems), new TypeToken<ArrayList<Item>>() {
+            }.getType());
+            for (Item n : items) {
+                if (n.equals(item)) {
+                    n.setCartQuantity(newQuantity);
+                    File file = new File(vendorItems);
+                    FileWriter writer = new FileWriter(file);
+
+                    gson.toJson(items, writer);
+
+                    writer.flush();
+                    writer.close();
+                    return;
+                }
+            }
+        }
+    }
+    public void removeCartQuantities() throws IOException {
+
+        for (String vendorItems : fileNames) {
+            ArrayList<Item> items = gson.fromJson(new FileReader(vendorItems), new TypeToken<ArrayList<Item>>() {
+            }.getType());
+            for (Item n : items) {
+                n.setCartQuantity(0);
+                File file = new File(vendorItems);
+                FileWriter writer = new FileWriter(file);
+
+                gson.toJson(items, writer);
+
+                writer.flush();
+                writer.close();
+            }
+        }
+    }
+    public ArrayList<Integer> getCartQuantities() throws IOException {
+        ArrayList<Integer> quantities = new ArrayList<>();
+        for (String vendorItems : fileNames) {
+            ArrayList<Item> items = gson.fromJson(new FileReader(vendorItems), new TypeToken<ArrayList<Item>>() {
+            }.getType());
+            for (Item n : items) {
+                    quantities.add(n.getCartQuantity());
+                }
+            }
+            return quantities;
+        }
+
+    }
+
