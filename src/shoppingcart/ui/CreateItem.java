@@ -41,6 +41,8 @@ public class CreateItem extends BorderPane {
 
         //VBox temp = new VBox(name, description, price, quantity, availableQuantity, cartQuantity, this.vendorName, photo);
         this.setCenter(gridPane);
+        this.setBottom(submit);
+        this.setAlignment(submit, Pos.CENTER);
     }
 
     private void createItem() {
