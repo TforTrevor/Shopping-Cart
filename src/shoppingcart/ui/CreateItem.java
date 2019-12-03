@@ -6,6 +6,17 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.stage.FileChooser;
+import shoppingcart.Item;
+import shoppingcart.ItemManager;
+import shoppingcart.UserManager;
+
+import javax.imageio.ImageIO;
+import java.awt.image.RenderedImage;
+import java.io.File;
+import java.io.IOException;
+import java.net.URL;
+import java.nio.file.Files;
 
 public class CreateItem extends BorderPane {
 
@@ -13,11 +24,11 @@ public class CreateItem extends BorderPane {
     private TextField description = new TextField();
     private TextField price = new TextField();
     private TextField quantity = new TextField();
-    private TextField availableQuantity = new TextField();
-    private TextField cartQuantity = new TextField();
     private TextField vendorName = new TextField();
-    private TextField photo = new TextField();
-
+    private FileChooser photo = new FileChooser();
+    private Button photoButton = new Button("Choose Photo");
+    private Label error = new Label("");
+    private String photoPath;
     public CreateItem(String vendorName) {
         this.vendorName.setText(vendorName);
         this.vendorName.setEditable(false);
@@ -31,12 +42,35 @@ public class CreateItem extends BorderPane {
         gridPane.add(price,1, 2);
         gridPane.add(new Label("Quantity"),0, 3);
         gridPane.add(quantity,1, 3);
+        gridPane.add(new Label("Vendor"),0, 4);
+        gridPane.add(this.vendorName,1, 4);
+        gridPane.add(new Label("Photo"),0, 5);
+        gridPane.add(photoButton,1, 5);
+        gridPane.add(error,0, 6);
         gridPane.setAlignment(Pos.CENTER);
         gridPane.setVgap(5);
 
+        photoButton.setOnAction((event) -> {
+            File photoFile =  this.photo.showOpenDialog(PageManager.getInstance().getStage());
+            if (photoFile != null){
+                String extension = photoFile.getName().substring(1+photoFile.getName().lastIndexOf(".")).toLowerCase();
+                try {
+                    if(!new File("data/Photos/"+photoFile.getName()).exists()) {
+                        ImageIO.write(ImageIO.read(photoFile), extension, new File("data/Photos/" + photoFile.getName()));
+                        photoPath = "data/Photos/"+photoFile.getName();
+                    }
+                    else error.setText("Error! File already exists.");
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
         Button submit = new Button("Submit");
+
         submit.setOnAction((event) -> {
-            createItem();
+
+            ItemManager.addItem(UserManager.getLoggedInUser().getVendor(), name.toString(),description.toString(),Double.parseDouble(price.toString()),Integer.parseInt(quantity.toString()),Integer.parseInt(quantity.toString()),photoPath);
         });
 
         //VBox temp = new VBox(name, description, price, quantity, availableQuantity, cartQuantity, this.vendorName, photo);
@@ -45,7 +79,4 @@ public class CreateItem extends BorderPane {
         this.setAlignment(submit, Pos.CENTER);
     }
 
-    private void createItem() {
-        //Write to JSON
-    }
 }
