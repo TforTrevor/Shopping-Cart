@@ -17,33 +17,36 @@ import java.util.ArrayList;
 
 public class CartPage extends BorderPane {
     GridPane grid = new GridPane();
-    private ScrollPane scrollPane = new ScrollPane();
-    private FlowPane flowPane = new FlowPane();
-    private BorderPane borderPane = new BorderPane();
+
     public CartPage() throws FileNotFoundException, CloneNotSupportedException {
 
-        Text title = new Text("Your Shopping Cart");
-        Integer counter = CartManager.getCounter();
-        Label counterView = new Label(counter.toString() + " items");
+        BorderPane borderPane = new BorderPane(); //general pane
+        BorderPane labels = new BorderPane(); //quantity and price of items
 
-        ArrayList<Item> buffer = CartManager.getCart();
-        int i = 0;
-        for (Item item : buffer) {
-            //if(item.getCartQuantity() > 1 && i > 0)
+        Text title = new Text("Your Shopping Cart"); //title of page
+        Integer counter = CartManager.getCounter(); //the counter at the top
+        Label counterView = new Label(counter.toString() + " items"); //displays how many items are in the cart
+
+        ArrayList<Item> buffer = CartManager.getCart(); //retrieving the full cart list from the model
+       // int i = 0;
+        FlowPane flowPane = new FlowPane();
+        for (Item item : buffer) { //for every item in the list
+            //if(item.getCartQuantity() > 1 && i > 0) this is to try and only make the item display once, but display its quantity
               //  continue;
             borderPane.setTop(new ItemNode(item));
             Label quantity = new Label("Quantity: " + item.getCartQuantity());
             Label price = new Label("Total Price: " + item.getPrice() * item.getCartQuantity());
-            BorderPane labels = new BorderPane();
-            labels.setTop(quantity);
+
+            labels.setTop(quantity);//contain quantity and price
             labels.setBottom(price);
-            borderPane.setBottom(labels);
+            borderPane.setBottom(labels); // hold the item above the labels
             BorderPane.setAlignment(quantity, Pos.CENTER);
-            flowPane.getChildren().add(borderPane);
-            i++;
+            flowPane.getChildren().add(borderPane);//add it to the flowpane
+           // i++;
         }
-        flowPane.setHgap(5);
+        flowPane.setHgap(5);//general design
         flowPane.setVgap(5);
+        ScrollPane scrollPane = new ScrollPane();
         scrollPane.setContent(flowPane);
         scrollPane.setFitToWidth(true);
         scrollPane.setPadding(new Insets(10));
@@ -56,7 +59,7 @@ public class CartPage extends BorderPane {
         grid.add(title, 0, 0);
         grid.add(counterView, 1, 0);
 
-        Button checkoutButton = new Button("Checkout Now");
+        Button checkoutButton = new Button("Checkout Now"); //button to trigger checkout page
         checkoutButton.setOnAction((event) -> {
             try {
                 PageManager.getInstance().setPage(new CheckoutPage());
@@ -67,11 +70,11 @@ public class CartPage extends BorderPane {
             }
 
         });
-            checkoutButton.setPadding(new Insets(10,5,10,5));
+        checkoutButton.setPadding(new Insets(10,5,10,5));
         BorderPane header = new BorderPane();
         header.setCenter(grid);
         header.setRight(checkoutButton);
 
-        this.setTop(header);
+        this.setTop(header); //display header on top
     }
 }

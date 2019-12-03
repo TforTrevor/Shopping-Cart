@@ -1,6 +1,5 @@
 package shoppingcart.ui;
 
-import javafx.beans.property.ObjectProperty;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
@@ -27,7 +26,7 @@ public class CheckoutPage extends BorderPane {
         Text title = new Text("Checkout");
         title.setFont(Font.font(20));
 
-        Integer counter = CartManager.getCounter();
+        Integer counter = CartManager.getCounter();//same as cartpage
         Label counterView = new Label(counter.toString() + " items");
         Label totalPrice = new Label("Total Price of the Cart: $" + CartManager.totalPrices());
 
@@ -81,8 +80,8 @@ public class CheckoutPage extends BorderPane {
         paymentButton.setOnAction(event -> {
             try {
                 PageManager.getInstance().setPage(new StorePage());
-                CartManager.checkout();
-                Header.updateCartButton();
+                CartManager.checkout(); //checks out the whole cart, (empties the cart and sends you to the store again)
+                Header.updateCartButton();//update the cart counter so that it says 0 items in cart again
             } catch (IOException e) {
                 e.printStackTrace();
             } catch (CloneNotSupportedException e) {
@@ -91,7 +90,7 @@ public class CheckoutPage extends BorderPane {
         });
 
 
-        payment.add(paymentButton, 1, 3);
+        payment.add(paymentButton, 1, 3);//general design
         payment.setPadding(new Insets(5));
         payment.setHgap(10);
         payment.setVgap(20);
