@@ -1,42 +1,41 @@
 package shoppingcart;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
-public class Cart {
-    private ArrayList<Item> cartItems;
-    private int cartSize;
+import static shoppingcart.CartManager.updateCartSize;
+
+
+public class Cart { //cart model
+    private ArrayList<Item> cartItems; //array list of items
+    private int cartSize;//the cart size (same as cartItems.size)
+
     public Cart(){
         cartItems = new ArrayList<>(); //list of items in the cart
-        cartSize = cartItems.size();
+        cartSize = 0;
     }
     public int getCartSize() {
+        try {
+            updateCartSize();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         return cartSize;
+    }
+    public void setCartSize(int size){
+        this.cartSize = size;
     }
     public void addItem(Item item){
         cartItems.add(item);
     }
-    public void updateCartSize(){
-        int size = 0;
-        for(Item i : cartItems){
-            size += i.getCartQuantity();
-        }
-        cartSize = size;
-    }
+
     public void removeItem(Item item){ //remove specific item from cart list
         cartItems.remove(item);
-        item.setCartQuantity(0);
-    };
-    public void changeQuantity(int newQuantity, Item item){ //change the quantity of items inside the cart, based on availability
-        for(Item i : cartItems){
-            if (i.getName().equals(item.getName())) {
-                i.setAvailableQuantity(newQuantity);
-            }
-        }
+    }
 
-    };
     public ArrayList<Item> getCartItems(){
         return cartItems;
-    }
+    }//return the cart itself
 
 }
 

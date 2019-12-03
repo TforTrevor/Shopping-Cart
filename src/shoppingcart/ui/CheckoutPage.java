@@ -1,7 +1,8 @@
 package shoppingcart.ui;
 
-import javafx.beans.property.ObjectProperty;
+import javafx.geometry.HPos;
 import javafx.geometry.Insets;
+import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
@@ -18,7 +19,7 @@ import java.util.ArrayList;
 public class CheckoutPage extends BorderPane {
     GridPane grid = new GridPane();
     private ScrollPane scrollPane = new ScrollPane();
-    private FlowPane flowPane = new FlowPane();
+    private FlowPane flowPane = new FlowPane(Orientation.VERTICAL);
     private BorderPane borderPane = new BorderPane();
 
     public CheckoutPage() throws FileNotFoundException, CloneNotSupportedException {
@@ -27,7 +28,7 @@ public class CheckoutPage extends BorderPane {
         Text title = new Text("Checkout");
         title.setFont(Font.font(20));
 
-        Integer counter = CartManager.getCounter();
+        Integer counter = CartManager.getCounter();//same as cartpage
         Label counterView = new Label(counter.toString() + " items");
         Label totalPrice = new Label("Total Price of the Cart: $" + CartManager.totalPrices());
 
@@ -38,14 +39,15 @@ public class CheckoutPage extends BorderPane {
             Label quantity = new Label("Quantity: " + item.getCartQuantity());
             Label price = new Label("Total Price: " + item.getPrice() * item.getCartQuantity());
             BorderPane labels = new BorderPane();
-            labels.setTop(quantity);
+            labels.setTop(quantity);//contain quantity and price
             labels.setBottom(price);
-            borderPane.setBottom(labels);
+            borderPane.setBottom(labels); // hold the item above the labels
             BorderPane.setAlignment(quantity, Pos.CENTER);
-            flowPane.getChildren().add(borderPane);
+
+            flowPane.getChildren().addAll(new ItemNode(item), labels);
         }
-        flowPane.setHgap(5);
-        flowPane.setVgap(5);
+        flowPane.setColumnHalignment(HPos.CENTER); // align labels on left
+        flowPane.setPrefWrapLength(200); // preferred height = 200
         scrollPane.setContent(flowPane);
         scrollPane.setFitToWidth(true);
         scrollPane.setPadding(new Insets(10));
@@ -81,17 +83,15 @@ public class CheckoutPage extends BorderPane {
         paymentButton.setOnAction(event -> {
             try {
                 PageManager.getInstance().setPage(new StorePage());
-                CartManager.checkout();
-                Header.updateCartButton();
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (CloneNotSupportedException e) {
+                CartManager.checkout(); //checks out the whole cart, (empties the cart and sends you to the store again)
+                Header.updateCartButton();//update the cart counter so that it says 0 items in cart again
+            } catch (IOException | CloneNotSupportedException e) {
                 e.printStackTrace();
             }
         });
 
 
-        payment.add(paymentButton, 1, 3);
+        payment.add(paymentButton, 1, 3);//general design
         payment.setPadding(new Insets(5));
         payment.setHgap(10);
         payment.setVgap(20);
