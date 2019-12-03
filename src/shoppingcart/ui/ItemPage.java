@@ -54,8 +54,8 @@ public class ItemPage extends BorderPane {
             price.setText("$" + (item.getPrice() * ((Integer)spinner.getValue())));
         });
         addToCart.setOnAction(event -> {
-            add(item, (Integer)spinner.getValue());
-            Header.updateCartButton();
+            add(item, (Integer)spinner.getValue());//add the item with the quantity determined by the spinner
+            Header.updateCartButton(); //whenever someone adds to cart, update the cart itself
         });
 
         Utilities.makeNodeFill(addToCart);
@@ -92,14 +92,14 @@ public class ItemPage extends BorderPane {
     }
 
 
-    private void add(Item item, int q) {
-        item.setAvailableQuantity(item.getAvailableQuantity() - q);
-        CartManager.addToCart(item, q);
-        quantity.setText("Available: " + (item.getAvailableQuantity()));
-        if(item.getAvailableQuantity() != 0){
+    private void add(Item item, int q) { //function to add item to the cart
+        item.setAvailableQuantity(item.getAvailableQuantity() - q); //set the quantity to new quantity
+        CartManager.addToCart(item, q); //add to the cart
+        quantity.setText("Available: " + (item.getAvailableQuantity())); //update the quantity
+        if(item.getAvailableQuantity() > 0){ //if you can still by more, set the spinners range
             spinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, item.getAvailableQuantity()));
         }
-        else{
+        else{//if not, do not let them by more, range is 0 to 0
             spinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0,0));
         }
     }
