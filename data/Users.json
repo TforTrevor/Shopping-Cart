@@ -20,13 +20,13 @@
     "vendor": "adsf"
   },
   {
-    "username": "testing",
-    "password": "testing",
-    "vendor": "Walgreens"
-  },
-  {
     "username": "a",
     "password": "a",
     "vendor": null
+  },
+  {
+    "username": "testing",
+    "password": "test",
+    "vendor": "Walgreens"
   }
 ]
