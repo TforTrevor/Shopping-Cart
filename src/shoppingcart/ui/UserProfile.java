@@ -10,8 +10,9 @@ import javafx.scene.layout.VBox;
 import shoppingcart.Store;
 import shoppingcart.User;
 import shoppingcart.UserManager;
-
+import java.io.IOException;
 import java.util.ArrayList;
+
 
 public class UserProfile extends BorderPane {
 
@@ -36,7 +37,11 @@ public class UserProfile extends BorderPane {
         gridPane.setVgap(5);
         Button submitButton = new Button("Submit");
         submitButton.setOnAction((event) -> {
-            changePassword();
+            try {
+                changePassword();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         });
 
         Button signOutButton = new Button("Sign Out");
@@ -69,9 +74,9 @@ public class UserProfile extends BorderPane {
         this.setCenter(temp);
     }
 
-    private void changePassword() {
+    private void changePassword() throws IOException {
         if (newPassword.getText().equals(confirmPassword.getText())) {
-            //Change password
+            UserManager.changePassword(newPassword.getText());
             oldPassword.setText("");
             newPassword.setText("");
             confirmPassword.setText("");
