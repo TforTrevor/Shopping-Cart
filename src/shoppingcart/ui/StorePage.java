@@ -89,13 +89,14 @@ public class StorePage extends BorderPane {
                 }
 
                 if(nodes.size() > 0){
-
                     itemCarousel.setSpacing(10);
                     itemCarousel.getChildren().add(new Carousel<>(item.getVendorName(), nodes));
                 }
             }
-
-            this.setCenter(itemCarousel);
+            ScrollPane scrollPane = new ScrollPane();
+            scrollPane.setContent(itemCarousel);
+            scrollPane.setFitToWidth(true);
+            this.setCenter(scrollPane);
         }
     }
 

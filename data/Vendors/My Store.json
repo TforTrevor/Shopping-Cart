@@ -1,0 +1,12 @@
+[
+  {
+    "ID": 5,
+    "name": "New Item",
+    "description": "buy it please",
+    "price": 100.0,
+    "quantity": 20,
+    "availableQuantity": 16,
+    "vendorName": "My Store",
+    "photo": "data/Photos/house.jpg"
+  }
+]
