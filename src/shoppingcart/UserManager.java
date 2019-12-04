@@ -27,8 +27,8 @@ public class UserManager {
         return null;
     }
 
-    public static User makeNewUser(String username, String password, String vendor, boolean isVendor) throws IOException {
-        User newUser = new User(username, password, vendor, isVendor);
+    public static User makeNewUser(String username, String password, String vendor) throws IOException {
+        User newUser = new User(username, password, vendor);
         ArrayList<User> test = null;
         ArrayList<User> buffer;
 
@@ -66,7 +66,7 @@ public class UserManager {
     }
 
     public static void changePassword(String newPassword) throws IOException {
-        User updated = new User(loggedInUser.getUsername(),newPassword,loggedInUser.getVendor(), loggedInUser.checkVendor());
+        User updated = new User(loggedInUser.getUsername(),newPassword,loggedInUser.getVendor());
         ArrayList<User> userList = gson.fromJson(new FileReader(userPath), new TypeToken<ArrayList<User>>() {}.getType());
         for (User user : userList) {
             if (user.equals(loggedInUser)){

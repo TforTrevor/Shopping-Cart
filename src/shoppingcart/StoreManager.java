@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 public class StoreManager {
 
     private ArrayList<String> fileNames;
-    private Gson gson = new GsonBuilder().serializeNulls().setPrettyPrinting().create();
+    private static Gson gson = new GsonBuilder().serializeNulls().setPrettyPrinting().create();
 
     public StoreManager() throws IOException {
         fileNames = new ArrayList<>();
@@ -62,6 +62,19 @@ public class StoreManager {
             }
 
         }
+    }
+
+    public static void createStore(String vendor) throws IOException {
+        ArrayList<Item> dummyList = new ArrayList<>();
+        String pathName = "data/Vendors/"+vendor+".json";
+        File file = new File(pathName);
+        FileWriter writer = new FileWriter(file);
+
+        gson.toJson(dummyList, writer);
+
+        writer.flush();
+        writer.close();
+
     }
 
 }

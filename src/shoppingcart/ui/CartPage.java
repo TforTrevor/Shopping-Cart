@@ -41,7 +41,7 @@ public class CartPage extends BorderPane {
             Label price = new Label("Total Price: " + item.getPrice() * item.getQuantity());
             BorderPane labels = new BorderPane();
 
-            Spinner<Integer> removeAmount = new Spinner<>(1, item.getCartQuantity(), 1);
+            Spinner<Integer> removeAmount = new Spinner<>(1, item.getQuantity(), 1);
             Button removeItem = new Button("Remove " + removeAmount.getValue() + " From Cart");
             removeAmount.getEditor().textProperty().addListener((obs, oldValue, newValue) ->
                     removeItem.setText("Remove " + removeAmount.getValue() + " From Cart"));
@@ -93,6 +93,10 @@ public class CartPage extends BorderPane {
         grid.add(counterView, 1, 0);
 
         Button checkoutButton = new Button("Checkout Now"); //button to trigger checkout page
+
+        if (buffer.isEmpty()) checkoutButton.setDisable(true);
+        else checkoutButton.setDisable(false);
+
         checkoutButton.setOnAction((event) -> {
             try {
                 PageManager.getInstance().setPage(new CheckoutPage());

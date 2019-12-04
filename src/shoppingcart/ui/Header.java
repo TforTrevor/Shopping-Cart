@@ -70,7 +70,7 @@ public class Header extends BorderPane {
         User user = UserManager.getLoggedInUser();
         this.setLeft(homeButton);
         this.setCenter(searchBarPane);
-        if(user.checkVendor())
+        if(user.getVendor() != null)
             buttonHolder.getChildren().add(vendorButton);
         buttonHolder.getChildren().add(cartButton);
         this.setRight(buttonHolder);
