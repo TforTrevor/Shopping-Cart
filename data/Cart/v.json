@@ -1,1 +1,12 @@
-[]
+[
+  {
+    "ID": 5,
+    "name": "toy",
+    "description": "test",
+    "price": 1.0,
+    "quantity": 1,
+    "availableQuantity": 1,
+    "vendorName": "Vendor",
+    "photo": "data/Photos/house.jpg"
+  }
+]

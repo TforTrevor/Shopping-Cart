@@ -1,7 +1,5 @@
 package shoppingcart;
 
-import shoppingcart.Item;
-
 public class Statistics {
     private Item item;
     private int timesPurchased;

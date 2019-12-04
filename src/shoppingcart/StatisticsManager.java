@@ -3,8 +3,6 @@ package shoppingcart;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
-import com.sun.org.glassfish.external.statistics.Statistic;
-
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
@@ -46,7 +44,7 @@ public class StatisticsManager {
         ArrayList<Item> lowQuantity = new ArrayList<>();
         for (Item item: new StoreManager().getItems()){
             if(item.getVendorName().equals(vendor)){
-                if(item.getQuantity() < 10)
+                if(item.getAvailableQuantity() < 10)
                     lowQuantity.add(item);
             }
         }
@@ -57,7 +55,7 @@ public class StatisticsManager {
         ArrayList<Item> noQuantity = new ArrayList<>();
         for (Item item: new StoreManager().getItems()){
             if(item.getVendorName().equals(vendor)){
-                if(item.getQuantity() == 0)
+                if(item.getAvailableQuantity() == 0)
                     noQuantity.add(item);
             }
         }

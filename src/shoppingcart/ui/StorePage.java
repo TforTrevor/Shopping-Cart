@@ -64,6 +64,13 @@ public class StorePage extends BorderPane {
                     buttons.setLeft(quickAdd);
                     buttons.setRight(addAmount);
                     fullNode.setBottom(buttons);
+                    if(UserManager.getLoggedInUser().getVendor() != null){
+                        if(UserManager.getLoggedInUser().getVendor().equals(i.getVendorName())){
+                            quickAdd.setDisable(true);
+                            addAmount.setDisable(true);
+                        }
+                    }
+
 
                     if(i.getVendorName().equals(item.getVendorName())){
                         fullNode.setTop(new ItemNode(i));

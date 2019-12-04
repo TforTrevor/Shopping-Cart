@@ -5,7 +5,7 @@
     "description": "test",
     "price": 1.0,
     "quantity": 20,
-    "availableQuantity": 20,
+    "availableQuantity": 0,
     "vendorName": "Vendor",
     "photo": "data/Photos/house.jpg"
   }

@@ -114,7 +114,11 @@ public class VendorPage extends BorderPane {
         });
         Button statistics = new Button("View Store statistics");
         statistics.setOnAction(event -> {
-            //PageManager.getInstance().setPage(new vendorStatistics()));
+            try {
+                PageManager.getInstance().setPage(new StatisticsPage());
+            } catch (IOException | CloneNotSupportedException e) {
+                e.printStackTrace();
+            }
         });
         buttonGroup.getChildren().add(newItem);
         buttonGroup.getChildren().add(statistics);
