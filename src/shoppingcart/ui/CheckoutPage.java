@@ -28,8 +28,8 @@ public class CheckoutPage extends BorderPane {
         Text title = new Text("Checkout");
         title.setFont(Font.font(20));
 
-        Integer counter = CartManager.getCounter();//same as cartpage
-        Label counterView = new Label(counter.toString() + " items");
+        int counter = CartManager.getCounter();//same as cartpage
+        Label counterView = new Label(counter + " items");
         Label totalPrice = new Label("Total Price of the Cart: $" + CartManager.totalPrices());
 
 

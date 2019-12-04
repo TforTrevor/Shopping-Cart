@@ -11,7 +11,9 @@ public class Cart { //cart model
         cartItems = new ArrayList<>(); //list of items in the cart
     }
 
-    public Cart(ArrayList<Item> cart){ cartItems.addAll(cart); }
+    public Cart(ArrayList<Item> cart){
+        cartItems = new ArrayList<>(cart);
+    }
 
     public int getCartSize() {
         int sum = 0;
