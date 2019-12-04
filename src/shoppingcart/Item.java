@@ -5,16 +5,17 @@ import javafx.scene.image.Image;
 import java.io.FileInputStream;
 
 public class Item implements Cloneable {
+    private int ID;
     private String name;
     private String description;
     private double price;
     private int quantity;
     private int availableQuantity;
-    private int cartQuantity;
     private String vendorName;
     private String photo;
 
-    public Item(String name, String description, double price, int quantity, int availableQuantity, String photo) {
+    public Item(int ID, String name, String description, double price, int quantity, int availableQuantity, String photo) {
+        this.ID = ID;
         this.name = name;
         this.description = description;
         this.price = price;
@@ -23,6 +24,9 @@ public class Item implements Cloneable {
         this.photo = photo;
     }
 
+    public int getID() {
+        return ID;
+    }
 
     public String getName() {
         return name;
@@ -36,6 +40,10 @@ public class Item implements Cloneable {
         return price;
     }
 
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+
     public int getQuantity() {
         return quantity;
     }
@@ -43,7 +51,10 @@ public class Item implements Cloneable {
     public int getAvailableQuantity() {
         return availableQuantity;
     }
-    public void setAvailableQuantity(int q){this.availableQuantity = q;}
+
+    public void setAvailableQuantity(int q){
+        this.availableQuantity = q;
+    }
 
     public String getVendorName() {
         return vendorName;
@@ -77,7 +88,6 @@ public class Item implements Cloneable {
     public boolean equals(Object obj) {
         if (!(obj instanceof Item)) return false;
         Item itemObj = (Item) obj;
-
-        return (itemObj.getName().equals(name) && itemObj.getDescription().equals(description) && itemObj.getPrice() == price && itemObj.getQuantity() == quantity  && itemObj.getImageURL().equals(photo));
+        return (itemObj.getID() == ID && itemObj.getName().equals(name) && itemObj.getDescription().equals(description) && itemObj.getPrice() == price && itemObj.getQuantity() == quantity  && itemObj.getImageURL().equals(photo));
     }
 }

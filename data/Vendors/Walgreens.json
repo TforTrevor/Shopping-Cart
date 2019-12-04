@@ -1,21 +1,21 @@
 [
   {
+    "ID": 0,
     "name": "Bandage",
     "description": "Used for covering small cuts and bruises.",
     "price": 1.23,
     "quantity": 90,
-    "availableQuantity": 48,
-    "cartQuantity": 22,
+    "availableQuantity": 87,
     "vendorName": null,
     "photo": "data/Photos/bandaid.jpg"
   },
   {
+    "ID": 1,
     "name": "Another bandage",
     "description": "Used for covering small cuts and bruises.",
     "price": 0.5,
     "quantity": 40,
-    "availableQuantity": 5,
-    "cartQuantity": 6,
+    "availableQuantity": 35,
     "vendorName": null,
     "photo": "data/Photos/bandaid.jpg"
   }

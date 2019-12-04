@@ -37,8 +37,8 @@ public class CartPage extends BorderPane {
         flowPane.setVgap(5);
         for (Item item: buffer) { //for every item in the list
             borderPane.setTop(new ItemNode(item));
-            Label quantity = new Label("Quantity: " + item.getCartQuantity());
-            Label price = new Label("Total Price: " + item.getPrice() * item.getCartQuantity());
+            Label quantity = new Label("Quantity: " + item.getQuantity());
+            Label price = new Label("Total Price: " + item.getPrice() * item.getQuantity());
             BorderPane labels = new BorderPane();
 
             Spinner<Integer> removeAmount = new Spinner<>(1, item.getCartQuantity(), 1);

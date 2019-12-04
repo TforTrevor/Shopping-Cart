@@ -1,11 +1,11 @@
 [
   {
+    "ID": 3,
     "name": "Juice",
     "description": "Drink it",
     "price": 1.0,
     "quantity": 100,
-    "availableQuantity": 56,
-    "cartQuantity": 16,
+    "availableQuantity": 87,
     "vendorName": null,
     "photo": "data/Photos/bandaid.jpg"
   }

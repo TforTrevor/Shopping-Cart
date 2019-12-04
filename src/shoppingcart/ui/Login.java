@@ -51,7 +51,7 @@ public class Login extends BorderPane {
                         if (user != null) {
                             Cart cart = new Cart(); //when a person logs in, instantiate the cart to their account
                             UserManager.setLoggedInUser(user);
-                            CartManager.setYourCart(cart);//set their cart to the instance
+                            CartManager.initCart();//set their cart to the instance
                             PageManager.getInstance().setPage(new StorePage());
                             PageManager.getInstance().setHeader(new Header());
                         } else {
@@ -92,14 +92,11 @@ public class Login extends BorderPane {
                 if (passwordField.getText().length() != 0) {
                     try {
                         String vendorProcess = (vendor.isSelected()) ? vendorName.getText() : null;
-                        User user = UserManager.makeNewUser(usernameField.getText(), passwordField.getText(), vendorProcess, (vendor.isSelected()));
+                        User user = UserManager.makeNewUser(usernameField.getText(), passwordField.getText(), vendorProcess);
                         Cart cart = new Cart();//same thing
                         if (user != null) {
                             UserManager.setLoggedInUser(user);
-                            if(user.checkVendor()) {
-                                ItemManager.createStore(user.getVendor());
-                            }
-                            CartManager.setYourCart(cart);
+                            CartManager.initCart();
                             PageManager.getInstance().setPage(new StorePage());
                             PageManager.getInstance().setHeader(new Header());
                         } else {

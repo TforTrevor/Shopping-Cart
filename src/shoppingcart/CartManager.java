@@ -5,69 +5,96 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Objects;
 
 public class CartManager{ //cart controller
     private static final String cartPath = "data/Cart.json";
     private static Gson gson = new GsonBuilder().serializeNulls().setPrettyPrinting().create();
 
-    private static Cart yourCart = null;//initialize on login
+    private static Cart userCart = null;//initialize on login
 
-    public static void setYourCart(Cart c){
-        yourCart = c;
-    }//used to initialize
-    public static Cart getYourCart(){
-        return yourCart;
+    public static void initCart() throws FileNotFoundException {
+        ArrayList<Item> cart = gson.fromJson(new FileReader(cartPath), new TypeToken<ArrayList<Item>>() {}.getType());
+        if (cart != null && !cart.isEmpty()) userCart = new Cart(cart);
+        else userCart = new Cart();
     }
+
+    public static Cart getUserCart(){
+        return userCart;
+    }
+
     public static double totalPrices(){ //function to calculate prices, and possibly tax
-        int totalPrice = 0;
-        for(Item i : yourCart.getCartItems())
-            totalPrice += (i.getPrice() * i.getCartQuantity());//returns total price of cart
+        double totalPrice = 0;
+        for(Item i : userCart.getCartItems())
+            totalPrice += (i.getPrice() * i.getQuantity());//returns total price of cart
         return totalPrice;
     };
+
     public static void checkout() throws IOException {
-        Iterator<Item> iter = yourCart.getCartItems().iterator();
+        Path src = Paths.get(new File(cartPath).toURI());
+        int dest;
+        if(new File("data/Receipts").list() != null)
+            dest = new File("data/Receipts").list().length;
+        else
+            dest = 0;
+        Path dst = Paths.get("data/Receipts/Receipt-"+dest+".json");
+        Files.copy(src,dst, StandardCopyOption.REPLACE_EXISTING);
+        userCart.getCartItems().clear();
+        new FileWriter(cartPath).close();
+    }
 
-        while (iter.hasNext()) {//iterate through the cart, (bc removing while iterating in a for loop causes errors)
-            Item i = iter.next();
-
-            iter.remove();//remove each item
+    public static void addToCart(Item item, int quantity) throws IOException, CloneNotSupportedException { //add an item into the cart list
+        Item clone = (Item) item.clone();
+        boolean match = false;
+        clone.setQuantity(quantity);
+        for (Item cartItem :userCart.getCartItems()) {
+            if (clone.getID() == cartItem.getID()) {
+                cartItem.setAvailableQuantity(item.getQuantity());
+                if(cartItem.getAvailableQuantity() - quantity > 0)
+                    cartItem.setQuantity(cartItem.getQuantity()+quantity);
+                match = true;
+                break;
+            }
         }
-        emptyCart();
+        if (!match) userCart.addItem(clone);
+        saveCart();
     }
 
-    public static void addToCart(Item item, int quantity) throws IOException { //add an item into the cart list
-        if(!yourCart.getCartItems().contains(item)){ //if the item is not already in the cart
-            yourCart.addItem(item); //add it to the cart
+    private static void saveCart() throws IOException {
+        File file = new File(cartPath);
+        FileWriter writer = new FileWriter(file);
+
+        gson.toJson(userCart.getCartItems(), writer);
+
+        writer.flush();
+        writer.close();
+    }
+
+    public static int removeFromCart(Item item) throws IOException { //remove specific item from cart list
+        for (Item cartItem :userCart.getCartItems()) {
+            if (item.getID() == cartItem.getID()) {
+                int returnQuantity = cartItem.getQuantity();
+                userCart.removeItem(cartItem);
+                saveCart();
+                return returnQuantity;
+            }
         }
-        item.setCartQuantity(quantity + item.getCartQuantity()); //set its quantity to previous quantity + the new quantity
-        updateCartSize(); //finally, update the cart size with the new quantities
-    };
-    public static void removeFromCart(Item item){ //remove specific item from cart list
-
-        yourCart.removeItem(item);
-    };
-    public static int getCounter(){
-        return yourCart.getCartSize();
+        return -1;
     }
 
-
-    public static ArrayList<Item> getCart(){return yourCart.getCartItems();}//receive the cart items
-
-    public static void updateCartSize() throws IOException {
-        StoreManager store = new StoreManager();
-        ArrayList<Integer>quantities = store.getCartQuantities();
-        int sum = 0;
-        for (Integer x : quantities) {
-            sum += x;
-        }
-        yourCart.setCartSize(sum);
+    public static int getCounter() {
+        return userCart.getCartSize();
     }
-    public static void emptyCart() throws IOException {
-        StoreManager store = new StoreManager();
-        store.removeCartQuantities();
-        yourCart.setCartSize(0);
-    }
+
+    public static ArrayList<Item> getCart(){
+        return userCart.getCartItems();
+    }//receive the cart items
+
 }

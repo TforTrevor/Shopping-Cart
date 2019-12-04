@@ -15,7 +15,6 @@ import shoppingcart.Item;
 import shoppingcart.StoreManager;
 import shoppingcart.Utilities;
 
-import javax.swing.*;
 import java.io.IOException;
 
 public class ItemPage extends BorderPane {
@@ -70,14 +69,13 @@ public class ItemPage extends BorderPane {
 
             try {
                 CartManager.addToCart(item, spinner.getValue()); //add to the cart
-            } catch (IOException e) {
+            } catch (IOException | CloneNotSupportedException e) {
                 e.printStackTrace();
             }
             item.setAvailableQuantity(item.getAvailableQuantity() - spinner.getValue()); //set the quantity to new quantity
             try {
                 StoreManager store = new StoreManager();
-                store.setAvailableQuantities(item, item.getAvailableQuantity());//update the available quantity in json
-                store.setCartQuantities(item, item.getCartQuantity());
+                store.saveAvailableQuantity(item, item.getAvailableQuantity());//update the available quantity in json
             } catch (IOException e) {
                 e.printStackTrace();
             }
