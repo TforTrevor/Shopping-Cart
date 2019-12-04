@@ -56,6 +56,7 @@ public class CartPage extends BorderPane {
             addAmount.getEditor().textProperty().addListener((obs, oldValue, newValue) ->
                     addItem.setText("Add " + addAmount.getValue() + " To Your Cart  "));
             addAmount.setMaxWidth(15);
+
             addItem.setMinWidth(50);
             removeItem.setMinWidth(50);
 

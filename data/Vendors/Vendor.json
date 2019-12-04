@@ -1,12 +1,12 @@
 [
   {
-    "ID": 4,
-    "name": "test",
+    "ID": 5,
+    "name": "toy",
     "description": "test",
     "price": 1.0,
-    "quantity": 100,
-    "availableQuantity": 100,
-    "vendorName": null,
-    "photo": "data/Photos/Mauricio\u0027s Birthday Present.jpg"
+    "quantity": 20,
+    "availableQuantity": 20,
+    "vendorName": "Vendor",
+    "photo": "data/Photos/house.jpg"
   }
 ]

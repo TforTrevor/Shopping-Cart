@@ -18,6 +18,7 @@ public class ItemManager {
         StoreManager temp = new StoreManager();
 
         Item newItem = new Item(temp.getItems().size()+1,name, description, price, quantity, availableQuantity, photo);
+        newItem.setVendorName(vendor);
         ArrayList<Item> previousItems = null;
         ArrayList<Item> buffer;
 

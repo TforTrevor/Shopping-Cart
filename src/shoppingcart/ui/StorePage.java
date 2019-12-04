@@ -89,12 +89,9 @@ public class StorePage extends BorderPane {
                 }
 
                 if(nodes.size() > 0){
-                    String storeName;
-                    int startLoc = 13;
-                    int endLoc = item.getVendorName().length() - 5;
-                    storeName = item.getVendorName().substring(startLoc, endLoc);
+
                     itemCarousel.setSpacing(10);
-                    itemCarousel.getChildren().add(new Carousel<>(storeName, nodes));
+                    itemCarousel.getChildren().add(new Carousel<>(item.getVendorName(), nodes));
                 }
             }
 
