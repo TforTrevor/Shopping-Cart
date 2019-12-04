@@ -22,7 +22,7 @@ public class CartManager{ //cart controller
 
     public static void initCart() throws FileNotFoundException {
         ArrayList<Item> cart = gson.fromJson(new FileReader(cartPath), new TypeToken<ArrayList<Item>>() {}.getType());
-        if (cart != null) userCart = new Cart(cart);
+        if (cart != null && !cart.isEmpty()) userCart = new Cart(cart);
         else userCart = new Cart();
     }
 
@@ -31,7 +31,7 @@ public class CartManager{ //cart controller
     }
 
     public static double totalPrices(){ //function to calculate prices, and possibly tax
-        int totalPrice = 0;
+        double totalPrice = 0;
         for(Item i : userCart.getCartItems())
             totalPrice += (i.getPrice() * i.getQuantity());//returns total price of cart
         return totalPrice;
@@ -44,7 +44,7 @@ public class CartManager{ //cart controller
             dest = new File("data/Receipts").list().length;
         else
             dest = 0;
-        Path dst = Paths.get("data/Receipts"+dest);
+        Path dst = Paths.get("data/Receipts/Receipt-"+dest+".json");
         Files.copy(src,dst, StandardCopyOption.REPLACE_EXISTING);
         userCart.getCartItems().clear();
         new FileWriter(cartPath).close();
