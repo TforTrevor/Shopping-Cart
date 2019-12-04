@@ -32,6 +32,7 @@ public class CreateItem extends BorderPane {
     public CreateItem(String vendorName) {
         this.vendorName.setText(vendorName);
         this.vendorName.setEditable(false);
+        this.vendorName.setDisable(true);
 
         GridPane gridPane = new GridPane();
         gridPane.add(new Label("Name: "),0, 0);

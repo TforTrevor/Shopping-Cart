@@ -1,12 +1,12 @@
 [
   {
-    "ID": 3,
+    "ID": 4,
     "name": "work",
     "description": "do it",
     "price": 4.2,
-    "quantity": 6,
-    "availableQuantity": 87,
-    "vendorName": "data/Vendors/Vendor.json",
+    "quantity": 100,
+    "availableQuantity": 81,
+    "vendorName": "Vendor",
     "photo": "data/Photos/q2q1.jpg"
   }
 ]

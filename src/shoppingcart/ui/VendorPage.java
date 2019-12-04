@@ -90,10 +90,10 @@ public class VendorPage extends BorderPane {
         HBox buttonGroup = new HBox();
         Button newItem = new Button("Create Item");
         newItem.setOnAction((event) -> {
-            Modal modal = new Modal("Create Item", new CreateItem("Test Vendor"));
+            Modal modal = new Modal("Create Item", new CreateItem(user.getVendor()));
             modal.show(100, 100, 100, 100);
         });
-        Button statistics = new Button("View Store Statistics");
+        Button statistics = new Button("View Store statistics");
         statistics.setOnAction(event -> {
             //PageManager.getInstance().setPage(new vendorStatistics()));
         });
