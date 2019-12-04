@@ -5,6 +5,7 @@ import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
@@ -20,27 +21,101 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 
+
 public class CartPage extends BorderPane {
+    GridPane grid = new GridPane();
 
-    public CartPage() throws IOException, CloneNotSupportedException {
+    public CartPage() throws FileNotFoundException, CloneNotSupportedException {
 
-        ArrayList<Item> buffer = CartManager.getCart(); //retrieving the full cart list from the model
+        BorderPane borderPane = new BorderPane(); //general pane
 
-        Text title = new Text("Your Shopping Cart: ");
+        Text title = new Text("Your Shopping Cart"); //title of page
         int counter = CartManager.getCounter(); //the counter at the top
         Label counterView = new Label(counter + " items"); //displays how many items are in the cart
 
-        HBox titles = new HBox(title, counterView);
-        titles.setSpacing(5);
-        titles.setAlignment(Pos.CENTER);
-        BorderPane content = new BorderPane();
-        content.setCenter(titles);
-        title.setFont(Font.font(Font.getDefault().getFamily(), FontWeight.MEDIUM, 32));
-        title.setFill(Color.WHITE);
-        counterView.setFont(Font.font(Font.getDefault().getFamily(), FontWeight.MEDIUM, 32));
-        counterView.setTextFill(Color.WHITE);
-        content.setPadding(new Insets(10,0,30, 0));
+        ArrayList<Item> buffer = CartManager.getCart();
+        ArrayList<Node> nodes = new ArrayList<>();
 
+        for (Item item : buffer) {
+            BorderPane fullNode = new BorderPane();
+
+            Label quantity = new Label("Quantity: " + item.getQuantity());
+            Label price = new Label("Total Price: " + item.getPrice() * item.getQuantity());
+            BorderPane labels = new BorderPane();
+            labels.setTop(quantity);
+            labels.setBottom(price);
+
+            Spinner<Integer> removeAmount = new Spinner<>(1, item.getQuantity(), 1);
+            Button removeItem = new Button("Remove " + removeAmount.getValue() + " From Cart");
+            removeAmount.getEditor().textProperty().addListener((obs, oldValue, newValue) ->
+                    removeItem.setText("Remove " + removeAmount.getValue() + " From Cart"));
+            removeAmount.setMaxWidth(15);
+
+            Spinner<Integer> addAmount = new Spinner<>(1, item.getAvailableQuantity(), 1);
+            Button addItem = new Button("Add " + addAmount.getValue() + " To Your Cart  ");
+            addAmount.getEditor().textProperty().addListener((obs, oldValue, newValue) ->
+                    addItem.setText("Add " + addAmount.getValue() + " To Your Cart  "));
+            addAmount.setMaxWidth(15);
+            addItem.setMinWidth(50);
+            removeItem.setMinWidth(50);
+
+            removeItem.setAlignment(Pos.CENTER);
+            BorderPane button1 = new BorderPane();
+            BorderPane button2 = new BorderPane();
+            BorderPane buttons = new BorderPane();
+            BorderPane labelsButtons = new BorderPane();
+
+            button1.setLeft(removeItem);
+            button1.setRight(removeAmount);
+            button2.setLeft(addItem);
+            button2.setRight(addAmount);
+            buttons.setTop(button1);
+            buttons.setBottom(button2);
+            removeItem.setOnAction(event -> {
+                try {
+                    CartManager.removeFromCart(item, removeAmount.getValue());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                try {
+                    PageManager.getInstance().setPage(new CartPage());
+                } catch (IOException | CloneNotSupportedException e) {
+                    e.printStackTrace();
+                }
+                Header.updateCartButton();
+            });
+            addItem.setOnAction(event -> {
+                try {
+                    CartManager.addToCart(item, addAmount.getValue());
+                } catch (IOException | CloneNotSupportedException e) {
+                    e.printStackTrace();
+                }
+                try {
+                    PageManager.getInstance().setPage(new CartPage());
+                } catch (IOException | CloneNotSupportedException e) {
+                    e.printStackTrace();
+                }
+                Header.updateCartButton();
+            });
+            labelsButtons.setTop(labels);
+            labelsButtons.setBottom(buttons);
+            fullNode.setTop(new ItemNode(item));
+            fullNode.setBottom(labelsButtons);
+
+            nodes.add(fullNode);
+        }
+
+
+        grid.setHgap(10);
+        grid.setVgap(10);
+        grid.setAlignment(Pos.CENTER);
+
+        grid.add(title, 0, 0);
+        grid.add(counterView, 1, 0);
+        title.setFill(Color.WHITE);
+        title.setFont(Font.font(Font.getDefault().getFamily(), FontWeight.MEDIUM, 32));
+        counterView.setFont(Font.font(Font.getDefault().getFamily(), FontWeight.MEDIUM, 20));
+        counterView.setTextFill(Color.WHITE);
         Button checkoutButton = new Button("Checkout Now"); //button to trigger checkout page
 
         if (buffer.isEmpty()) checkoutButton.setDisable(true);
@@ -54,91 +129,32 @@ public class CartPage extends BorderPane {
             }
 
         });
-        GridPane grid = new GridPane();
-        grid.add(content, 5, 0);
-        grid.setAlignment(Pos.CENTER);
-        grid.setHgap(75);
-        grid.add(checkoutButton, 8, 0);
-        grid.setBackground(new Background(new BackgroundFill(Color.valueOf("333"), CornerRadii.EMPTY, Insets.EMPTY)));
 
-        checkoutButton.setPadding(new Insets(10, 5, 10, 5));
-        this.setTop(grid);
+        checkoutButton.setPadding(new Insets(10,5,10,5));
+        VBox titles = new VBox();
+        titles.getChildren().add(title);
+        titles.getChildren().add(counterView);
+        titles.setSpacing(0);
+        titles.setAlignment(Pos.CENTER);
+        HBox header = new HBox(titles, checkoutButton);
+        header.setAlignment(Pos.CENTER);
+
+        header.setSpacing(20);
+        BorderPane content = new BorderPane();
+        content.setCenter(header);
+        title.setFont(Font.font(Font.getDefault().getFamily(), FontWeight.MEDIUM, 32));
+        counterView.setFont(Font.font(Font.getDefault().getFamily(), FontWeight.MEDIUM, 20));
+        title.setFill(Color.WHITE);
+        counterView.setTextFill(Color.WHITE);
+        content.setPadding(new Insets(30,0,30, 0));
+        content.setBackground(new Background(new BackgroundFill(Color.valueOf("333"), CornerRadii.EMPTY, Insets.EMPTY)));
 
 
-        BorderPane borderPane = new BorderPane();
-        FlowPane flowPane = new FlowPane(Orientation.VERTICAL);
-        flowPane.setHgap(15);
-        flowPane.setVgap(5);
-        for (Item item: buffer) { //for every item in the list
-            borderPane.setTop(new ItemNode(item));
+        VBox itemCarousel = new VBox(grid);
 
-            BorderPane quantityPane = new BorderPane();
-            Label quantity = new Label("Quantity: " + item.getQuantity());
-            Spinner<Integer> changeQuantity = new Spinner<>(0, item.getAvailableQuantity(), item.getQuantity());
-            changeQuantity.getEditor().textProperty().addListener((obs, oldValue, newValue) ->{
-                quantity.setText("Quantity: " + changeQuantity.getValue());
-                int newQuantity = 0;
-                try {
-                    if(changeQuantity.getValue() >= item.getQuantity()){
-                        try {
-                            CartManager.addToCart(item, 1); //add to the cart
-                            newQuantity = item.getAvailableQuantity() - 1;
-                            System.out.println(newQuantity);
-                        } catch (IOException | CloneNotSupportedException e) {
-                            e.printStackTrace();
-                        }
-
-                    }
-                    else{
-                        CartManager.removeFromCart(item, 1);
-                        newQuantity = item.getAvailableQuantity() + 1;
-                    }
-                    try {
-                        StoreManager.saveAvailableQuantity(item, item.getAvailableQuantity());
-
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                try {
-                    PageManager.getInstance().setPage(new CartPage());
-                } catch (CloneNotSupportedException | IOException e) {
-                    e.printStackTrace();
-                }
-
-                Header.updateCartButton();
-            });
-
-            changeQuantity.setMaxWidth(15);
-            quantityPane.setLeft(quantity);
-            quantityPane.setRight(changeQuantity);
-
-            Label price = new Label("Total Price: " + item.getPrice() * item.getQuantity());
-            Label stock = new Label("Stock: " + item.getAvailableQuantity());
-            BorderPane labels = new BorderPane();
-            BorderPane labels2 = new BorderPane();
-            labels2.setTop(quantityPane);
-            labels2.setBottom(price);
-            labels.setTop(labels2);//contain quantity and price
-            labels.setBottom(stock);
-            borderPane.setBottom(labels); // hold the item above the labels
-            BorderPane.setAlignment(labels, Pos.CENTER);
-
-            try {
-                    flowPane.getChildren().addAll(new ItemNode(item), labels);
-                } catch (CloneNotSupportedException | FileNotFoundException e) {
-                    e.printStackTrace();
-                }
-        }
-        flowPane.setColumnHalignment(HPos.CENTER); // align labels on left
-        flowPane.setPrefWrapLength(200); // preferred height = 200
-        ScrollPane scrollPane = new ScrollPane();
-        scrollPane.setContent(flowPane);
-        scrollPane.setFitToWidth(true);
-        scrollPane.setPadding(new Insets(10));
-        this.setCenter(scrollPane);
-
+        itemCarousel.setSpacing(10);
+        itemCarousel.getChildren().add(new Carousel<>("Your Cart", nodes));
+        this.setCenter(itemCarousel);
+        this.setTop(content);
     }
 }

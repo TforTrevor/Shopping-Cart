@@ -15,8 +15,9 @@ public class ItemManager {
     }
     public static void addItem(String vendor, String name, String description, double price, int quantity, int availableQuantity, String photo) throws IOException {
         String vendorPath = ("data/Vendors/" + vendor + ".json");
+        StoreManager temp = new StoreManager();
 
-        Item newItem = new Item(1,name, description, price, quantity, availableQuantity, photo);
+        Item newItem = new Item(temp.getItems().size()+1,name, description, price, quantity, availableQuantity, photo);
         ArrayList<Item> previousItems = null;
         ArrayList<Item> buffer;
 

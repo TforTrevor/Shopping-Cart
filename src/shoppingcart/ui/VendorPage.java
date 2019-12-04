@@ -85,7 +85,7 @@ public class VendorPage extends BorderPane {
             Modal modal = new Modal("Create Item", new CreateItem(user.getVendor()));
             modal.show(100, 100, 100, 100);
         });
-        Button statistics = new Button("View Store Statistics");
+        Button statistics = new Button("View Store statistics");
         statistics.setOnAction(event -> {
             //PageManager.getInstance().setPage(new vendorStatistics()));
         });

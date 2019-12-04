@@ -4,9 +4,9 @@
     "name": "Juice",
     "description": "Drink it",
     "price": 1.0,
-    "quantity": 100,
-    "availableQuantity": 84,
-    "vendorName": "Juice Store",
+    "quantity": 9,
+    "availableQuantity": 87,
+    "vendorName": "data/Vendors/JuiceStore.json",
     "photo": "data/Photos/bandaid.jpg"
   }
 ]

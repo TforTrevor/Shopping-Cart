@@ -15,12 +15,13 @@ import java.util.List;
 import java.util.Objects;
 
 public class CartManager{ //cart controller
-    private static final String cartPath = "data/Cart.json";
+    private static final String cartPath = "data/Cart/"+UserManager.getLoggedInUser().getUsername()+".json";
     private static Gson gson = new GsonBuilder().serializeNulls().setPrettyPrinting().create();
 
     private static Cart userCart = null;//initialize on login
 
-    public static void initCart() throws FileNotFoundException {
+    public static void initCart() throws IOException {
+        new File(cartPath).createNewFile();
         ArrayList<Item> cart = gson.fromJson(new FileReader(cartPath), new TypeToken<ArrayList<Item>>() {}.getType());
         if (cart != null && !cart.isEmpty()) userCart = new Cart(cart);
         else userCart = new Cart();
