@@ -56,7 +56,7 @@ public class CartManager{ //cart controller
         clone.setQuantity(quantity);
         for (Item cartItem :userCart.getCartItems()) {
             if (clone.getID() == cartItem.getID()) {
-                cartItem.setAvailableQuantity(item.getQuantity());
+                cartItem.setAvailableQuantity(item.getAvailableQuantity() - quantity);
                 if(cartItem.getAvailableQuantity() - quantity > 0)
                     cartItem.setQuantity(cartItem.getQuantity()+quantity);
                 match = true;
@@ -77,11 +77,15 @@ public class CartManager{ //cart controller
         writer.close();
     }
 
-    public static int removeFromCart(Item item) throws IOException { //remove specific item from cart list
+    public static int removeFromCart(Item item, int removeQuantity) throws IOException { //remove specific item from cart list
         for (Item cartItem :userCart.getCartItems()) {
             if (item.getID() == cartItem.getID()) {
+                cartItem.setQuantity(cartItem.getQuantity() - removeQuantity);
+                cartItem.setAvailableQuantity(item.getAvailableQuantity() + removeQuantity);
                 int returnQuantity = cartItem.getQuantity();
-                userCart.removeItem(cartItem);
+
+                if(cartItem.getQuantity() == 0)
+                    userCart.removeItem(cartItem);
                 saveCart();
                 return returnQuantity;
             }

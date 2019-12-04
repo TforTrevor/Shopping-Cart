@@ -13,5 +13,10 @@
     "username": "v",
     "password": "v",
     "vendor": "Vendor"
+  },
+  {
+    "username": "a",
+    "password": "a",
+    "vendor": null
   }
 ]

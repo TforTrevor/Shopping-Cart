@@ -5,8 +5,8 @@
     "description": "Drink it",
     "price": 1.0,
     "quantity": 100,
-    "availableQuantity": 87,
-    "vendorName": null,
+    "availableQuantity": 100,
+    "vendorName": "Juice Store",
     "photo": "data/Photos/bandaid.jpg"
   }
 ]

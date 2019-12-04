@@ -4,6 +4,7 @@ import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
@@ -42,49 +43,40 @@ public class VendorPage extends BorderPane {
         content.setPadding(new Insets(10,0,30, 0));
         content.setBackground(new Background(new BackgroundFill(Color.valueOf("333"), CornerRadii.EMPTY, Insets.EMPTY)));
 
-
-        this.setTop(content);
-
-        Text itemTitle = new Text("Your Items");
-        itemTitle.setFont(Font.font(16));
-        ScrollPane scrollPane = new ScrollPane();
-        FlowPane yourItems = new FlowPane(Orientation.VERTICAL);
         ArrayList<Item> buffer = ItemManager.getVendorItems(user.getVendor());
 
-        yourItems.setHgap(8);
-        yourItems.setVgap(8);
-        for (Item item : buffer) {
-
-            Button removeItem = new Button("Remove From Store");
-            removeItem.setAlignment(Pos.CENTER);
-            BorderPane button = new BorderPane();
-            button.setBottom(removeItem);
-            yourItems.getChildren().addAll(new ItemNode(item), button);
-            removeItem.setOnAction(event -> {
-                try {
-                    ItemManager.removeItem(item, user.getVendor());
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                try {
-                    PageManager.getInstance().setPage(new StorePage());
-                } catch (IOException | CloneNotSupportedException e) {
-                    e.printStackTrace();
-                }
-            });
-        }
-
-        yourItems.setColumnHalignment(HPos.CENTER); // align labels on left
-        yourItems.setPrefWrapLength(200); // preferred height = 200
-        scrollPane.setContent(yourItems);
-        scrollPane.setFitToWidth(true);
-        scrollPane.setPadding(new Insets(10));
-
         BorderPane mainContent = new BorderPane();
-        BorderPane.setAlignment(itemTitle, Pos.CENTER);
         mainContent.setPadding(new Insets(10,0,0,0));
-        mainContent.setTop(itemTitle);
-        mainContent.setCenter(scrollPane);
+        ArrayList<Node> nodes = new ArrayList<>();
+        if(!(buffer == null)){
+            for (Item item : buffer) {
+                Button removeItem = new Button("Remove From Store");
+                removeItem.setAlignment(Pos.CENTER);
+                BorderPane fullNode = new BorderPane();
+                fullNode.setBottom(removeItem);
+                fullNode.setTop(new ItemNode(item));
+                nodes.add(fullNode);
+
+                removeItem.setOnAction(event -> {
+                    try {
+                        ItemManager.removeItem(item, user.getVendor());
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    try {
+                        PageManager.getInstance().setPage(new StorePage());
+                    } catch (IOException | CloneNotSupportedException e) {
+                        e.printStackTrace();
+                    }
+                });
+
+            }
+            VBox itemCarousel = new VBox(content);
+            itemCarousel.setSpacing(10);
+            itemCarousel.getChildren().add(new Carousel<Node>("Your Items", nodes));
+
+            mainContent.setTop(itemCarousel);
+        }
 
         GridPane actions = new GridPane();
         HBox buttonGroup = new HBox();
@@ -103,7 +95,7 @@ public class VendorPage extends BorderPane {
         Text actionsTitle = new Text("What would you like to do?");
         actionsTitle.setFont(Font.font(16));
         actions.setAlignment(Pos.TOP_CENTER);
-        actions.setPadding(new Insets(40,0, 0, 0));
+        actions.setPadding(new Insets(40,0, 40, 0));
         actions.setVgap(5);
         actions.add(actionsTitle, 0, 0);
         actions.add(buttonGroup, 0, 1);
@@ -114,7 +106,7 @@ public class VendorPage extends BorderPane {
 
         this.setCenter(test);
 
-
+        this.setTop(content);
 
 
 

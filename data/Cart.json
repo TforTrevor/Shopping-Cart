@@ -1,3 +1,22 @@
 [
-
+  {
+    "ID": 1,
+    "name": "Another bandage",
+    "description": "Used for covering small cuts and bruises.",
+    "price": 0.5,
+    "quantity": 1,
+    "availableQuantity": 40,
+    "vendorName": "data/Vendors/Walgreens.json",
+    "photo": "data/Photos/bandaid.jpg"
+  },
+  {
+    "ID": 0,
+    "name": "Bandage",
+    "description": "Used for covering small cuts and bruises.",
+    "price": 1.23,
+    "quantity": 20,
+    "availableQuantity": 70,
+    "vendorName": "data/Vendors/Walgreens.json",
+    "photo": "data/Photos/bandaid.jpg"
+  }
 ]
