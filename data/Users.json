@@ -2,13 +2,16 @@
   {
     "username": "test",
     "password": "test",
-    "vendor": null,
-    "isVendor": false
+    "vendor": null
   },
   {
     "username": "gfds",
     "password": "gfd",
-    "vendor": null,
-    "isVendor": false
+    "vendor": null
+  },
+  {
+    "username": "v",
+    "password": "v",
+    "vendor": "Vendor"
   }
 ]

@@ -3,6 +3,10 @@ package shoppingcart.ui;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.FlowPane;
+import shoppingcart.Item;
+import shoppingcart.StoreManager;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -39,8 +43,8 @@ public class StorePage extends BorderPane {
 
 
         for (Item item : buffer) {
-            itemSetup.setAvailableQuantities(item, item.getAvailableQuantity());
-            itemSetup.setCartQuantities(item, item.getCartQuantity());
+
+            itemSetup.saveAvailableQuantity(item, item.getAvailableQuantity());
             itemNodes.add(new ItemNode(item));
         }
         VBox mainContent = new VBox(content);

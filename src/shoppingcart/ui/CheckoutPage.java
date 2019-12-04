@@ -29,14 +29,15 @@ public class CheckoutPage extends BorderPane {
         title.setFont(Font.font(20));
 
         int counter = CartManager.getCounter();//same as cartpage
-        Label counterView = new Label(Integer.toString(counter) + " items");
+        Label counterView = new Label(counter + " items");
         Label totalPrice = new Label("Total Price of the Cart: $" + CartManager.totalPrices());
         flowPane.setHgap(8);
         flowPane.setVgap(8);
         ArrayList<Item> buffer = CartManager.getCart();
         for (Item item : buffer) {
-            Label quantity = new Label("Quantity: " + item.getCartQuantity());
-            Label price = new Label("Total Price: " + item.getPrice() * item.getCartQuantity());
+            borderPane.setTop(new ItemNode(item));
+            Label quantity = new Label("Quantity: " + item.getQuantity());
+            Label price = new Label("Total Price: " + item.getPrice() * item.getQuantity());
             BorderPane labels = new BorderPane();
             labels.setTop(quantity);//contain quantity and price
             labels.setBottom(price);
