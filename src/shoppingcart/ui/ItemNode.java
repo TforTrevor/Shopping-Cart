@@ -28,7 +28,7 @@ public class ItemNode extends BorderPane {
         wrapper.setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
         Utilities.makeNodeFill(wrapper);
         this.setCenter(new AnchorPane(wrapper));
-        this.setBottom(name);
+        this.setTop(name);
         BorderPane.setAlignment(name, Pos.CENTER);
     }
 }

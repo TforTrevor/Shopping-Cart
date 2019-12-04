@@ -5,11 +5,9 @@ import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
-import shoppingcart.Cart;
-import shoppingcart.CartManager;
-import shoppingcart.User;
-import shoppingcart.UserManager;
+import shoppingcart.*;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
@@ -50,9 +48,7 @@ public class Login extends BorderPane {
                 if (passwordField.getText().length() != 0) {
                     try {
                         User user = UserManager.checkUser(usernameField.getText(), passwordField.getText());
-
                         if (user != null) {
-                            Cart cart = new Cart(); //when a person logs in, instantiate the cart to their account
                             UserManager.setLoggedInUser(user);
                             CartManager.initCart();//set their cart to the instance
                             PageManager.getInstance().setPage(new StorePage());
@@ -96,11 +92,13 @@ public class Login extends BorderPane {
                     try {
                         String vendorProcess = (vendor.isSelected()) ? vendorName.getText() : null;
                         User user = UserManager.makeNewUser(usernameField.getText(), passwordField.getText(), vendorProcess);
-                        Cart cart = new Cart();//same thing
                         if (user != null) {
                             UserManager.setLoggedInUser(user);
+                            if(user.getVendor() != null)
+                                StoreManager.createStore(user.getVendor());
                             CartManager.initCart();
                             PageManager.getInstance().setPage(new StorePage());
+                            PageManager.getInstance().setHeader(new Header());
                         } else {
                             error.setText("Error! Username/vendor name is already taken.");
                         }

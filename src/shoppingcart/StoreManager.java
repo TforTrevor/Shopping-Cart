@@ -15,8 +15,8 @@ import java.util.stream.Collectors;
 
 public class StoreManager {
 
-    private ArrayList<String> fileNames;
-    private Gson gson = new GsonBuilder().serializeNulls().setPrettyPrinting().create();
+    private static ArrayList<String> fileNames;
+    private static Gson gson = new GsonBuilder().serializeNulls().setPrettyPrinting().create();
 
     public StoreManager() throws IOException {
         fileNames = new ArrayList<>();
@@ -39,10 +39,12 @@ public class StoreManager {
                 item.setAvailableQuantity(item.getAvailableQuantity());
                 itemList.add(item);
             }
+
         }
         return itemList;
     }
-    public void saveAvailableQuantity(Item item, int newQuantity) throws IOException {
+
+    public static void saveAvailableQuantity(Item item, int newQuantity) throws IOException {
         for (String vendorItems : fileNames) {
             ArrayList<Item> items = gson.fromJson(new FileReader(vendorItems), new TypeToken<ArrayList<Item>>() {}.getType());
             for (Item n : items) {
@@ -61,6 +63,19 @@ public class StoreManager {
             }
 
         }
+    }
+
+    public static void createStore(String vendor) throws IOException {
+        ArrayList<Item> dummyList = new ArrayList<>();
+        String pathName = "data/Vendors/"+vendor+".json";
+        File file = new File(pathName);
+        FileWriter writer = new FileWriter(file);
+
+        gson.toJson(dummyList, writer);
+
+        writer.flush();
+        writer.close();
+
     }
 
 }

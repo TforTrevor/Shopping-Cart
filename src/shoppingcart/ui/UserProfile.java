@@ -1,12 +1,16 @@
 package shoppingcart.ui;
 
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
+import shoppingcart.CartManager;
 import shoppingcart.StoreManager;
 import shoppingcart.User;
 import shoppingcart.UserManager;
@@ -22,6 +26,20 @@ public class UserProfile extends BorderPane {
     private Label errorMessage = new Label();
 
     public UserProfile(User user) {
+
+        Text title = new Text("Your Profile");
+        VBox titles = new VBox();
+        titles.getChildren().add(title);
+        titles.setSpacing(0);
+        titles.setAlignment(Pos.CENTER);
+        BorderPane content = new BorderPane();
+        content.setCenter(titles);
+        title.setFont(Font.font(Font.getDefault().getFamily(), FontWeight.MEDIUM, 32));
+        title.setFill(Color.WHITE);
+        content.setPadding(new Insets(10,0,30, 0));
+        content.setBackground(new Background(new BackgroundFill(Color.valueOf("333"), CornerRadii.EMPTY, Insets.EMPTY)));
+
+        this.setTop(content);
 
         Label oldPasswordLabel = new Label("Old Password:");
         Label newPasswordLabel = new Label("New Password:");
@@ -53,24 +71,6 @@ public class UserProfile extends BorderPane {
         temp.setAlignment(Pos.CENTER);
         temp.setFillWidth(false);
         temp.setSpacing(5);
-
-        try {
-            ArrayList<ItemNode> itemNodes = new ArrayList<>();
-            for (int i = 0; i < 50; i++) {
-                itemNodes.add(new ItemNode(new StoreManager().getItems().get(0)));
-            }
-            temp.getChildren().add(new Carousel<>("Bandages", itemNodes));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        if(UserManager.getLoggedInUser().getVendor() != null) {
-            Button test = new Button("Create Item");
-            test.setOnAction((event) -> {
-                Modal modal = new Modal("Create Item", new CreateItem("Test Vendor"));
-                modal.show(100, 100, 100, 100);
-            });
-            temp.getChildren().add(test);
-        }
 
         this.setCenter(temp);
     }

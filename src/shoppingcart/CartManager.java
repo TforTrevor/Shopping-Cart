@@ -15,12 +15,13 @@ import java.util.List;
 import java.util.Objects;
 
 public class CartManager{ //cart controller
-    private static final String cartPath = "data/Cart.json";
+    private static final String cartPath = "data/Cart/"+UserManager.getLoggedInUser().getUsername()+".json";
     private static Gson gson = new GsonBuilder().serializeNulls().setPrettyPrinting().create();
 
     private static Cart userCart = null;//initialize on login
 
-    public static void initCart() throws FileNotFoundException {
+    public static void initCart() throws IOException {
+        new File(cartPath).createNewFile();
         ArrayList<Item> cart = gson.fromJson(new FileReader(cartPath), new TypeToken<ArrayList<Item>>() {}.getType());
         if (cart != null && !cart.isEmpty()) userCart = new Cart(cart);
         else userCart = new Cart();
@@ -56,7 +57,7 @@ public class CartManager{ //cart controller
         clone.setQuantity(quantity);
         for (Item cartItem :userCart.getCartItems()) {
             if (clone.getID() == cartItem.getID()) {
-                cartItem.setAvailableQuantity(item.getQuantity());
+                cartItem.setAvailableQuantity(item.getAvailableQuantity() - quantity);
                 if(cartItem.getAvailableQuantity() - quantity > 0)
                     cartItem.setQuantity(cartItem.getQuantity()+quantity);
                 match = true;
@@ -77,11 +78,15 @@ public class CartManager{ //cart controller
         writer.close();
     }
 
-    public static int removeFromCart(Item item) throws IOException { //remove specific item from cart list
+    public static int removeFromCart(Item item, int removeQuantity) throws IOException { //remove specific item from cart list
         for (Item cartItem :userCart.getCartItems()) {
             if (item.getID() == cartItem.getID()) {
+                cartItem.setQuantity(cartItem.getQuantity() - removeQuantity);
+                cartItem.setAvailableQuantity(item.getAvailableQuantity() + removeQuantity);
                 int returnQuantity = cartItem.getQuantity();
-                userCart.removeItem(cartItem);
+
+                if(cartItem.getQuantity() == 0)
+                    userCart.removeItem(cartItem);
                 saveCart();
                 return returnQuantity;
             }

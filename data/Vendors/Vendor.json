@@ -1,0 +1,12 @@
+[
+  {
+    "ID": 4,
+    "name": "test",
+    "description": "test",
+    "price": 1.0,
+    "quantity": 100,
+    "availableQuantity": 100,
+    "vendorName": null,
+    "photo": "data/Photos/Mauricio\u0027s Birthday Present.jpg"
+  }
+]

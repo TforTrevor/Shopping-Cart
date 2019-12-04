@@ -7,6 +7,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import shoppingcart.CartManager;
+import shoppingcart.User;
 import shoppingcart.UserManager;
 import shoppingcart.Utilities;
 
@@ -39,14 +40,18 @@ public class Header extends BorderPane {
         cartButton.setOnAction((event -> {
             try {
                 PageManager.getInstance().setPage(new CartPage());
-            } catch (FileNotFoundException | CloneNotSupportedException e) {
+            } catch (CloneNotSupportedException | IOException e) {
                 e.printStackTrace();
             }
         }));
 
         vendorButton = new Button("For Vendors");
         vendorButton.setOnAction((event -> {
-            //PageManager.getInstance().setPage(new VendorPage());
+            try {
+                PageManager.getInstance().setPage(new VendorPage());
+            } catch (IOException | CloneNotSupportedException e) {
+                e.printStackTrace();
+            }
         }));
 
         homeButton = new Button("Home");
@@ -62,11 +67,11 @@ public class Header extends BorderPane {
             PageManager.getInstance().setPage(new UserProfile(UserManager.getLoggedInUser()));
         });
         buttonHolder.getChildren().add(profileButton);
-
+        User user = UserManager.getLoggedInUser();
         this.setLeft(homeButton);
         this.setCenter(searchBarPane);
-        //if(user.isVendor())
-        //    buttonHolder.getChildren().add(vendorButton);
+        if(user.getVendor() != null)
+            buttonHolder.getChildren().add(vendorButton);
         buttonHolder.getChildren().add(cartButton);
         this.setRight(buttonHolder);
         this.setPadding(new Insets(15));

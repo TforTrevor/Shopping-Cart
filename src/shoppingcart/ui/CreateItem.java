@@ -32,6 +32,7 @@ public class CreateItem extends BorderPane {
     public CreateItem(String vendorName) {
         this.vendorName.setText(vendorName);
         this.vendorName.setEditable(false);
+        this.vendorName.setDisable(true);
 
         GridPane gridPane = new GridPane();
         gridPane.add(new Label("Name: "),0, 0);
@@ -67,15 +68,23 @@ public class CreateItem extends BorderPane {
         });
 
         Button submit = new Button("Submit");
-
+        gridPane.add(submit,0,8);
         submit.setOnAction((event) -> {
-
-            ItemManager.addItem(UserManager.getLoggedInUser().getVendor(), name.toString(),description.toString(),Double.parseDouble(price.toString()),Integer.parseInt(quantity.toString()),Integer.parseInt(quantity.toString()),photoPath);
+            try {
+                double pDouble = new Double(price.getText());
+                int qInt = new Integer(quantity.getText());
+                ItemManager.addItem(UserManager.getLoggedInUser().getVendor(), name.getText(),description.getText(),pDouble,qInt,qInt,photoPath);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            try {
+                PageManager.getInstance().setPage(new StorePage());
+            } catch (IOException | CloneNotSupportedException e) {
+                e.printStackTrace();
+            }
         });
 
-        //VBox temp = new VBox(name, description, price, quantity, availableQuantity, cartQuantity, this.vendorName, photo);
         this.setCenter(gridPane);
-        this.setBottom(submit);
         this.setAlignment(submit, Pos.CENTER);
     }
 
