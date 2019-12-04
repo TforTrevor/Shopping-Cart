@@ -4,8 +4,8 @@
     "description": "Drink it",
     "price": 1.0,
     "quantity": 100,
-    "availableQuantity": 72,
-    "cartQuantity": 0,
+    "availableQuantity": 56,
+    "cartQuantity": 16,
     "vendorName": null,
     "photo": "data/Photos/bandaid.jpg"
   }

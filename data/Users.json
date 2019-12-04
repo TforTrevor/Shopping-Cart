@@ -10,5 +10,11 @@
     "password": "gfd",
     "vendor": null,
     "isVendor": false
+  },
+  {
+    "username": "v",
+    "password": "v",
+    "vendor": "Vendor",
+    "isVendor": true
   }
 ]

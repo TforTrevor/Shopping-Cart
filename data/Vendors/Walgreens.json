@@ -4,8 +4,8 @@
     "description": "Used for covering small cuts and bruises.",
     "price": 1.23,
     "quantity": 90,
-    "availableQuantity": 70,
-    "cartQuantity": 0,
+    "availableQuantity": 48,
+    "cartQuantity": 22,
     "vendorName": null,
     "photo": "data/Photos/bandaid.jpg"
   },
@@ -14,8 +14,8 @@
     "description": "Used for covering small cuts and bruises.",
     "price": 0.5,
     "quantity": 40,
-    "availableQuantity": 11,
-    "cartQuantity": 0,
+    "availableQuantity": 5,
+    "cartQuantity": 6,
     "vendorName": null,
     "photo": "data/Photos/bandaid.jpg"
   }

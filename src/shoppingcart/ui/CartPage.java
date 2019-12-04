@@ -8,6 +8,7 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.Spinner;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
@@ -15,6 +16,7 @@ import javafx.scene.text.Text;
 import shoppingcart.*;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class CartPage extends BorderPane {
@@ -31,20 +33,49 @@ public class CartPage extends BorderPane {
         ArrayList<Item> buffer = CartManager.getCart(); //retrieving the full cart list from the model
 
         FlowPane flowPane = new FlowPane(Orientation.VERTICAL);
-        flowPane.setHgap(10);
-        flowPane.setVgap(10);
+        flowPane.setHgap(15);
+        flowPane.setVgap(5);
         for (Item item: buffer) { //for every item in the list
             borderPane.setTop(new ItemNode(item));
             Label quantity = new Label("Quantity: " + item.getCartQuantity());
             Label price = new Label("Total Price: " + item.getPrice() * item.getCartQuantity());
             BorderPane labels = new BorderPane();
 
+            Spinner<Integer> removeAmount = new Spinner<>(1, item.getCartQuantity(), 1);
+            Button removeItem = new Button("Remove " + removeAmount.getValue() + " From Cart");
+            removeAmount.getEditor().textProperty().addListener((obs, oldValue, newValue) ->
+                    removeItem.setText("Remove " + removeAmount.getValue() + " From Cart"));
+            removeAmount.setMaxWidth(15);
+
+            removeItem.setAlignment(Pos.CENTER);
+            BorderPane button = new BorderPane();
+            button.setLeft(removeItem);
+            button.setRight(removeAmount);
+            removeItem.setOnAction(event -> {
+                /*try {
+                    ItemManager.removeItem(item, user.getVendor());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                try {
+                    PageManager.getInstance().setPage(new StorePage());
+                } catch (IOException | CloneNotSupportedException e) {
+                    e.printStackTrace();
+                }*/
+            });
+
+
             labels.setTop(quantity);//contain quantity and price
             labels.setBottom(price);
             borderPane.setBottom(labels); // hold the item above the labels
-            BorderPane.setAlignment(quantity, Pos.CENTER);
+            BorderPane.setAlignment(labels, Pos.CENTER);
+            BorderPane.setAlignment(button, Pos.CENTER);
 
-            flowPane.getChildren().addAll(new ItemNode(item), labels);
+            try {
+                    flowPane.getChildren().addAll(new ItemNode(item), labels, button);
+                } catch (CloneNotSupportedException | FileNotFoundException e) {
+                    e.printStackTrace();
+                }
         }
         flowPane.setColumnHalignment(HPos.CENTER); // align labels on left
         flowPane.setPrefWrapLength(200); // preferred height = 200

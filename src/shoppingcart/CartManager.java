@@ -46,6 +46,7 @@ public class CartManager{ //cart controller
         updateCartSize(); //finally, update the cart size with the new quantities
     };
     public static void removeFromCart(Item item){ //remove specific item from cart list
+
         yourCart.removeItem(item);
     };
     public static int getCounter(){

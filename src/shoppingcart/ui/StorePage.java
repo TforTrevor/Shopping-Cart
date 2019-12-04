@@ -1,9 +1,13 @@
 package shoppingcart.ui;
 
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
 import shoppingcart.*;
 
 import java.io.File;
@@ -13,25 +17,36 @@ import java.util.ArrayList;
 
 public class StorePage extends BorderPane {
 
-    private ScrollPane scrollPane = new ScrollPane();
-    private FlowPane flowPane = new FlowPane();
     private StoreManager itemSetup = new StoreManager();
 
 
     public StorePage() throws IOException, CloneNotSupportedException {
+
+        Text title = new Text("Shopping Cart");
+        VBox titles = new VBox();
+        titles.getChildren().add(title);
+        titles.setSpacing(0);
+        titles.setAlignment(Pos.CENTER);
+        BorderPane content = new BorderPane();
+        content.setCenter(titles);
+        title.setFont(Font.font(Font.getDefault().getFamily(), FontWeight.MEDIUM, 32));
+        title.setFill(Color.WHITE);
+        content.setPadding(new Insets(10,0,30, 0));
+        content.setBackground(new Background(new BackgroundFill(Color.valueOf("333"), CornerRadii.EMPTY, Insets.EMPTY)));
+
         ArrayList<Item> buffer = itemSetup.getItems();
+        ArrayList<ItemNode> itemNodes = new ArrayList<>();
+
 
         for (Item item : buffer) {
-            //item.setPrefSize(100, 100);
             itemSetup.setAvailableQuantities(item, item.getAvailableQuantity());
             itemSetup.setCartQuantities(item, item.getCartQuantity());
-            flowPane.getChildren().add(new ItemNode(item));
+            itemNodes.add(new ItemNode(item));
         }
-        flowPane.setHgap(5);
-        flowPane.setVgap(5);
-        scrollPane.setContent(flowPane);
-        scrollPane.setFitToWidth(true);
-        scrollPane.setPadding(new Insets(10));
-        this.setCenter(scrollPane);
+        VBox mainContent = new VBox(content);
+        mainContent.setSpacing(10);
+        mainContent.getChildren().add(new Carousel<>("Store Items", itemNodes));
+
+        this.setCenter(mainContent);
     }
 }
