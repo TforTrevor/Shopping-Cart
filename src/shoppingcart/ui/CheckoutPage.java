@@ -36,8 +36,8 @@ public class CheckoutPage extends BorderPane {
         ArrayList<Item> buffer = CartManager.getCart();
         for (Item item : buffer) {
             borderPane.setTop(new ItemNode(item));
-            Label quantity = new Label("Quantity: " + item.getCartQuantity());
-            Label price = new Label("Total Price: " + item.getPrice() * item.getCartQuantity());
+            Label quantity = new Label("Quantity: " + item.getQuantity());
+            Label price = new Label("Total Price: " + item.getPrice() * item.getQuantity());
             BorderPane labels = new BorderPane();
             labels.setTop(quantity);//contain quantity and price
             labels.setBottom(price);

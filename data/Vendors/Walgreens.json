@@ -16,7 +16,7 @@
     "description": "Used for covering small cuts and bruises.",
     "price": 0.5,
     "quantity": 40,
-    "availableQuantity": 40,
+    "availableQuantity": 37,
     "cartQuantity": 0,
     "vendorName": null,
     "photo": "data/Photos/bandaid.jpg"

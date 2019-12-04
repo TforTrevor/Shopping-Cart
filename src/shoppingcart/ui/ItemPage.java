@@ -12,10 +12,9 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import shoppingcart.CartManager;
 import shoppingcart.Item;
-import shoppingcart.Store;
+import shoppingcart.StoreManager;
 import shoppingcart.Utilities;
 
-import javax.swing.*;
 import java.io.IOException;
 
 public class ItemPage extends BorderPane {
@@ -70,14 +69,13 @@ public class ItemPage extends BorderPane {
 
             try {
                 CartManager.addToCart(item, spinner.getValue()); //add to the cart
-            } catch (IOException e) {
+            } catch (IOException | CloneNotSupportedException e) {
                 e.printStackTrace();
             }
             item.setAvailableQuantity(item.getAvailableQuantity() - spinner.getValue()); //set the quantity to new quantity
             try {
-                Store store = new Store();
-                store.setAvailableQuantities(item, item.getAvailableQuantity());//update the available quantity in json
-                store.setCartQuantities(item, item.getCartQuantity());
+                StoreManager store = new StoreManager();
+                store.saveAvailableQuantity(item, item.getAvailableQuantity());//update the available quantity in json
             } catch (IOException e) {
                 e.printStackTrace();
             }

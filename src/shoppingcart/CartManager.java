@@ -13,22 +13,27 @@ public class CartManager{ //cart controller
     private static final String cartPath = "data/Cart.json";
     private static Gson gson = new GsonBuilder().serializeNulls().setPrettyPrinting().create();
 
-    private static Cart yourCart = null;//initialize on login
+    private static Cart userCart = null;//initialize on login
 
-    public static void setYourCart(Cart c){
-        yourCart = c;
-    }//used to initialize
-    public static Cart getYourCart(){
-        return yourCart;
+    public static void initCart() throws FileNotFoundException {
+        ArrayList<Item> cart = gson.fromJson(new FileReader(cartPath), new TypeToken<ArrayList<Item>>() {}.getType());
+        if (cart != null) userCart = new Cart(cart);
+        else userCart = new Cart();
     }
+
+    public static Cart getUserCart(){
+        return userCart;
+    }
+
     public static double totalPrices(){ //function to calculate prices, and possibly tax
         int totalPrice = 0;
-        for(Item i : yourCart.getCartItems())
-            totalPrice += (i.getPrice() * i.getCartQuantity());//returns total price of cart
+        for(Item i : userCart.getCartItems())
+            totalPrice += (i.getPrice() * i.getQuantity());//returns total price of cart
         return totalPrice;
     };
+
     public static void checkout() throws IOException {
-        Iterator<Item> iter = yourCart.getCartItems().iterator();
+        Iterator<Item> iter = userCart.getCartItems().iterator();
 
         while (iter.hasNext()) {//iterate through the cart, (bc removing while iterating in a for loop causes errors)
             Item i = iter.next();
@@ -38,35 +43,54 @@ public class CartManager{ //cart controller
         emptyCart();
     }
 
-    public static void addToCart(Item item, int quantity) throws IOException { //add an item into the cart list
-        if(!yourCart.getCartItems().contains(item)){ //if the item is not already in the cart
-            yourCart.addItem(item); //add it to the cart
+    public static void addToCart(Item item, int quantity) throws IOException, CloneNotSupportedException { //add an item into the cart list
+        Item clone = (Item) item.clone();
+        boolean match = false;
+        clone.setQuantity(quantity);
+        for (Item cartItem :userCart.getCartItems()) {
+            if (clone.getID() == cartItem.getID()) {
+                cartItem.setAvailableQuantity(item.getQuantity());
+                if(cartItem.getAvailableQuantity() - quantity > 0)
+                    cartItem.setQuantity(cartItem.getQuantity()+quantity);
+                match = true;
+                break;
+            }
         }
-        item.setCartQuantity(quantity + item.getCartQuantity()); //set its quantity to previous quantity + the new quantity
-        updateCartSize(); //finally, update the cart size with the new quantities
-    };
-    public static void removeFromCart(Item item){ //remove specific item from cart list
-        yourCart.removeItem(item);
-    };
-    public static int getCounter(){
-        return yourCart.getCartSize();
+        if (!match) userCart.addItem(clone);
+        saveCart();
     }
 
+    private static void saveCart() throws IOException {
+        File file = new File(cartPath);
+        FileWriter writer = new FileWriter(file);
 
-    public static ArrayList<Item> getCart(){return yourCart.getCartItems();}//receive the cart items
+        gson.toJson(userCart.getCartItems(), writer);
 
-    public static void updateCartSize() throws IOException {
-        Store store = new Store();
-        ArrayList<Integer>quantities = store.getCartQuantities();
-        int sum = 0;
-        for (Integer x : quantities) {
-            sum += x;
-        }
-        yourCart.setCartSize(sum);
+        writer.flush();
+        writer.close();
     }
+
+    public static int removeFromCart(Item item) throws IOException { //remove specific item from cart list
+        for (Item cartItem :userCart.getCartItems()) {
+            if (item.getID() == cartItem.getID()) {
+                int returnQuantity = cartItem.getQuantity();
+                userCart.removeItem(cartItem);
+                saveCart();
+                return returnQuantity;
+            }
+        }
+        return -1;
+    }
+
+    public static int getCounter() {
+        return userCart.getCartSize();
+    }
+
+    public static ArrayList<Item> getCart(){
+        return userCart.getCartItems();
+    }//receive the cart items
+
     public static void emptyCart() throws IOException {
-        Store store = new Store();
-        store.removeCartQuantities();
-        yourCart.setCartSize(0);
+        StoreManager store = new StoreManager();
     }
 }

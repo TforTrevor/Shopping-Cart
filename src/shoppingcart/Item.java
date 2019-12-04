@@ -11,7 +11,6 @@ public class Item implements Cloneable {
     private double price;
     private int quantity;
     private int availableQuantity;
-    private int cartQuantity;
     private String vendorName;
     private String photo;
 
@@ -41,6 +40,10 @@ public class Item implements Cloneable {
         return price;
     }
 
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+
     public int getQuantity() {
         return quantity;
     }
@@ -48,7 +51,10 @@ public class Item implements Cloneable {
     public int getAvailableQuantity() {
         return availableQuantity;
     }
-    public void setAvailableQuantity(int q){this.availableQuantity = q;}
+
+    public void setAvailableQuantity(int q){
+        this.availableQuantity = q;
+    }
 
     public String getVendorName() {
         return vendorName;
@@ -72,8 +78,6 @@ public class Item implements Cloneable {
         this.vendorName = vendorName;
     }
 
-    public void setCartQuantity(int x){this.cartQuantity = x;}
-    public int getCartQuantity(){return this.cartQuantity;}
     public Object clone() throws CloneNotSupportedException {
         return super.clone();
     }
@@ -82,7 +86,6 @@ public class Item implements Cloneable {
     public boolean equals(Object obj) {
         if (!(obj instanceof Item)) return false;
         Item itemObj = (Item) obj;
-
         return (itemObj.getID() == ID && itemObj.getName().equals(name) && itemObj.getDescription().equals(description) && itemObj.getPrice() == price && itemObj.getQuantity() == quantity  && itemObj.getImageURL().equals(photo));
     }
 }

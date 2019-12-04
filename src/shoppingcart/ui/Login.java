@@ -54,7 +54,7 @@ public class Login extends BorderPane {
                         if (user != null) {
                             Cart cart = new Cart(); //when a person logs in, instantiate the cart to their account
                             UserManager.setLoggedInUser(user);
-                            CartManager.setYourCart(cart);//set their cart to the instance
+                            CartManager.initCart();//set their cart to the instance
                             PageManager.getInstance().setPage(new StorePage());
                             PageManager.getInstance().setHeader(new Header());
                         } else {
@@ -99,7 +99,7 @@ public class Login extends BorderPane {
                         Cart cart = new Cart();//same thing
                         if (user != null) {
                             UserManager.setLoggedInUser(user);
-                            CartManager.setYourCart(cart);
+                            CartManager.initCart();
                             PageManager.getInstance().setPage(new StorePage());
                         } else {
                             error.setText("Error! Username/vendor name is already taken.");

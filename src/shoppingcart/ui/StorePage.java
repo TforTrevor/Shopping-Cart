@@ -4,7 +4,6 @@ import javafx.geometry.Insets;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
-import shoppingcart.CartManager;
 import shoppingcart.Item;
 import shoppingcart.StoreManager;
 
@@ -23,8 +22,7 @@ public class StorePage extends BorderPane {
 
         for (Item item : buffer) {
             //item.setPrefSize(100, 100);
-            itemSetup.setAvailableQuantities(item, item.getAvailableQuantity());
-            itemSetup.setCartQuantities(item, item.getCartQuantity());
+            itemSetup.saveAvailableQuantity(item, item.getAvailableQuantity());
             flowPane.getChildren().add(new ItemNode(item));
         }
         flowPane.setHgap(5);

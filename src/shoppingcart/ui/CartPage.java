@@ -33,8 +33,8 @@ public class CartPage extends BorderPane {
         FlowPane flowPane = new FlowPane(Orientation.VERTICAL);
         for (Item item: buffer) { //for every item in the list
             borderPane.setTop(new ItemNode(item));
-            Label quantity = new Label("Quantity: " + item.getCartQuantity());
-            Label price = new Label("Total Price: " + item.getPrice() * item.getCartQuantity());
+            Label quantity = new Label("Quantity: " + item.getQuantity());
+            Label price = new Label("Total Price: " + item.getPrice() * item.getQuantity());
             BorderPane labels = new BorderPane();
 
             labels.setTop(quantity);//contain quantity and price
