@@ -65,4 +65,17 @@ public class ItemManager {
         writer.close();
 
     }
+
+    public static void createStore(String vendor) throws IOException {
+        ArrayList<Item> dummyList = new ArrayList<Item>();
+        String pathName = "data/Vendors/"+vendor+".json";
+        File file = new File(pathName);
+        FileWriter writer = new FileWriter(file);
+
+        gson.toJson(dummyList, writer);
+
+        writer.flush();
+        writer.close();
+
+    }
 }

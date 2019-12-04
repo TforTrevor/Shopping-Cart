@@ -5,11 +5,9 @@ import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
-import shoppingcart.Cart;
-import shoppingcart.CartManager;
-import shoppingcart.User;
-import shoppingcart.UserManager;
+import shoppingcart.*;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
@@ -95,10 +93,12 @@ public class Login extends BorderPane {
                     try {
                         String vendorProcess = (vendor.isSelected()) ? vendorName.getText() : null;
                         User user = UserManager.makeNewUser(usernameField.getText(), passwordField.getText(), vendorProcess, (vendor.isSelected()));
-
                         Cart cart = new Cart();//same thing
                         if (user != null) {
                             UserManager.setLoggedInUser(user);
+                            if(user.checkVendor()) {
+                                ItemManager.createStore(user.getVendor());
+                            }
                             CartManager.setYourCart(cart);
                             PageManager.getInstance().setPage(new StorePage());
                             PageManager.getInstance().setHeader(new Header());

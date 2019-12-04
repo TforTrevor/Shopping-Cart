@@ -61,7 +61,6 @@ public class VendorPage extends BorderPane {
             button.setBottom(removeItem);
             yourItems.getChildren().addAll(new ItemNode(item), button);
             removeItem.setOnAction(event -> {
-                System.out.println("removing...");
                 try {
                     ItemManager.removeItem(item, user.getVendor());
                 } catch (IOException e) {

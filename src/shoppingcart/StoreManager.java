@@ -40,6 +40,7 @@ public class StoreManager {
                 item.setCartQuantity(item.getCartQuantity());
                 itemList.add(item);
             }
+
         }
         return itemList;
     }
@@ -109,6 +110,7 @@ public class StoreManager {
             }
         }
     }
+
     public ArrayList<Integer> getCartQuantities() throws IOException {
         ArrayList<Integer> quantities = new ArrayList<>();
         for (String vendorItems : fileNames) {
