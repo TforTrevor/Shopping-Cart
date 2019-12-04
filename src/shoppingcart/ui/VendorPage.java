@@ -50,12 +50,39 @@ public class VendorPage extends BorderPane {
         ArrayList<Node> nodes = new ArrayList<>();
         if(!(buffer == null)){
             for (Item item : buffer) {
+
                 Button removeItem = new Button("Remove From Store");
+                Spinner<Integer> increaseQuantity = new Spinner<>(1, 100, 1);
+                Button addQuantity = new Button("Add " + increaseQuantity.getValue() + " To Your Store  ");
+                increaseQuantity.getEditor().textProperty().addListener((obs, oldValue, newValue) ->
+                        addQuantity.setText("Add " + increaseQuantity.getValue() + " To Your Store  "));
+                increaseQuantity.setMaxWidth(15);
+
+
+                BorderPane buttons = new BorderPane();
+                BorderPane quantity = new BorderPane();
+                quantity.setLeft(addQuantity);
+                quantity.setRight(increaseQuantity);
+                buttons.setTop(quantity);
+                buttons.setBottom(removeItem);
                 removeItem.setAlignment(Pos.CENTER);
                 BorderPane fullNode = new BorderPane();
-                fullNode.setBottom(removeItem);
+                fullNode.setBottom(buttons);
                 fullNode.setTop(new ItemNode(item));
                 nodes.add(fullNode);
+
+                addQuantity.setOnAction(event -> {
+                    try {
+                        StoreManager.saveAvailableQuantity(item, item.getAvailableQuantity() + increaseQuantity.getValue());
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    try {
+                        PageManager.getInstance().setPage(new VendorPage());
+                    } catch (IOException | CloneNotSupportedException e) {
+                        e.printStackTrace();
+                    }
+                });
 
                 removeItem.setOnAction(event -> {
                     try {
