@@ -5,9 +5,14 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Objects;
 
 public class CartManager{ //cart controller
     private static final String cartPath = "data/Cart.json";
@@ -33,14 +38,16 @@ public class CartManager{ //cart controller
     };
 
     public static void checkout() throws IOException {
-        Iterator<Item> iter = userCart.getCartItems().iterator();
-
-        while (iter.hasNext()) {//iterate through the cart, (bc removing while iterating in a for loop causes errors)
-            Item i = iter.next();
-
-            iter.remove();//remove each item
-        }
-        emptyCart();
+        Path src = Paths.get(new File(cartPath).toURI());
+        int dest;
+        if(new File("data/Receipts").list() != null)
+            dest = new File("data/Receipts").list().length;
+        else
+            dest = 0;
+        Path dst = Paths.get("data/Receipts"+dest);
+        Files.copy(src,dst, StandardCopyOption.REPLACE_EXISTING);
+        userCart.getCartItems().clear();
+        new FileWriter(cartPath).close();
     }
 
     public static void addToCart(Item item, int quantity) throws IOException, CloneNotSupportedException { //add an item into the cart list
@@ -90,7 +97,4 @@ public class CartManager{ //cart controller
         return userCart.getCartItems();
     }//receive the cart items
 
-    public static void emptyCart() throws IOException {
-        StoreManager store = new StoreManager();
-    }
 }
