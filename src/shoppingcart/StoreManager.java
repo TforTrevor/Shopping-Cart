@@ -35,7 +35,7 @@ public class StoreManager {
             ArrayList<Item> items = gson.fromJson(new FileReader(vendorItems), new TypeToken<ArrayList<Item>>() {
             }.getType());
             for (Item item : items) {
-                item.setVendorName(vendorItems);
+                item.setVendorName(item.getVendorName());
                 item.setAvailableQuantity(item.getAvailableQuantity());
                 itemList.add(item);
             }
