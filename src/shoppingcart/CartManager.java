@@ -39,6 +39,14 @@ public class CartManager{ //cart controller
     };
 
     public static void checkout() throws IOException {
+        for(Item cartItem: userCart.getCartItems()){
+            for(Item storeItem: new StoreManager().getItems()){
+                if(cartItem.getID() == storeItem.getID()){
+                    StoreManager.saveQuantity(storeItem,storeItem.getQuantity()-cartItem.getQuantity());
+                    break;
+                }
+            }
+        }
         Path src = Paths.get(new File(cartPath).toURI());
         int dest;
         if(new File("data/Receipts").list() != null)
