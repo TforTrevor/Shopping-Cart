@@ -3,6 +3,7 @@ package shoppingcart;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
+
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
@@ -62,7 +63,7 @@ public class StatisticsManager {
         return noQuantity;
     }
 
-    public Item getTopSelling(){
+    public Item getTopSelling() {
         Statistics topSelling = null;
         for (Statistics itemStat : stats) {
             if (topSelling == null)
@@ -75,6 +76,9 @@ public class StatisticsManager {
                         topSelling = itemStat;
                 }
             }
+        }
+        if (topSelling == null) {
+            return null;
         }
         return topSelling.getItem();
     }
@@ -93,6 +97,9 @@ public class StatisticsManager {
                 }
             }
         }
+        if (topSelling == null) {
+            return null;
+        }
         return topSelling.getItem();
     }
 
@@ -106,6 +113,9 @@ public class StatisticsManager {
                     mostProfitable = itemStat;
             }
         }
+        if (mostProfitable == null) {
+            return null;
+        }
         return mostProfitable.getItem();
     }
 
@@ -118,6 +128,9 @@ public class StatisticsManager {
                 if(leastProfitable.getProfit() < itemStat.getProfit())
                     leastProfitable = itemStat;
             }
+        }
+        if (leastProfitable == null) {
+            return null;
         }
         return leastProfitable.getItem();
     }
