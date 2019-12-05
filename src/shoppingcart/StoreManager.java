@@ -13,11 +13,18 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Manages the items from the stores, including setting their quantities.
+ */
 public class StoreManager {
 
     private static ArrayList<String> fileNames;
     private static Gson gson = new GsonBuilder().serializeNulls().setPrettyPrinting().create();
 
+    /**
+     * Constructor for the StoreManager, which grabs the list of files from the vendor directory.
+     * @throws IOException if the directory doesnt exist.
+     */
     public StoreManager() throws IOException {
         fileNames = new ArrayList<>();
         List<File> fileList = Files.walk(Paths.get("data/Vendors"))
@@ -29,6 +36,11 @@ public class StoreManager {
         }
     }
 
+    /**
+     * Grabs all the items from the vendor files into one list.
+     * @return an ArrayList  of all of the items in the vendor files.
+     * @throws FileNotFoundException if the file isn't found.
+     */
     public ArrayList<Item> getItems() throws FileNotFoundException {
         ArrayList<Item> itemList = new ArrayList<>();
         for (String vendorItems : fileNames) {
@@ -44,8 +56,13 @@ public class StoreManager {
         return itemList;
     }
 
+    /**
+     * Updates the vendor file with the new available quantity for the specified item.
+     * @param item the item to update.
+     * @param newQuantity the new quantity to set the availableQuantity to.
+     * @throws IOException if the file could not be written.
+     */
     public static void saveAvailableQuantity(Item item, int newQuantity) throws IOException {
-
         for (String vendorItems : fileNames) {
             ArrayList<Item> items = gson.fromJson(new FileReader(vendorItems), new TypeToken<ArrayList<Item>>() {}.getType());
             for (Item n : items) {
