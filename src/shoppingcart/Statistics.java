@@ -1,11 +1,18 @@
 package shoppingcart;
 
+/**
+ * Statistics class to be initialized from the receipts.
+ */
 public class Statistics {
     private Item item;
     private int timesPurchased;
     private int quantityPurchased;
     private double profit;
 
+    /**
+     * Constructor of statistics, which sets the item, quantity purchased, times purchased, and the profit.
+     * @param item The item from the receipts to initialize statistics.
+     */
     public Statistics(Item item){
         this.item = item;
         this.timesPurchased = 1;
@@ -13,37 +20,42 @@ public class Statistics {
         this.profit = item.getQuantity()*item.getPrice();
     }
 
-    public void setItem(Item item) {
-        this.item = item;
-    }
-    
+    /**
+     * gets the item.
+     * @return the item.
+     */
     public Item getItem() {
         return item;
     }
-    
-    public void setTimesPurchased(int timesPurchased) {
-        this.timesPurchased = timesPurchased;
-    }
 
+    /**
+     * gets the amount of times purchased.
+     * @return the amount of times purchased.
+     */
     public int getTimesPurchased() {
         return timesPurchased;
     }
-    
-    public void setQuantityPurchased(int quantityPurchased) {
-        this.quantityPurchased = quantityPurchased;
-    }
 
+    /**
+     * gets the amount of quantity purchased.
+     * @return the amount of quantity purchased.
+     */
     public int getQuantityPurchased() {
         return quantityPurchased;
     }
-    
-    public void setProfit(int profit) {
-        this.profit = profit;
-    }
-
+    /**
+     * gets the profit.
+     * @return the profit.
+     */
     public double getProfit() {
         return profit;
     }
+
+    /**
+     * Updates the class when there is more quantity purchased. Used when the item already exists in the ArrayList in
+     * StatisticsManager.
+     * @param quantityPurchased the updated quantity purchased.
+     */
     public void add(int quantityPurchased){
         this.quantityPurchased += quantityPurchased;
         timesPurchased++;

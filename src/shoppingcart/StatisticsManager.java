@@ -14,11 +14,18 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Manages all the functions for statistics and reads it from Receipts.
+ */
 public class StatisticsManager {
     private ArrayList<Statistics> stats = new ArrayList<>();
     private Gson gson = new GsonBuilder().serializeNulls().setPrettyPrinting().create();
     private String vendor = UserManager.getLoggedInUser().getVendor();
 
+    /**
+     * Constructor for statistics. It grabs all the items in the receipts and adds them into the ArrayList, and if
+     * the item already exist, it will instead just update the item with the information needed (the quantity purchased.)
+     */
     public StatisticsManager() throws IOException {
         String vendor = UserManager.getLoggedInUser().getVendor();
         List<File> fileList = Files.walk(Paths.get("data/Receipts"))
@@ -46,6 +53,11 @@ public class StatisticsManager {
         }
     }
 
+    /**
+     * Checks to see if any items of the vendor has less than 10 quantity.
+     * @return the list of items with low quantity.
+     * @throws IOException if StoreManager could not read the files.
+     */
     public ArrayList<Item> checkLowQuantity() throws IOException {
         ArrayList<Item> lowQuantity = new ArrayList<>();
         for (Item item: new StoreManager().getItems()){
@@ -56,7 +68,11 @@ public class StatisticsManager {
         }
         return lowQuantity;
     }
-
+    /**
+     * Checks to see if any items of the vendor has no quantity.
+     * @return the list of items with no quantity.
+     * @throws IOException if StoreManager could not read the files.
+     */
     public ArrayList<Item> checkNoQuantity() throws IOException {
         ArrayList<Item> noQuantity = new ArrayList<>();
         for (Item item: new StoreManager().getItems()){
@@ -68,6 +84,10 @@ public class StatisticsManager {
         return noQuantity;
     }
 
+    /**
+     * Gets the item that has been purchased the most.
+     * @return the top selling item.
+     */
     public Item getTopSelling() {
         Statistics topSelling = null;
         for (Statistics itemStat : stats) {
@@ -87,7 +107,10 @@ public class StatisticsManager {
         }
         return topSelling.getItem();
     }
-
+    /**
+     * Gets the item that has been purchased the least.
+     * @return the least selling item.
+     */
     public Item getLeastSelling(){
         Statistics topSelling = null;
         for (Statistics itemStat : stats) {
@@ -107,7 +130,10 @@ public class StatisticsManager {
         }
         return topSelling.getItem();
     }
-
+    /**
+     * Gets the item that is the most profitable.
+     * @return the most profitable item.
+     */
     public Item getMostProfitable(){
         Statistics mostProfitable = null;
         for (Statistics itemStat : stats) {
@@ -123,7 +149,10 @@ public class StatisticsManager {
         }
         return mostProfitable.getItem();
     }
-
+    /**
+     * Gets the item that is the least profitable.
+     * @return the least profitable item.
+     */
     public Item getLeastProfitable(){
         Statistics leastProfitable = null;
         for (Statistics itemStat : stats) {
@@ -140,6 +169,10 @@ public class StatisticsManager {
         return leastProfitable.getItem();
     }
 
+    /**
+     * calculates the total profit of all of the items.
+     * @return the total profit made.
+     */
     public double profit(){
         double totalProfit = 0;
         for(Statistics stat: stats){

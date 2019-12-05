@@ -83,7 +83,12 @@ public class StoreManager {
 
         }
     }
-
+    /**
+     * Updates the vendor file with the new quantity for the specified item.
+     * @param item the item to update.
+     * @param newQuantity the new quantity to set the quantity to.
+     * @throws IOException if the file could not be written.
+     */
     public static void saveQuantity(Item item, int newQuantity) throws IOException {
 
         for (String vendorItems : fileNames) {
@@ -107,6 +112,11 @@ public class StoreManager {
         }
     }
 
+    /**
+     * Creates a new vendor file if this is a new vendor account.
+     * @param vendor the vendor name.
+     * @throws IOException if it could not write to the file.
+     */
     public static void createStore(String vendor) throws IOException {
         ArrayList<Item> dummyList = new ArrayList<>();
         String pathName = "data/Vendors/"+vendor+".json";
