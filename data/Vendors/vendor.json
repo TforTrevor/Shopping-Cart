@@ -1,0 +1,22 @@
+[
+  {
+    "ID": 1,
+    "name": "bandaid",
+    "description": "covers wounds",
+    "price": 5.0,
+    "quantity": 90,
+    "availableQuantity": 90,
+    "vendorName": "vendor",
+    "photo": "data/Photos/bandaid.jpg"
+  },
+  {
+    "ID": 2,
+    "name": "waffle house painting",
+    "description": "beautiful",
+    "price": 160.0,
+    "quantity": 0,
+    "availableQuantity": 0,
+    "vendorName": "vendor",
+    "photo": "data/Photos/house.jpg"
+  }
+]

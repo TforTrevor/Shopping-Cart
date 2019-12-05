@@ -5,23 +5,8 @@
     "vendor": null
   },
   {
-    "username": "gfds",
-    "password": "gfd",
-    "vendor": null
-  },
-  {
     "username": "v",
-    "password": "v",
-    "vendor": "Vendor"
-  },
-  {
-    "username": "a",
-    "password": "a",
-    "vendor": null
-  },
-  {
-    "username": "Vendor",
-    "password": "password",
-    "vendor": "My Store"
+    "password": "vendor",
+    "vendor": "vendor"
   }
 ]

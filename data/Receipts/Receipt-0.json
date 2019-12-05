@@ -1,12 +1,12 @@
 [
   {
-    "ID": 3,
-    "name": "Juice",
-    "description": "Drink it",
-    "price": 1.0,
-    "quantity": 5,
-    "availableQuantity": 100,
-    "vendorName": "data/Vendors/JuiceStore.json",
+    "ID": 1,
+    "name": "bandaid",
+    "description": "covers wounds",
+    "price": 5.0,
+    "quantity": 10,
+    "availableQuantity": 90,
+    "vendorName": "vendor",
     "photo": "data/Photos/bandaid.jpg"
   }
 ]
