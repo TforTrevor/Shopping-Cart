@@ -69,7 +69,7 @@ public class CartManager{ //cart controller
                 new StoreManager().getItems().forEach((Item storeItem) -> {
                     if (storeItem.getID() == cartItem.getID()) {
                         cartItem.setAvailableQuantity(storeItem.getAvailableQuantity() - addQuantity);
-                        if(cartItem.getAvailableQuantity() > 0) {
+                        if(cartItem.getAvailableQuantity() >= 0) {
                             cartItem.setQuantity(cartItem.getQuantity() + addQuantity);
                             try {
                                 StoreManager.saveAvailableQuantity(storeItem, storeItem.getAvailableQuantity() - addQuantity);
