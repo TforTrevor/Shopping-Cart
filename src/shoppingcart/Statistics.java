@@ -47,6 +47,6 @@ public class Statistics {
     public void add(int quantityPurchased){
         this.quantityPurchased += quantityPurchased;
         timesPurchased++;
-        profit = quantityPurchased*item.getPrice();
+        profit = this.quantityPurchased * item.getPrice();
     }
 }

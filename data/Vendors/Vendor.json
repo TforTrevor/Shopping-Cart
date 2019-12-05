@@ -4,8 +4,8 @@
     "name": "toy",
     "description": "test",
     "price": 1.0,
-    "quantity": 27,
-    "availableQuantity": 68,
+    "quantity": 13,
+    "availableQuantity": 7,
     "vendorName": "Vendor",
     "photo": "data/Photos/house.jpg"
   }

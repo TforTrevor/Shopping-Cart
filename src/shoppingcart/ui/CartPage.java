@@ -43,8 +43,8 @@ public class CartPage extends BorderPane {
             labels.setBottom(price);
 
             Spinner<Integer> removeAmount;
-            if (item.getQuantity() > 0) {
-                removeAmount = new Spinner<>(1, item.getQuantity(), 1);
+            if (item.getAvailableQuantity() > 0) {
+                removeAmount = new Spinner<>(1, item.getAvailableQuantity(), 1);
             } else {
                 removeAmount = new Spinner<>(0, 0, 0);
             }
@@ -55,8 +55,8 @@ public class CartPage extends BorderPane {
             removeAmount.setMaxWidth(15);
 
             Spinner<Integer> addAmount;
-            if (item.getQuantity() > 0) {
-                addAmount = new Spinner<>(1, item.getQuantity(), 1);
+            if (item.getAvailableQuantity() > 0) {
+                addAmount = new Spinner<>(1, item.getAvailableQuantity(), 1);
             } else {
                 addAmount = new Spinner<>(0, 0, 0);
             }

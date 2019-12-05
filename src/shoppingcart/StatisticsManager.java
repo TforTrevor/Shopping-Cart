@@ -28,13 +28,18 @@ public class StatisticsManager {
 
         for (File receipt: fileList) {
             ArrayList<Item> receiptItems = gson.fromJson(new FileReader(receipt), new TypeToken<ArrayList<Item>>() {}.getType());
-            for(Item receiptItem : receiptItems){
-                if(receiptItem.getVendorName().equals(vendor)) {
-                    for (Statistics itemStat: stats) {
-                        if(itemStat.getItem().getID() == receiptItem.getID()){
+            for (Item receiptItem : receiptItems) {
+                if (receiptItem.getVendorName().equals(vendor)) {
+                    boolean itemExists = false;
+                    for (Statistics itemStat : stats) {
+                        if (itemStat.getItem().getID() == receiptItem.getID()) {
                             itemStat.add(receiptItem.getQuantity());
+                            itemExists = true;
+                            break;
                         }
-                        else stats.add(new Statistics(receiptItem));
+                    }
+                    if (!itemExists) {
+                        stats.add(new Statistics(receiptItem));
                     }
                 }
             }
