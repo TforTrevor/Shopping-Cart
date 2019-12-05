@@ -65,6 +65,27 @@ public class StoreManager {
         }
     }
 
+    public static void saveQuantity(Item item, int newQuantity) throws IOException {
+        for (String vendorItems : fileNames) {
+            ArrayList<Item> items = gson.fromJson(new FileReader(vendorItems), new TypeToken<ArrayList<Item>>() {}.getType());
+            for (Item n : items) {
+                if(n.equals(item)){
+                    n.setQuantity(newQuantity);
+
+                    File file = new File(vendorItems);
+                    FileWriter writer = new FileWriter(file);
+
+                    gson.toJson(items, writer);
+
+                    writer.flush();
+                    writer.close();
+                    return;
+                }
+            }
+
+        }
+    }
+
     public static void createStore(String vendor) throws IOException {
         ArrayList<Item> dummyList = new ArrayList<>();
         String pathName = "data/Vendors/"+vendor+".json";
