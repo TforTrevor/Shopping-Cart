@@ -74,8 +74,7 @@ public class ItemPage extends BorderPane {
             }
             item.setAvailableQuantity(item.getAvailableQuantity() - spinner.getValue()); //set the quantity to new quantity
             try {
-                StoreManager store = new StoreManager();
-                store.saveAvailableQuantity(item, item.getAvailableQuantity());//update the available quantity in json
+                StoreManager.saveAvailableQuantity(item, item.getAvailableQuantity());//update the available quantity in json
             } catch (IOException e) {
                 e.printStackTrace();
             }

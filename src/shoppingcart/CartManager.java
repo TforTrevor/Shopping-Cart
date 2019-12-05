@@ -51,20 +51,46 @@ public class CartManager{ //cart controller
         new FileWriter(cartPath).close();
     }
 
-    public static void addToCart(Item item, int quantity) throws IOException, CloneNotSupportedException { //add an item into the cart list
+    public static void addToCart(Item item, int addQuantity) throws IOException, CloneNotSupportedException { //add an item into the cart list
         Item clone = (Item) item.clone();
+
         boolean match = false;
-        clone.setQuantity(quantity);
+        clone.setQuantity(addQuantity);
+
         for (Item cartItem :userCart.getCartItems()) {
             if (clone.getID() == cartItem.getID()) {
-                cartItem.setAvailableQuantity(item.getAvailableQuantity() - quantity);
-                if(cartItem.getAvailableQuantity() - quantity > 0)
-                    cartItem.setQuantity(cartItem.getQuantity()+quantity);
+                new StoreManager().getItems().forEach((Item storeItem) -> {
+                    if (storeItem.getID() == cartItem.getID()) {
+                        cartItem.setAvailableQuantity(storeItem.getAvailableQuantity() - addQuantity);
+                        if(cartItem.getAvailableQuantity() > 0) {
+                            cartItem.setQuantity(cartItem.getQuantity() + addQuantity);
+                            try {
+                                StoreManager.saveAvailableQuantity(storeItem, storeItem.getAvailableQuantity() - addQuantity);
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                        else
+                            cartItem.setAvailableQuantity(storeItem.getAvailableQuantity());
+                    }
+                });
                 match = true;
                 break;
             }
         }
-        if (!match) userCart.addItem(clone);
+
+        if (!match) {
+            userCart.addItem(clone);
+            new StoreManager().getItems().forEach((Item storeItem) -> {
+                if(clone.getID() == storeItem.getID()) {
+                    try {
+                        StoreManager.saveAvailableQuantity(storeItem, storeItem.getAvailableQuantity() - addQuantity);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+        }
         saveCart();
     }
 
@@ -78,20 +104,25 @@ public class CartManager{ //cart controller
         writer.close();
     }
 
-    public static int removeFromCart(Item item, int removeQuantity) throws IOException { //remove specific item from cart list
+    public static void removeFromCart(Item item, int removeQuantity) throws IOException { //remove specific item from cart list
         for (Item cartItem :userCart.getCartItems()) {
             if (item.getID() == cartItem.getID()) {
                 cartItem.setQuantity(cartItem.getQuantity() - removeQuantity);
-                cartItem.setAvailableQuantity(item.getAvailableQuantity() + removeQuantity);
-                int returnQuantity = cartItem.getQuantity();
-
-                if(cartItem.getQuantity() == 0)
+                new StoreManager().getItems().forEach((Item storeItem) ->{
+                        if(storeItem.getID() == cartItem.getID()){
+                            cartItem.setAvailableQuantity(storeItem.getAvailableQuantity()+removeQuantity);
+                            try {
+                                StoreManager.saveAvailableQuantity(storeItem,storeItem.getAvailableQuantity() + removeQuantity);
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                });
+                if(cartItem.getQuantity() <= 0)
                     userCart.removeItem(cartItem);
                 saveCart();
-                return returnQuantity;
             }
         }
-        return -1;
     }
 
     public static int getCounter() {
