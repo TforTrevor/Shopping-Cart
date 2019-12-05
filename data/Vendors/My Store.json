@@ -4,8 +4,8 @@
     "name": "New Item",
     "description": "buy it please",
     "price": 100.0,
-    "quantity": 20,
-    "availableQuantity": 0,
+    "quantity": -9,
+    "availableQuantity": -25,
     "vendorName": "My Store",
     "photo": "data/Photos/house.jpg"
   }

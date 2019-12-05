@@ -50,7 +50,7 @@ public class StatisticsManager {
         ArrayList<Item> lowQuantity = new ArrayList<>();
         for (Item item: new StoreManager().getItems()){
             if(item.getVendorName().equals(vendor)){
-                if(item.getAvailableQuantity() < 10)
+                if (item.getAvailableQuantity() < 10 && item.getAvailableQuantity() != 0)
                     lowQuantity.add(item);
             }
         }

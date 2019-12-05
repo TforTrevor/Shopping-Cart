@@ -34,8 +34,8 @@ public class StatisticsPage extends BorderPane {
             ItemNode topSellingNode = new ItemNode(topSelling);
             Label topS = new Label("Highest Selling Item:");
             BorderPane topSPane = new BorderPane();
-            topSPane.setTop(topSellingNode);
-            topSPane.setBottom(topS);
+            topSPane.setCenter(topSellingNode);
+            topSPane.setTop(topS);
             mainStats.add(topSPane);
         }
 
@@ -44,8 +44,8 @@ public class StatisticsPage extends BorderPane {
             ItemNode leastSellingNode = new ItemNode(leastSelling);
             Label leastS = new Label("Least Selling Item:");
             BorderPane leastSPane = new BorderPane();
-            leastSPane.setTop(leastSellingNode);
-            leastSPane.setBottom(leastS);
+            leastSPane.setCenter(leastSellingNode);
+            leastSPane.setTop(leastS);
             mainStats.add(leastSPane);
         }
 
@@ -54,8 +54,8 @@ public class StatisticsPage extends BorderPane {
             ItemNode mostProfitableNode = new ItemNode(mostProfitable);
             Label mostP = new Label("Most Profitable Item:");
             BorderPane mostPPane = new BorderPane();
-            mostPPane.setTop(mostProfitableNode);
-            mostPPane.setBottom(mostP);
+            mostPPane.setCenter(mostProfitableNode);
+            mostPPane.setTop(mostP);
             mainStats.add(mostPPane);
         }
 
@@ -64,8 +64,8 @@ public class StatisticsPage extends BorderPane {
             ItemNode leastProfitableNode = new ItemNode(leastProfitable);
             Label leastP = new Label("Least Profitable Item:");
             BorderPane leastPPane = new BorderPane();
-            leastPPane.setTop(leastProfitableNode);
-            leastPPane.setBottom(leastP);
+            leastPPane.setCenter(leastProfitableNode);
+            leastPPane.setTop(leastP);
             mainStats.add(leastPPane);
         }
 
