@@ -43,7 +43,6 @@ public class CartManager{ //cart controller
             for(Item storeItem: new StoreManager().getItems()){
                 if(cartItem.getID() == storeItem.getID()){
                     StoreManager.saveQuantity(storeItem,storeItem.getQuantity()-cartItem.getQuantity());
-                    break;
                 }
             }
         }
