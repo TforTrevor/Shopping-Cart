@@ -1,11 +1,11 @@
 package shoppingcart.ui;
 
-import javafx.geometry.HPos;
 import javafx.geometry.Insets;
-import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.Spinner;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -13,7 +13,6 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import shoppingcart.*;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -66,14 +65,18 @@ public class VendorPage extends BorderPane {
                 buttons.setTop(quantity);
                 buttons.setBottom(removeItem);
                 removeItem.setAlignment(Pos.CENTER);
+                Label quantityLabel = new Label("Quantity: " + item.getQuantity());
                 BorderPane fullNode = new BorderPane();
                 fullNode.setBottom(buttons);
+                fullNode.setCenter(quantityLabel);
                 fullNode.setTop(new ItemNode(item));
                 nodes.add(fullNode);
 
                 addQuantity.setOnAction(event -> {
                     try {
+                        StoreManager.saveQuantity(item, item.getQuantity() + increaseQuantity.getValue());
                         StoreManager.saveAvailableQuantity(item, item.getAvailableQuantity() + increaseQuantity.getValue());
+                        quantityLabel.setText("Quantity: " + item.getQuantity());
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -114,7 +117,11 @@ public class VendorPage extends BorderPane {
         });
         Button statistics = new Button("View Store statistics");
         statistics.setOnAction(event -> {
-            //PageManager.getInstance().setPage(new vendorStatistics()));
+            try {
+                PageManager.getInstance().setPage(new StatisticsPage());
+            } catch (IOException | CloneNotSupportedException e) {
+                e.printStackTrace();
+            }
         });
         buttonGroup.getChildren().add(newItem);
         buttonGroup.getChildren().add(statistics);

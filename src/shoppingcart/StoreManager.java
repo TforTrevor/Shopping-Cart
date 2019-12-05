@@ -45,6 +45,7 @@ public class StoreManager {
     }
 
     public static void saveAvailableQuantity(Item item, int newQuantity) throws IOException {
+
         for (String vendorItems : fileNames) {
             ArrayList<Item> items = gson.fromJson(new FileReader(vendorItems), new TypeToken<ArrayList<Item>>() {}.getType());
             for (Item n : items) {
@@ -58,6 +59,30 @@ public class StoreManager {
 
                     writer.flush();
                     writer.close();
+                    item.setAvailableQuantity(newQuantity);
+                    return;
+                }
+            }
+
+        }
+    }
+
+    public static void saveQuantity(Item item, int newQuantity) throws IOException {
+
+        for (String vendorItems : fileNames) {
+            ArrayList<Item> items = gson.fromJson(new FileReader(vendorItems), new TypeToken<ArrayList<Item>>() {}.getType());
+            for (Item n : items) {
+                if(n.equals(item)){
+                    n.setQuantity(newQuantity);
+
+                    File file = new File(vendorItems);
+                    FileWriter writer = new FileWriter(file);
+
+                    gson.toJson(items, writer);
+
+                    writer.flush();
+                    writer.close();
+                    item.setQuantity(newQuantity);
                     return;
                 }
             }

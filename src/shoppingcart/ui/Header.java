@@ -45,7 +45,7 @@ public class Header extends BorderPane {
             }
         }));
 
-        vendorButton = new Button("For Vendors");
+        vendorButton = new Button("View Your Store");
         vendorButton.setOnAction((event -> {
             try {
                 PageManager.getInstance().setPage(new VendorPage());

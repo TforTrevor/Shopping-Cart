@@ -1,21 +1,18 @@
 package shoppingcart.ui;
 
-import javafx.beans.property.ObjectProperty;
-import javafx.geometry.HPos;
 import javafx.geometry.Insets;
-import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Spinner;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
-import shoppingcart.*;
+import shoppingcart.CartManager;
+import shoppingcart.Item;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -45,13 +42,24 @@ public class CartPage extends BorderPane {
             labels.setTop(quantity);
             labels.setBottom(price);
 
-            Spinner<Integer> removeAmount = new Spinner<>(1, item.getQuantity(), 1);
+            Spinner<Integer> removeAmount;
+            if (item.getAvailableQuantity() > 0) {
+                removeAmount = new Spinner<>(1, item.getAvailableQuantity(), 1);
+            } else {
+                removeAmount = new Spinner<>(0, 0, 0);
+            }
+
             Button removeItem = new Button("Remove " + removeAmount.getValue() + " From Cart");
             removeAmount.getEditor().textProperty().addListener((obs, oldValue, newValue) ->
                     removeItem.setText("Remove " + removeAmount.getValue() + " From Cart"));
             removeAmount.setMaxWidth(15);
 
-            Spinner<Integer> addAmount = new Spinner<>(1, item.getAvailableQuantity(), 1);
+            Spinner<Integer> addAmount;
+            if (item.getAvailableQuantity() > 0) {
+                addAmount = new Spinner<>(1, item.getAvailableQuantity(), 1);
+            } else {
+                addAmount = new Spinner<>(0, 0, 0);
+            }
             Button addItem = new Button("Add " + addAmount.getValue() + " To Your Cart  ");
             addAmount.getEditor().textProperty().addListener((obs, oldValue, newValue) ->
                     addItem.setText("Add " + addAmount.getValue() + " To Your Cart  "));

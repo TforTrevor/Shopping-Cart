@@ -1,7 +1,5 @@
 package shoppingcart;
 
-import shoppingcart.Item;
-
 public class Statistics {
     private Item item;
     private int timesPurchased;
@@ -49,6 +47,6 @@ public class Statistics {
     public void add(int quantityPurchased){
         this.quantityPurchased += quantityPurchased;
         timesPurchased++;
-        profit = quantityPurchased*item.getPrice();
+        profit = this.quantityPurchased * item.getPrice();
     }
 }

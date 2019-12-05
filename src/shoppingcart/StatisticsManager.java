@@ -3,7 +3,6 @@ package shoppingcart;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
-import com.sun.org.glassfish.external.statistics.Statistic;
 
 import java.io.File;
 import java.io.FileReader;
@@ -29,13 +28,18 @@ public class StatisticsManager {
 
         for (File receipt: fileList) {
             ArrayList<Item> receiptItems = gson.fromJson(new FileReader(receipt), new TypeToken<ArrayList<Item>>() {}.getType());
-            for(Item receiptItem : receiptItems){
-                if(receiptItem.getVendorName().equals(vendor)) {
-                    for (Statistics itemStat: stats) {
-                        if(itemStat.getItem().getID() == receiptItem.getID()){
+            for (Item receiptItem : receiptItems) {
+                if (receiptItem.getVendorName().equals(vendor)) {
+                    boolean itemExists = false;
+                    for (Statistics itemStat : stats) {
+                        if (itemStat.getItem().getID() == receiptItem.getID()) {
                             itemStat.add(receiptItem.getQuantity());
+                            itemExists = true;
+                            break;
                         }
-                        else stats.add(new Statistics(receiptItem));
+                    }
+                    if (!itemExists) {
+                        stats.add(new Statistics(receiptItem));
                     }
                 }
             }
@@ -46,7 +50,7 @@ public class StatisticsManager {
         ArrayList<Item> lowQuantity = new ArrayList<>();
         for (Item item: new StoreManager().getItems()){
             if(item.getVendorName().equals(vendor)){
-                if(item.getQuantity() < 10)
+                if (item.getAvailableQuantity() < 10 && item.getAvailableQuantity() != 0)
                     lowQuantity.add(item);
             }
         }
@@ -57,14 +61,14 @@ public class StatisticsManager {
         ArrayList<Item> noQuantity = new ArrayList<>();
         for (Item item: new StoreManager().getItems()){
             if(item.getVendorName().equals(vendor)){
-                if(item.getQuantity() == 0)
+                if(item.getAvailableQuantity() == 0)
                     noQuantity.add(item);
             }
         }
         return noQuantity;
     }
 
-    public Item getTopSelling(){
+    public Item getTopSelling() {
         Statistics topSelling = null;
         for (Statistics itemStat : stats) {
             if (topSelling == null)
@@ -77,6 +81,9 @@ public class StatisticsManager {
                         topSelling = itemStat;
                 }
             }
+        }
+        if (topSelling == null) {
+            return null;
         }
         return topSelling.getItem();
     }
@@ -95,6 +102,9 @@ public class StatisticsManager {
                 }
             }
         }
+        if (topSelling == null) {
+            return null;
+        }
         return topSelling.getItem();
     }
 
@@ -108,6 +118,9 @@ public class StatisticsManager {
                     mostProfitable = itemStat;
             }
         }
+        if (mostProfitable == null) {
+            return null;
+        }
         return mostProfitable.getItem();
     }
 
@@ -120,6 +133,9 @@ public class StatisticsManager {
                 if(leastProfitable.getProfit() < itemStat.getProfit())
                     leastProfitable = itemStat;
             }
+        }
+        if (leastProfitable == null) {
+            return null;
         }
         return leastProfitable.getItem();
     }

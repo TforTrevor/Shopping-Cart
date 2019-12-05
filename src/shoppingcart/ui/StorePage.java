@@ -6,19 +6,16 @@ import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Spinner;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.FlowPane;
-import shoppingcart.Item;
-import shoppingcart.StoreManager;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
-import shoppingcart.*;
+import shoppingcart.CartManager;
+import shoppingcart.Item;
+import shoppingcart.StoreManager;
+import shoppingcart.UserManager;
 
-import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -53,7 +50,13 @@ public class StorePage extends BorderPane {
 
                 for(Item i : buffer){
                     BorderPane fullNode = new BorderPane();
-                    Spinner<Integer> addAmount = new Spinner<>(1, item.getAvailableQuantity(), 1);
+                    Spinner<Integer> addAmount;
+                    if (item.getAvailableQuantity() > 0) {
+                        addAmount = new Spinner<>(1, item.getAvailableQuantity(), 1);
+                    } else {
+                        addAmount = new Spinner<>(0, 0, 0);
+                    }
+
                     Button quickAdd = new Button("Add " + addAmount.getValue()  + " to Cart");
                     quickAdd.setAlignment(Pos.CENTER);
 
@@ -64,6 +67,12 @@ public class StorePage extends BorderPane {
                     buttons.setLeft(quickAdd);
                     buttons.setRight(addAmount);
                     fullNode.setBottom(buttons);
+                    if(UserManager.getLoggedInUser().getVendor() != null){
+                        if(UserManager.getLoggedInUser().getVendor().equals(i.getVendorName())){
+                            quickAdd.setDisable(true);
+                            addAmount.setDisable(true);
+                        }
+                    }
 
                     if(i.getVendorName().equals(item.getVendorName())){
                         fullNode.setTop(new ItemNode(i));
