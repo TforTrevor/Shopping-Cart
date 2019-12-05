@@ -45,6 +45,7 @@ public class StoreManager {
     }
 
     public static void saveAvailableQuantity(Item item, int newQuantity) throws IOException {
+        item.setAvailableQuantity(newQuantity);
         for (String vendorItems : fileNames) {
             ArrayList<Item> items = gson.fromJson(new FileReader(vendorItems), new TypeToken<ArrayList<Item>>() {}.getType());
             for (Item n : items) {
@@ -66,6 +67,7 @@ public class StoreManager {
     }
 
     public static void saveQuantity(Item item, int newQuantity) throws IOException {
+        item.setQuantity(newQuantity);
         for (String vendorItems : fileNames) {
             ArrayList<Item> items = gson.fromJson(new FileReader(vendorItems), new TypeToken<ArrayList<Item>>() {}.getType());
             for (Item n : items) {
