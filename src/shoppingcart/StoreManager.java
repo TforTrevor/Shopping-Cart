@@ -94,6 +94,8 @@ public class StoreManager {
         ArrayList<Item> dummyList = new ArrayList<>();
         String pathName = "data/Vendors/"+vendor+".json";
         File file = new File(pathName);
+        file.getParentFile().mkdirs();
+        file.createNewFile();
         FileWriter writer = new FileWriter(file);
 
         gson.toJson(dummyList, writer);

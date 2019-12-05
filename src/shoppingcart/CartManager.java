@@ -21,6 +21,7 @@ public class CartManager{ //cart controller
     private static Cart userCart = null;//initialize on login
 
     public static void initCart() throws IOException {
+        new File(cartPath).getParentFile().mkdirs();
         new File(cartPath).createNewFile();
         ArrayList<Item> cart = gson.fromJson(new FileReader(cartPath), new TypeToken<ArrayList<Item>>() {}.getType());
         if (cart != null && !cart.isEmpty()) userCart = new Cart(cart);
@@ -48,6 +49,7 @@ public class CartManager{ //cart controller
         }
         Path src = Paths.get(new File(cartPath).toURI());
         int dest;
+        new File("data/Receipts").getParentFile().mkdirs();
         if(new File("data/Receipts").list() != null)
             dest = new File("data/Receipts").list().length;
         else
