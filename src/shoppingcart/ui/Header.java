@@ -40,12 +40,12 @@ public class Header extends BorderPane {
         cartButton.setOnAction((event -> {
             try {
                 PageManager.getInstance().setPage(new CartPage());
-            } catch (FileNotFoundException | CloneNotSupportedException e) {
+            } catch (CloneNotSupportedException | IOException e) {
                 e.printStackTrace();
             }
         }));
 
-        vendorButton = new Button("For Vendors");
+        vendorButton = new Button("View Your Store");
         vendorButton.setOnAction((event -> {
             try {
                 PageManager.getInstance().setPage(new VendorPage());

@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
  */
 public class StoreManager {
 
-    private ArrayList<String> fileNames;
+    private static ArrayList<String> fileNames;
     private static Gson gson = new GsonBuilder().serializeNulls().setPrettyPrinting().create();
 
     /**
@@ -47,7 +47,7 @@ public class StoreManager {
             ArrayList<Item> items = gson.fromJson(new FileReader(vendorItems), new TypeToken<ArrayList<Item>>() {
             }.getType());
             for (Item item : items) {
-                item.setVendorName(vendorItems);
+                item.setVendorName(item.getVendorName());
                 item.setAvailableQuantity(item.getAvailableQuantity());
                 itemList.add(item);
             }
@@ -62,7 +62,7 @@ public class StoreManager {
      * @param newQuantity the new quantity to set the availableQuantity to.
      * @throws IOException if the file could not be written.
      */
-    public void saveAvailableQuantity(Item item, int newQuantity) throws IOException {
+    public static void saveAvailableQuantity(Item item, int newQuantity) throws IOException {
         for (String vendorItems : fileNames) {
             ArrayList<Item> items = gson.fromJson(new FileReader(vendorItems), new TypeToken<ArrayList<Item>>() {}.getType());
             for (Item n : items) {
@@ -76,6 +76,30 @@ public class StoreManager {
 
                     writer.flush();
                     writer.close();
+                    item.setAvailableQuantity(newQuantity);
+                    return;
+                }
+            }
+
+        }
+    }
+
+    public static void saveQuantity(Item item, int newQuantity) throws IOException {
+
+        for (String vendorItems : fileNames) {
+            ArrayList<Item> items = gson.fromJson(new FileReader(vendorItems), new TypeToken<ArrayList<Item>>() {}.getType());
+            for (Item n : items) {
+                if(n.equals(item)){
+                    n.setQuantity(newQuantity);
+
+                    File file = new File(vendorItems);
+                    FileWriter writer = new FileWriter(file);
+
+                    gson.toJson(items, writer);
+
+                    writer.flush();
+                    writer.close();
+                    item.setQuantity(newQuantity);
                     return;
                 }
             }
@@ -87,6 +111,8 @@ public class StoreManager {
         ArrayList<Item> dummyList = new ArrayList<>();
         String pathName = "data/Vendors/"+vendor+".json";
         File file = new File(pathName);
+        file.getParentFile().mkdirs();
+        file.createNewFile();
         FileWriter writer = new FileWriter(file);
 
         gson.toJson(dummyList, writer);

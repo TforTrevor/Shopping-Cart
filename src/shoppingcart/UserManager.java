@@ -66,6 +66,8 @@ public class UserManager {
         buffer.add(newUser);
 
         File file = new File(userPath);
+        file.getParentFile().mkdirs();
+        file.createNewFile();
         FileWriter writer = new FileWriter(file);
 
         gson.toJson(buffer, writer);

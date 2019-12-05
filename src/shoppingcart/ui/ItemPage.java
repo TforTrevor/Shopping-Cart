@@ -10,10 +10,7 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
-import shoppingcart.CartManager;
-import shoppingcart.Item;
-import shoppingcart.StoreManager;
-import shoppingcart.Utilities;
+import shoppingcart.*;
 
 import java.io.IOException;
 
@@ -65,6 +62,9 @@ public class ItemPage extends BorderPane {
         spinner.getEditor().textProperty().addListener((obs, oldValue, newValue) ->
                 price.setText("$" + (item.getPrice() * (spinner.getValue()))));
 
+        if(item.getVendorName().equals(UserManager.getLoggedInUser().getVendor()))
+            addToCart.setDisable(true);
+
         addToCart.setOnAction(event -> {
 
             try {
@@ -74,8 +74,7 @@ public class ItemPage extends BorderPane {
             }
             item.setAvailableQuantity(item.getAvailableQuantity() - spinner.getValue()); //set the quantity to new quantity
             try {
-                StoreManager store = new StoreManager();
-                store.saveAvailableQuantity(item, item.getAvailableQuantity());//update the available quantity in json
+                StoreManager.saveAvailableQuantity(item, item.getAvailableQuantity());//update the available quantity in json
             } catch (IOException e) {
                 e.printStackTrace();
             }

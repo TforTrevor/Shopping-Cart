@@ -2,20 +2,20 @@ package shoppingcart.ui;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.FlowPane;
-import shoppingcart.Item;
-import shoppingcart.StoreManager;
+import javafx.scene.control.Spinner;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
-import shoppingcart.*;
+import shoppingcart.CartManager;
+import shoppingcart.Item;
+import shoppingcart.StoreManager;
+import shoppingcart.UserManager;
 
-import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -39,18 +39,73 @@ public class StorePage extends BorderPane {
         content.setBackground(new Background(new BackgroundFill(Color.valueOf("333"), CornerRadii.EMPTY, Insets.EMPTY)));
 
         ArrayList<Item> buffer = itemSetup.getItems();
-        ArrayList<ItemNode> itemNodes = new ArrayList<>();
-
+        ArrayList<String> previousVendors = new ArrayList<>();
+        VBox itemCarousel = new VBox(content);
 
         for (Item item : buffer) {
+                if(previousVendors.contains(item.getVendorName()))
+                    continue;
+                previousVendors.add(item.getVendorName());
+                ArrayList<Node> nodes = new ArrayList<>();
 
-            itemSetup.saveAvailableQuantity(item, item.getAvailableQuantity());
-            itemNodes.add(new ItemNode(item));
+                for(Item i : buffer){
+                    BorderPane fullNode = new BorderPane();
+                    Spinner<Integer> addAmount;
+                    if (item.getAvailableQuantity() > 0) {
+                        addAmount = new Spinner<>(1, item.getAvailableQuantity(), 1);
+                    } else {
+                        addAmount = new Spinner<>(0, 0, 0);
+                    }
+
+                    Button quickAdd = new Button("Add " + addAmount.getValue()  + " to Cart");
+                    quickAdd.setAlignment(Pos.CENTER);
+
+                    addAmount.getEditor().textProperty().addListener((obs, oldValue, newValue) ->
+                            quickAdd.setText("Add " + addAmount.getValue() + " to Cart"));
+                    addAmount.setMaxWidth(15);
+                    BorderPane buttons = new BorderPane();
+                    buttons.setLeft(quickAdd);
+                    buttons.setRight(addAmount);
+                    fullNode.setBottom(buttons);
+                    if(UserManager.getLoggedInUser().getVendor() != null){
+                        if(UserManager.getLoggedInUser().getVendor().equals(i.getVendorName())){
+                            quickAdd.setDisable(true);
+                            addAmount.setDisable(true);
+                        }
+                    }
+
+                    if(i.getVendorName().equals(item.getVendorName())){
+                        fullNode.setTop(new ItemNode(i));
+                        nodes.add(fullNode);
+                    }
+
+                    quickAdd.setOnAction(event -> {
+                        try {
+                            CartManager.addToCart(item, addAmount.getValue());
+                        } catch (IOException | CloneNotSupportedException e) {
+                            e.printStackTrace();
+                        }
+                        try {
+                            item.setAvailableQuantity(item.getAvailableQuantity() - addAmount.getValue());
+                            StoreManager.saveAvailableQuantity(item, item.getAvailableQuantity());
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        Header.updateCartButton();
+
+                    });
+
+                }
+
+                if(nodes.size() > 0){
+                    itemCarousel.setSpacing(10);
+                    itemCarousel.getChildren().add(new Carousel<>(item.getVendorName(), nodes));
+                }
+            }
+            ScrollPane scrollPane = new ScrollPane();
+            scrollPane.setContent(itemCarousel);
+            scrollPane.setFitToWidth(true);
+            this.setCenter(scrollPane);
         }
-        VBox mainContent = new VBox(content);
-        mainContent.setSpacing(10);
-        mainContent.getChildren().add(new Carousel<>("Store Items", itemNodes));
-
-        this.setCenter(mainContent);
     }
-}
+

@@ -84,7 +84,6 @@ public class CreateItem extends BorderPane {
             }
         });
 
-        //VBox temp = new VBox(name, description, price, quantity, availableQuantity, cartQuantity, this.vendorName, photo);
         this.setCenter(gridPane);
         this.setAlignment(submit, Pos.CENTER);
     }

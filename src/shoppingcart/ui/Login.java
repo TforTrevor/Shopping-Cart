@@ -49,7 +49,6 @@ public class Login extends BorderPane {
                     try {
                         User user = UserManager.checkUser(usernameField.getText(), passwordField.getText());
                         if (user != null) {
-                            Cart cart = new Cart(); //when a person logs in, instantiate the cart to their account
                             UserManager.setLoggedInUser(user);
                             CartManager.initCart();//set their cart to the instance
                             PageManager.getInstance().setPage(new StorePage());
@@ -93,9 +92,10 @@ public class Login extends BorderPane {
                     try {
                         String vendorProcess = (vendor.isSelected()) ? vendorName.getText() : null;
                         User user = UserManager.makeNewUser(usernameField.getText(), passwordField.getText(), vendorProcess);
-                        Cart cart = new Cart();//same thing
                         if (user != null) {
                             UserManager.setLoggedInUser(user);
+                            if(user.getVendor() != null)
+                                StoreManager.createStore(user.getVendor());
                             CartManager.initCart();
                             PageManager.getInstance().setPage(new StorePage());
                             PageManager.getInstance().setHeader(new Header());
