@@ -16,8 +16,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class StatisticsManager {
-    private  ArrayList<Statistics> stats = new ArrayList<>();
-    private  Gson gson = new GsonBuilder().serializeNulls().setPrettyPrinting().create();
+    private ArrayList<Statistics> stats = new ArrayList<>();
+    private Gson gson = new GsonBuilder().serializeNulls().setPrettyPrinting().create();
     private String vendor = UserManager.getLoggedInUser().getVendor();
 
     public StatisticsManager() throws IOException {
