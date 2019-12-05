@@ -110,6 +110,8 @@ public class Item implements Cloneable {
     }
     /**
      * Gets the Image.
+     * @param height height of the image.
+     * @param width width of the image.
      * @return image.
      */
     public Image getImage(int width, int height) {

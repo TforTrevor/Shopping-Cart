@@ -25,7 +25,7 @@ public class CartManager{ //cart controller
 
     /**
      * Initializes the cart with the user cart saved from the JSON.
-     * @throws IOException
+     * @throws IOException if the folder or file could not be generated or read.
      */
     public static void initCart() throws IOException {
         new File(cartPath).getParentFile().mkdirs();

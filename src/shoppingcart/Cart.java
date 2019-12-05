@@ -18,7 +18,7 @@ public class Cart { //cart model
 
     /**
      * Initializes the cart with an existing Arraylist.
-     * @param cart
+     * @param cart ArrayList to Initialize from.
      */
     public Cart(ArrayList<Item> cart){
         cartItems = new ArrayList<>(cart);
@@ -26,7 +26,7 @@ public class Cart { //cart model
 
     /**
      * gets the quantity of items in the cart.
-     * @return
+     * @return quantity of items in cart.
      */
     public int getCartSize() {
         int sum = 0;

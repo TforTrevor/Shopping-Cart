@@ -25,6 +25,7 @@ public class StatisticsManager {
     /**
      * Constructor for statistics. It grabs all the items in the receipts and adds them into the ArrayList, and if
      * the item already exist, it will instead just update the item with the information needed (the quantity purchased.)
+     * @throws IOException if the file could not be found.
      */
     public StatisticsManager() throws IOException {
         String vendor = UserManager.getLoggedInUser().getVendor();
