@@ -1,0 +1,12 @@
+[
+  {
+    "ID": 3,
+    "name": "Juice",
+    "description": "Drink it",
+    "price": 1.0,
+    "quantity": 3,
+    "availableQuantity": 83,
+    "vendorName": "Juice Store",
+    "photo": "data/Photos/bandaid.jpg"
+  }
+]

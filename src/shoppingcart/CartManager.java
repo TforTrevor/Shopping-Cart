@@ -90,6 +90,7 @@ public class CartManager{ //cart controller
             userCart.addItem(clone);
             new StoreManager().getItems().forEach((Item storeItem) -> {
                 if(clone.getID() == storeItem.getID()) {
+                    clone.setAvailableQuantity(storeItem.getAvailableQuantity() - addQuantity);
                     try {
                         StoreManager.saveAvailableQuantity(storeItem, storeItem.getAvailableQuantity() - addQuantity);
                     } catch (IOException e) {
